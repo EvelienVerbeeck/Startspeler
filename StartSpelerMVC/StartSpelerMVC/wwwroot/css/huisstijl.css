@@ -1,0 +1,78 @@
+﻿@font-face {
+    font-family: "NewFont";
+    src: url("CoveredByYourGrace-Regular.ttf") format("truetype");
+    font-stretch: ultra-expanded;
+}
+body {
+}
+.TitelKleur {
+    position:relative;
+    width: 100vw;
+    height: 20vh;
+    font-family: NewFont;
+    background-color: #2B7CC7;
+    color: white;
+    margin-bottom:25px;
+}
+/*Oranje buttons*/
+.btn-orange {
+    color: #fff;
+    background-color: #ff6200;
+    border-color: #ff751f; 
+}
+
+    .btn-orange:hover {
+        color: #fff;
+        background-color: #ff751f;
+        border-color: #ff6200;
+    }
+
+/*blauwe achtergrond met witte rand in*/
+
+.Blauwachtergrond {
+    background-color: #2B7CC7;
+    border-radius:20%;
+}
+
+    .Blauwachtergrond div {
+        border: 3px solid white;
+        color: white;
+        margin: 10px;
+        border-radius: 10px;
+    }
+/*Witte achtergrond*/
+.WitteAchtergrond{
+    border: 2px solid #2B7CC7;
+    background-color:white;
+
+}
+
+/*Evenement Detailscherm*/
+.EvenementDetail {
+    background-color: #4b2e10;
+    box-shadow: 10px 10px 10px #000000 inset, -10px -10px 10px #000000 inset, 30px 30px 60px #120604 inset, -30px -30px 60px #120604 inset, 100px 100px 100px #392314 inset, -100px -100px 100px #392314 inset;
+    color: white;
+    width: 1000px;
+    height: 1000px;
+    border-radius: 20px;
+    border: 5px solid #ffbb00;
+}
+
+/*Button evenementDetail*/
+
+.btn-EvenementDetail {
+    background-color: #d21502;
+    box-shadow: 5px 5px 5px #4c0807 inset, -5px -5px 5px #4c0807 inset;
+    color: white;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    border: 2px solid #ffbb00;
+    border-radius: 4px;
+}
+
+
+
+
+
+
