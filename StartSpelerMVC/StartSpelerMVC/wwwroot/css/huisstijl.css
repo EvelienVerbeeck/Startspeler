@@ -1,6 +1,6 @@
 ﻿@font-face {
     font-family: "NewFont";
-    src: url("CoveredByYourGrace-Regular.ttf") format("truetype");
+    src: url("ShadowsIntoLight-Regular.ttf") format("truetype");
     font-stretch: ultra-expanded;
 }
 body {
@@ -8,21 +8,28 @@ body {
 .TitelKleur {
     position:relative;
     width: 100vw;
-    height: 20vh;
+    height: 15vh;
     font-family: NewFont;
     background-color: #2B7CC7;
     color: white;
     margin-bottom:25px;
 }
+
+.KleinTitel {
+    font-family: NewFont;
+}
 /*Oranje buttons*/
 .btn-orange {
     color: #fff;
     background-color: #ff6200;
-    border-color: #ff751f; 
+    padding: 10px;
+    border-color: #ff751f;
+    border: 1px solid #ff751f
 }
 
     .btn-orange:hover {
         color: #fff;
+        padding: 10px;
         background-color: #ff751f;
         border-color: #ff6200;
     }
@@ -31,20 +38,26 @@ body {
 
 .Blauwachtergrond {
     background-color: #2B7CC7;
-    border-radius:20%;
+    border-radius:20px;
+    position: absolute;
 }
 
     .Blauwachtergrond div {
+        position:absolute;
         border: 3px solid white;
         color: white;
-        margin: 10px;
-        border-radius: 10px;
+        margin: 25px;
+        border-radius: 20px;
+        left:0;
+        top:0;
+        right:0;
+        bottom:0;
     }
 /*Witte achtergrond*/
 .WitteAchtergrond{
     border: 2px solid #2B7CC7;
     background-color:white;
-
+    text-align:center;
 }
 
 /*Evenement Detailscherm*/
@@ -52,8 +65,6 @@ body {
     background-color: #4b2e10;
     box-shadow: 10px 10px 10px #000000 inset, -10px -10px 10px #000000 inset, 30px 30px 60px #120604 inset, -30px -30px 60px #120604 inset, 100px 100px 100px #392314 inset, -100px -100px 100px #392314 inset;
     color: white;
-    width: 1000px;
-    height: 1000px;
     border-radius: 20px;
     border: 5px solid #ffbb00;
 }
@@ -70,7 +81,6 @@ body {
     border: 2px solid #ffbb00;
     border-radius: 4px;
 }
-
 
 
 

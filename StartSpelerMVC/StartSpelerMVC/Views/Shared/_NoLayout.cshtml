@@ -9,12 +9,9 @@
 </head>
 <body>
     <div class="position-absolute h-100 w-100">
-        <header class="TitelKleur d-flex align-items-center justify-content-center ">
-            <h1 class="w-auto h-auto">@ViewData["Titel"]</h1>
-        </header>
-        <div class="h-100 w-100 border position-relative">
+     
             @RenderBody();
-        </div>
+        
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>

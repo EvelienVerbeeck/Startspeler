@@ -3,36 +3,38 @@
     ViewData["Titel"] = "StartSpeler";
     Layout="~/Views/Shared/_Layout.cshtml";
 }
-<div class="container">
+<div class="position-absolute col-10 offset-1 col-sm-11" >
     <div class="row">
-        @*<div>
-            <img class="d-inline-block" width="750" height="500" src="~/Images/SSevenement.png" alt="Evenement" />
-            <h2> Evenement</h2>
-        </div>*@
-        <div class="Blauwachtergrond">
-            <div><p>HALLO DIT IS EEN TEST</p></div>
-        </div>
+        <a asp-controller="Inlog" asp-action="Index" class=" col-md-5 col-sm-10 w-auto h-auto  d-inline">
+            <div class=" w-auto h-auto">
+                <img class="d-inline-block img-fluid" src="~/Images/SSevenement.png" alt="Evenement" />
+                <div class="TitelKleur w-auto h-auto d-flex align-items-center justify-content-center"><h2> Evenement</h2></div>
+            </div>
+        </a>
 
-        <button class="btn-orange">Dit is een oranje button</button>
-        <a class="btn-orange w-auto h-auto" href="#">Dit is een anchor tag</a>
-        <input type="button" name="Submit Oranje" />
-        <div class="EvenementDetail">
-
-            <img src="~/Images/MGTEvent.png" width="100" height="100" alt="Magic the gathering " /> <div class="d-inline"><p> dit is een evenement </p><p>starttijd-eindtijd</p> </div><div class="d-inline"> ##/##</div>
-            <button class="btn-EvenementDetail m-5">Inschrijven</button>
-        </div>
-        <div class="EvenementDetail">
-            <p> dit is een evenement  <button class="btn-EvenementDetail m-5">Inschrijven</button></p>
-
-            <img src="~/Images/DnDEvent.png" width="100" height="100" alt="Dungeons & Dragons" />
-
-        </div>
-        <table class="w-100">
-            <tr class="EvenementDetail"><td><img src="~/Images/MGTEvent.png" width="100" height="100" alt="Dungeons & Dragons" /></td><td>Dungeons & Dragons</td><td>##/##</td></tr>
-            <tr class="EvenementDetail"><td><img src="~/Images/DnDEvent.png" width="100" height="100" alt="Dungeons & Dragons" /></td><td>Dungeons & Dragons</td><td>##/##</td></tr>
-
-        </table>
+        <a asp-controller="" asp-action="" class="col-md-5 col-sm-10 w-auto h-auto  d-inline ">
+            <div class=" w-auto h-auto " >
+                <img class="d-inline-block img-fluid" src="~/Images/SSbasis.png" alt="Account" />
+                <div class="TitelKleur w-auto h-auto d-flex align-items-center justify-content-center"><h2> Account</h2></div>
+            </div>
+        </a>
 
     </div>
-</div>
+    <div class="row">
+        <a asp-controller="" asp-action="" class=" col-md-5 col-sm-10 w-auto h-auto d-inline ">
+            <div class=" w-auto h-auto ">
+                <img class="d-inline-block img-fluid" src="~/Images/SSdrankenlijst.png" alt="Drankenlijst" />
+                <div class="TitelKleur w-auto h-auto d-flex align-items-center justify-content-center"><h2> Drankenlijst</h2></div>
+            </div>
+        </a>
+
+        <a asp-controller="" asp-action="" class=" col-md-5 col-sm-10 w-auto h-auto d-inline ">
+            <div class="w-auto h-auto " >
+                <img class="d-inline-block img-fluid" src="~/Images/SSInschrijven.png" alt="Inschrijvenb" />
+                <div class="TitelKleur w-auto h-auto d-flex align-items-center justify-content-center"><h2> Inschrijven</h2></div>
+            </div>
+        </a>
+
+    </div>
+    </div>
 
