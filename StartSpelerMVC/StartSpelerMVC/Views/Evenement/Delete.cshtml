@@ -1,0 +1,64 @@
+﻿@model StartSpelerMVC.Models.Evenement
+
+@{
+    ViewData["Title"] = "Delete";
+    ViewData["Titel"] = "Evenement verwijderen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Weet je zeker dat je dit evenement wilt verwijderen</h3>
+<div>
+    <h4>Evenement</h4>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MaxDeelnemers)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaxDeelnemers)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Beschrijving)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Beschrijving)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Startuur)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Startuur)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Einduur)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Einduur)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Datum)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Datum)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Prijs)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Prijs)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsZichtbaar)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsZichtbaar)
+        </dd>
+    </dl>
+
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Evenement_ID" />
+        <input type="submit" value="Evenement verwijderen" class="btn btn-danger" /> |
+        <a asp-action="Index">Terug naar evenementen overzicht</a>
+    </form>
+</div>

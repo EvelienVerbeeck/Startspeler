@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using StartSpelerMVC.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace StartSpelerMVC.Data
 {
-    public class StartSpelerContext:DbContext
+    public class LocalStartSpelerConnection:IdentityDbContext<IdentityUser>
     {
-        public StartSpelerContext(DbContextOptions<StartSpelerContext>options):base(options)
+        public LocalStartSpelerConnection(DbContextOptions<LocalStartSpelerConnection>options):base(options)
         {
 
         }
@@ -24,6 +26,8 @@ namespace StartSpelerMVC.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Persoon>().ToTable("Persoon");
             modelBuilder.Entity<Bestelling>().ToTable("Bestelling");
             modelBuilder.Entity<Bestelling>().Property(p=>p.Prijs).HasColumnType("Decimal(5,2)");
@@ -35,10 +39,11 @@ namespace StartSpelerMVC.Data
             modelBuilder.Entity<Orderlijn>().ToTable("Orderlijn");
             modelBuilder.Entity<Product>().ToTable("Product");
             modelBuilder.Entity<Product>().Property(p=>p.VerkoopPrijs).HasColumnType("Decimal(5,2)");
-            modelBuilder.Entity<Product>().Property(p=>p.AankoopPrijs).HasColumnType("Decimal(5,2)");
+            modelBuilder.Entity<Product>().Property(y=>y.AankoopPrijs).HasColumnType("Decimal(5,2)");
             modelBuilder.Entity<ProductType>().ToTable("ProductType");
         }
 
+       
     }
 
 }

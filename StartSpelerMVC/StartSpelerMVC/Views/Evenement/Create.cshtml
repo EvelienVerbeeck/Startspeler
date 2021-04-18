@@ -1,0 +1,77 @@
+﻿@model StartSpelerMVC.Models.Evenement
+
+@{
+    ViewData["Title"] = "Create";
+    ViewData["Titel"] = "Evenementen Overzicht";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="Create" class="BlauweKleur p-5 offset-md-3 col-md-5 offset-sm-1 col-sm-10 h-auto">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    @*hoe lukt het om value door te geven via radiobuttons*@
+    <div>
+        <label class="MiniEvenementDetail p-1 m-2">
+            @Html.RadioButtonFor(m => m.EvenementNaam,"Dungeons & Dragons")
+            <img width="100" height="100" src="~/Images/DnDEvent.png">
+            <span asp-validation-for="EvenementNaam" class="text-danger"></span>
+        </label>
+        <label class="MiniEvenementDetail p-1  m-2">
+            @Html.RadioButtonFor(m => m.EvenementNaam,"Magic The Gathering")
+            <img width="100" height="100" src="~/Images/MGTEvent.png">
+            <span asp-validation-for="EvenementNaam" class="text-danger"></span>
+        </label>
+        <label class="MiniEvenementDetail p-1 m-2">
+            @Html.RadioButtonFor(m => m.EvenementNaam,"Bordspellen")
+            <img width="100" height="100" src="~/Images/Bordspellen.png">
+            <span asp-validation-for="EvenementNaam" class="text-danger"></span>
+        </label>
+
+    </div>
+        <div class="form-group">
+            <label asp-for="MaxDeelnemers" class="control-label"></label>
+            <input asp-for="MaxDeelnemers" class="form-control" />
+            <span asp-validation-for="MaxDeelnemers" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Beschrijving" class="control-label"></label>
+            <input asp-for="Beschrijving" class="form-control" />
+            <span asp-validation-for="Beschrijving" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Startuur" class="control-label"></label>
+            <input asp-for="Startuur" class="form-control" />
+            <span asp-validation-for="Startuur" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Einduur" class="control-label"></label>
+            <input asp-for="Einduur" class="form-control" />
+            <span asp-validation-for="Einduur" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Datum" class="control-label"></label>
+            <input asp-for="Datum" class="form-control" />
+            <span asp-validation-for="Datum" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Prijs" class="control-label"></label>
+            <input asp-for="Prijs" class="form-control" />
+            <span asp-validation-for="Prijs" class="text-danger"></span>
+        </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsZichtbaar" /> @Html.DisplayNameFor(model => model.IsZichtbaar)
+            </label>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Aanmaken" class="btn-orange" />
+        </div>
+</form>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
