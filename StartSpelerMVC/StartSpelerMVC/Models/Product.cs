@@ -18,6 +18,7 @@ namespace StartSpelerMVC.Models
         public int Aantal { get; set; }
         [DataType(DataType.Date)]
         public DateTime StartDatum { get; set; }
+        public ICollection<Product> Orderlijnen { get; set; }
         [DataType(DataType.Date)]
         public DateTime EindDatum { get; set; }
         [Required]

@@ -1,0 +1,99 @@
+﻿@model StartSpelerMVC.Models.Evenement
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Titel"] = "Evenement Detail";
+}
+
+<div class="row EvenementDetail  col-md-4 m-2 col-sm-10 h-75 align-content-center">
+    <div>
+        <img src='ViewData["Afbeelding"]' height="50" width="50" alt="EvenementAfbeelding" />
+    </div>
+    <div>
+        <dl>
+                <dd>
+                    @switch (Model.EvenementNaam)
+                    {
+                        case "Dungeons & Dragons":
+                            <img src="~/Images/DnDEvent.png" alt="Dungeons & Dragons" />
+                            break;
+                        case "Magic The Gathering":
+                            <img src="~/Images/MGTEvent.png" alt="Magic The Gathering" />
+                            break;
+                        case "Bordspellen":
+                            <img src="~/Images/BordspellenEvent.png" alt="Bordspellen" />
+                            break;
+                        default:
+                            break;
+                    }
+                </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EvenementNaam)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EvenementNaam)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.MaxDeelnemers)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.MaxDeelnemers)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Beschrijving)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Beschrijving)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Datum)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Datum)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Startuur)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Startuur)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Einduur)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Einduur)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Prijs)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Prijs)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayFor(model => model.Inschrijvingen)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.TextAreaFor(model => model.Inschrijvingen)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IsZichtbaar)@*Zichtbaar voor Admin*@
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IsZichtbaar)@*Zichtbaar voor Admin*@
+            </dd>
+
+        </dl>
+    </div>
+    <div class="w-100 justify-content-center">
+        <a class="btn-EvenementDetail d-inline" asp-controller="" asp-action="">Inschrijven</a>
+        <a class="btn-EvenementDetail d-inline" asp-controller="" asp-action="">Annuleren</a>
+    </div>
+</div>
+
+@*Zichtbaar voor Admin*@
+<div>
+    <a class="btn-orange m-2" asp-action="Edit" asp-route-id="@Model.Evenement_ID">Edit</a>
+    <a class="btn-orange m-2" asp-action="Index"> Terug naar Evenementen Overzicht</a>
+    <a class="btn-orange m-2" asp-action="Delete" asp-route-id="@Model.Evenement_ID">Delete</a>
+</div>

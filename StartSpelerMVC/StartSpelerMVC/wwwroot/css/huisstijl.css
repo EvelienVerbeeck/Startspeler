@@ -5,6 +5,12 @@
 }
 body {
 }
+
+.BlauweKleur
+{
+    background-color: #2B7CC7;
+    color:white;
+}
 .TitelKleur {
     position:relative;
     width: 100vw;
@@ -42,17 +48,17 @@ body {
     position: absolute;
 }
 
-    .Blauwachtergrond div {
-        position:absolute;
-        border: 3px solid white;
-        color: white;
-        margin: 25px;
-        border-radius: 20px;
-        left:0;
-        top:0;
-        right:0;
-        bottom:0;
-    }
+.Blauwachtergrond div {
+   position:absolute;
+   border: 3px solid white;
+   color: white;
+   margin: 25px;
+   border-radius: 20px;
+   left:0;
+   top:0;
+   right:0;
+   bottom:0;
+}
 /*Witte achtergrond*/
 .WitteAchtergrond{
     border: 2px solid #2B7CC7;
@@ -68,6 +74,13 @@ body {
     border-radius: 20px;
     border: 5px solid #ffbb00;
 }
+.MiniEvenementDetail {
+    background-color: #4b2e10;
+    box-shadow: 1px 1px 1px #000000 inset, -1px -1px 1px #000000 inset, 10px 10px 10px #120604 inset, -10px -10px 10px #120604 inset, 20px 20px 20px #392314 inset, -20px -20px 20px #392314 inset;
+    color: white;
+    border: 1px solid #ffbb00;
+    border-radius:8px;
+}
 
 /*Button evenementDetail*/
 
@@ -81,8 +94,61 @@ body {
     border: 2px solid #ffbb00;
     border-radius: 4px;
 }
+/*padding ruimte tabellen*/
+td
+{
+ padding-top:30px;
+ padding-left:10px;
+ padding-bottom:30px;
+ padding-right:5px;
+}
 
+/* HIDE RADIO */
+[type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+/*radiobutton */
 
+[type=radio] + img {
+    cursor: pointer;
+}
+
+/* CHECKED STYLES */
+    [type=radio]:checked + img {
+        outline: 5px solid #ffbb00;
+        box-shadow: -5px -5px 5px #ffbb00 inset, 5px 5px 5px #ffbb00 inset;
+        border-radius:4px;
+    }
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+}
+
+input[type='radio']:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #ffa500;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+}
 
 
 

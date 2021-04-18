@@ -10,7 +10,7 @@ namespace StartSpelerMVC.Models
     {
         [Key]
         public int Orderlijn_ID { get; set; }
-        public ICollection<Product> Producten { get; set; }
+        public Product Producten { get; set; }
         public Bestelling Bestelling { get; set; }
     }
 }

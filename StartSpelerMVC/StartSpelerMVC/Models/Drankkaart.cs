@@ -11,7 +11,6 @@ namespace StartSpelerMVC.Models
         [Key]
         public int Drankkaart_ID { get; set; }
         
-        public Persoon Persoon { get; set; }
         [Required]
         public Decimal Prijs { get; set; }
         [Required]

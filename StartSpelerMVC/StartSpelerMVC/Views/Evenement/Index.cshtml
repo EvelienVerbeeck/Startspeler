@@ -1,0 +1,63 @@
+﻿@model IEnumerable<StartSpelerMVC.Models.Evenement>
+
+@{
+    ViewData["Title"] = "Evenementen";
+    ViewData["Titel"] = "Evenementen";
+    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+   
+}
+<div class="row h-75">
+    <div class="p-5 col-md-6 col-sm-10 h-auto d-inline d-md-inline d-sm-block">
+        <table class="w-100 table">
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="MiniEvenementDetail">
+                        <td>
+                            @switch (item.EvenementNaam)
+                            {
+                                case "Dungeons & Dragons":
+                                    <img src="~/Images/DnDEvent.png" alt="Dungeons & Dragons" />
+                                    break;
+                                case "Magic The Gathering":
+                                    <img src="~/Images/MGTEvent.png" alt="Magic The Gathering" />
+                                    break;
+                                case "Bordspellen":
+                                    <img src="~/Images/BordspellenEvent.png" alt="Bordspellen" />
+                                   break;
+                                default:
+                                    break;
+                            }
+                        </td>
+                            @Html.DisplayFor(modelItem=>item.EvenementNaam)
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Datum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Startuur)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Einduur)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Prijs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MaxDeelnemers)
+                        </td>
+                        <td>
+                            <a class="btn-EvenementDetail" asp-action="Details" asp-route-id="@item.Evenement_ID">Details</a> @*zichtbaar voor iedreen*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+@*Zichtbaar voor de admin*@
+    <p>
+        <a class="btn-orange" asp-controller="Evenement" asp-action="Create">Maak Evenement Aan</a>
+    </p>
+</div>
+   

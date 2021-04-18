@@ -10,7 +10,9 @@ namespace StartSpelerMVC.Models
     {
         [Key]
         public int Evenement_ID { get; set; }
-
+        [MaxLength(50)]
+        [Required]
+        public string EvenementNaam { get; set; }
         public byte  MaxDeelnemers { get; set; } //waarde 0-255
         [MaxLength(255)]
         public string Beschrijving { get; set; }
