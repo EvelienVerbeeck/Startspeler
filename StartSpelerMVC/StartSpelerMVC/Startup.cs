@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StartSpelerMVC.Areas.Identity.Data;
 using StartSpelerMVC.Data;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ namespace StartSpelerMVC
                 options.User.RequireUniqueEmail = false;
             });
             services.AddDbContext<LocalStartSpelerConnection>(options =>options.UseSqlServer(Configuration.GetConnectionString("StartSpelerConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<CustomerUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                .AddDefaultUI()
                .AddEntityFrameworkStores<LocalStartSpelerConnection>()
                .AddDefaultTokenProviders();

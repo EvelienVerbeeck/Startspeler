@@ -13,21 +13,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using StartSpelerMVC.Areas.Identity.Data;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<CustomerUser> _signInManager;
+        private readonly UserManager<CustomerUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<CustomerUser> userManager,
+            SignInManager<CustomerUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager)
@@ -49,8 +50,13 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            public string  Voornaam { get; set; }
-            public string  Achternaam { get; set; }
+            public string Voornaam { get; set; }
+            [Required]
+            public string Achternaam { get; set; }
+            [Required]
+            public string Gebruikersnaam { get; set; }
+            [Required]
+            public DateTime Geboortedatum { get; set; }
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -66,11 +72,6 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-            public string Name { get; set; }
-            //[DataType(DataType.Date)]
-            [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-            [Required]
-            public DateTime Geboortedatum { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -83,11 +84,11 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            var role = _roleManager.FindByIdAsync(Input.Name).Result;
+            var role = _roleManager.FindByIdAsync(Input.Gebruikersnaam).Result;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new CustomerUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
