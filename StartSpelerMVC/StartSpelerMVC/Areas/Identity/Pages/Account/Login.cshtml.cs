@@ -11,19 +11,20 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using StartSpelerMVC.Areas.Identity.Data;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<CustomerUser> _userManager;
+        private readonly SignInManager<CustomerUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<CustomerUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<CustomerUser> userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -42,7 +43,11 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+
+            public string Voornaam { get; set; }
+            public string Achternaam { get; set; }
+            public string Gebruikersnaam { get; set; }
+            public DateTime Geboortedatum { get; set; }
             [EmailAddress]
             public string Email { get; set; }
 
