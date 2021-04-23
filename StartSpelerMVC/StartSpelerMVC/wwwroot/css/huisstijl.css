@@ -23,14 +23,18 @@ body {
 
 .KleinTitel {
     font-family: NewFont;
+    color:white;
 }
 /*Oranje buttons*/
 .btn-orange {
     color: #fff;
     background-color: #ff6200;
     padding: 10px;
+    width:30%;
     border-color: #ff751f;
-    border: 1px solid #ff751f
+    border: 1px solid #ff751f;
+    text-align:center;
+    text-decoration:none;
 }
 
     .btn-orange:hover {
@@ -38,6 +42,8 @@ body {
         padding: 10px;
         background-color: #ff751f;
         border-color: #ff6200;
+        text-align: center;
+        text-decoration: none;
     }
 
 /*blauwe achtergrond met witte rand in*/
@@ -158,6 +164,5 @@ input[type='radio']:checked:after {
     left:0;
     right:0;
 }
-
 
 

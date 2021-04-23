@@ -33,7 +33,7 @@ namespace StartSpelerMVC
             services.Configure<IdentityOptions>(options =>
             {
                 //passwoord settings
-                options.Password.RequireDigit = false;
+                options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
