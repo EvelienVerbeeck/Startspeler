@@ -6,27 +6,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using StartSpelerMVC.Areas.Identity.Data;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<CustomerUser> _userManager;
-        private readonly SignInManager<CustomerUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
         public IndexModel(
-            UserManager<CustomerUser> userManager,
-            SignInManager<CustomerUser> signInManager)
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
-        public string Voornaam { get; set; }
-        public string Achternaam { get; set; }
-        public string Gebruikersnaam { get; set; }
-        public DateTime Geboortedatum { get; set; }
+        public string Username { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -36,18 +32,17 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-           
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(CustomerUser user)
+        private async Task LoadAsync(IdentityUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            Gebruikersnaam = userName;
+            Username = userName;
 
             Input = new InputModel
             {

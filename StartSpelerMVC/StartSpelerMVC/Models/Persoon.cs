@@ -33,6 +33,7 @@ namespace StartSpelerMVC.Models
         public bool IsAdmin { get; set; }
         public ICollection<Inschrijving> Inschrijvingen { get; set; }
         public ICollection<Bestelling> Bestellingen { get; set; }
+        public int DrankkaartID { get; set; }
         public Drankkaart Drankkaart { get; set; }
     }
 }

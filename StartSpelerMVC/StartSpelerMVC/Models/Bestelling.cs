@@ -10,14 +10,16 @@ namespace StartSpelerMVC.Models
     {
         [Key]
         public int Bestelling_ID { get; set; }
-        
-        public Persoon Persoon { get; set; }
+      
+        public int PersoonID { get; set; }
         [Required]
-        public ICollection<Orderlijn> Orderlijnen { get; set; }
+        public List<Orderlijn> Orderlijnen { get; set; } //Naar product
         [Required]
         public Decimal Prijs { get; set; }
         [DataType(DataType.Date)]
         public DateTime Datum { get; set; }
-        
+        //nav prop
+        public Persoon Persoon { get; set; }
+
     }
 }

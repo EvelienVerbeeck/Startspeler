@@ -11,20 +11,19 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using StartSpelerMVC.Areas.Identity.Data;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<CustomerUser> _userManager;
-        private readonly SignInManager<CustomerUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<CustomerUser> signInManager, 
+        public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<CustomerUser> userManager)
+            UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -44,19 +43,12 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            public string Voornaam { get; set; }
-            [Required]
-            public string Achternaam { get; set; }
-            [Required]
-            public string Gebruikersnaam { get; set; }
-            [DataType(DataType.Date)]
-            public DateTime Geboortedatum { get; set; }
             [EmailAddress]
             public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
-            public string Wachtwoord { get; set; }
+            public string Password { get; set; }
 
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
@@ -87,7 +79,7 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Wachtwoord, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
