@@ -10,11 +10,16 @@ namespace StartSpelerMVC.Models
     public class Inschrijving
     {   [Key]
         public int Inschrijving_ID { get; set; }
-        
+        public int PersoonID { get; set; }
+        public int EvenementID { get; set; }
+
         public Evenement Evenement { get; set; }
+        
         public Persoon Personen { get; set; }
+      
         [DataType(DataType.Date)]
         [Required]
         public DateTime Datum { get; set; }
+
     }
 }
