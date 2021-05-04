@@ -6,10 +6,11 @@ using StartSpelerMVC.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using StartSpelerMVC.Areas.Identity.Data;
 
 namespace StartSpelerMVC.Data
 {
-    public class LocalStartSpelerConnection:IdentityDbContext<IdentityUser>
+    public class LocalStartSpelerConnection:IdentityDbContext<CustomUser>
     {
         public LocalStartSpelerConnection(DbContextOptions<LocalStartSpelerConnection>options):base(options)
         {

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StartSpelerMVC.Areas.Identity.Data;
 using StartSpelerMVC.Data;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace StartSpelerMVC
                 "abcdefghijklmonpqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ0123456789-,@+";
                 options.User.RequireUniqueEmail = false;
             });
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<CustomUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<LocalStartSpelerConnection>();
             
