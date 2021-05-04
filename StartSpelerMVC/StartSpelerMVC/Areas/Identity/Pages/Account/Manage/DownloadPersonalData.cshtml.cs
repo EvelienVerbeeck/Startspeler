@@ -7,21 +7,28 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using StartSpelerMVC.Areas.Identity.Data;
+using StartSpelerMVC.Data;
+using StartSpelerMVC.Models;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
 {
     public class DownloadPersonalDataModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<CustomUser> _userManager;
         private readonly ILogger<DownloadPersonalDataModel> _logger;
+        private readonly LocalStartSpelerConnection _context;
 
         public DownloadPersonalDataModel(
-            UserManager<IdentityUser> userManager,
-            ILogger<DownloadPersonalDataModel> logger)
+            UserManager<CustomUser> userManager,
+            ILogger<DownloadPersonalDataModel> logger,
+            LocalStartSpelerConnection context)
         {
             _userManager = userManager;
             _logger = logger;
+            _context = context;
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -33,10 +40,11 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
             }
 
             _logger.LogInformation("User with ID '{UserId}' asked for their personal data.", _userManager.GetUserId(User));
+            Persoon persoon = await _context.Personen.FirstOrDefaultAsync(x => x.UserID == user.Id);
 
             // Only include personal data for download
             var personalData = new Dictionary<string, string>();
-            var personalDataProps = typeof(IdentityUser).GetProperties().Where(
+            var personalDataProps = typeof(CustomUser).GetProperties().Where(
                             prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
             foreach (var p in personalDataProps)
             {

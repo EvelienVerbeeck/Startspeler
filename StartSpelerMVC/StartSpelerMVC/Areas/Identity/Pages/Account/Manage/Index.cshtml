@@ -16,9 +16,36 @@
                 <input asp-for="Username" class="form-control" disabled />
             </div>
             <div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                <label asp-for="Input.Voornaam"></label>
+                <input asp-for="Input.Voornaam" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Achternaam"></label>
+                <input asp-for="Input.Achternaam" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Geboortedatum"></label>
+                <input asp-for="Input.Geboortedatum" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Gebruikersnaam"></label>
+                <input asp-for="Input.Gebruikersnaam" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.IsActief"></label>
+                <input type="radio" asp-for="Input.IsActief" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.IsAdmin"></label>
+                <input type="radio" asp-for="Input.IsAdmin" class="form-control" />
             </div>
             <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
         </form>
