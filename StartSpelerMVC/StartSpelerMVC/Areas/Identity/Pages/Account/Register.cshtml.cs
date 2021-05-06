@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using StartSpelerMVC.Areas.Identity.Data;
+using StartSpelerMVC.Data;
 using StartSpelerMVC.Models;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account
@@ -25,17 +26,20 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
         private readonly UserManager<CustomUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly LocalStartSpelerConnection _context;
 
         public RegisterModel(
             UserManager<CustomUser> userManager,
             SignInManager<CustomUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            LocalStartSpelerConnection context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [BindProperty]
@@ -69,7 +73,7 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 4)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -93,18 +97,24 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new CustomUser {
-                    Persoon=new Persoon
+                    Persoon = new Persoon
                     {
                         Voornaam = Input.Voornaam,
                         Achternaam = Input.Achternaam,
                         Geboortedatum = Input.Geboortedatum,
-                        Username=Input.Username,
-                        Email=Input.Email,
-                        Wachtwoord=Input.Password
+                        Username = Input.Username,
+                        Email = Input.Email,
+                        Wachtwoord = Input.Password,
+                        AangemaaktDatum = DateTime.Now.Date,
+                        
                     },
+                    UserName=Input.Username
                     
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                user.Persoon.UserID = user.Id;
+
+                await _context.SaveChangesAsync();
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

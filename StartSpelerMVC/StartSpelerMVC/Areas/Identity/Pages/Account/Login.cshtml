@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_NoLayout.cshtml";
 }
 
 <div class="w-100 h-100 position-relative">
@@ -26,8 +27,8 @@
                 </section>
 
                 <section class="form-group m-5">
-                    <button type="submit" class="btn btn-orange m-5">Log in</button>
-                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn-orange m-5 float-right">Inschrijven</a>
+                    <button type="submit" class="btn btn-orange">Log in</button>
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn-orange float-right">Inschrijven</a>
                 </section>
                 @*<section class="form-group m">
                         <p>

@@ -28,7 +28,7 @@ namespace StartSpelerMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<LocalStartSpelerConnection>(options => options.UseSqlServer(Configuration.GetConnectionString("StartSpelerConnection")));
+            services.AddDbContext<LocalStartSpelerConnection>(options => options.UseSqlServer(Configuration.GetConnectionString("LocalStartSpelerConnection")));
            
             services.Configure<IdentityOptions>(options =>
             {
@@ -85,7 +85,7 @@ namespace StartSpelerMVC
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            CreateUserRoles(serviceProvider).Wait();
+            //CreateUserRoles(serviceProvider).Wait();
         }
         
         private async Task CreateUserRoles(IServiceProvider serviceProvider)

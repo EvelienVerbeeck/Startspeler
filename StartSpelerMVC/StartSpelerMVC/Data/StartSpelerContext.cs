@@ -42,7 +42,11 @@ namespace StartSpelerMVC.Data
             modelBuilder.Entity<Product>().Property(p=>p.VerkoopPrijs).HasColumnType("Decimal(5,2)");
             modelBuilder.Entity<Product>().Property(y=>y.AankoopPrijs).HasColumnType("Decimal(5,2)");
             modelBuilder.Entity<ProductType>().ToTable("ProductType");
-        }
+            modelBuilder.Entity<CustomUser>()
+                .HasOne(p=>p.Persoon)
+                .WithOne(c=>c.CustomUser)
+                .HasForeignKey<Persoon>(p=>p.UserID);
+         }
 
        
     }
