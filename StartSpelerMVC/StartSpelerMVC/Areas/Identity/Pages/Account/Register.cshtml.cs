@@ -13,27 +13,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using StartSpelerMVC.Areas.Identity.Data;
+using StartSpelerMVC.Data;
+using StartSpelerMVC.Models;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<CustomUser> _signInManager;
+        private readonly UserManager<CustomUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly LocalStartSpelerConnection _context;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<CustomUser> userManager,
+            SignInManager<CustomUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            LocalStartSpelerConnection context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [BindProperty]
@@ -46,12 +52,28 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name ="Voornaam")]
+            [DataType(DataType.Text)]
+            public string Voornaam { get; set; }
+            [Required]
+            [Display(Name = "Voornaam")]
+            [DataType(DataType.Text)]
+            public string Achternaam { get; set; }
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Gebruikersnaam")]
+            public string Username { get; set; }
+            [Required]
+            [Display(Name = "Geboortedatum")]
+            [DataType(DataType.Date)]
+            public DateTime Geboortedatum { get; set; }
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 4)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -74,8 +96,25 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new CustomUser {
+                    Persoon = new Persoon
+                    {
+                        Voornaam = Input.Voornaam,
+                        Achternaam = Input.Achternaam,
+                        Geboortedatum = Input.Geboortedatum,
+                        Username = Input.Username,
+                        Email = Input.Email,
+                        Wachtwoord = Input.Password,
+                        AangemaaktDatum = DateTime.Now.Date,
+                        
+                    },
+                    UserName=Input.Username
+                    
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                user.Persoon.UserID = user.Id;
+
+                await _context.SaveChangesAsync();
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using StartSpelerMVC.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace StartSpelerMVC.Models
@@ -31,9 +33,24 @@ namespace StartSpelerMVC.Models
         public string Wachtwoord { get; set; }
         public bool IsActief { get; set; }
         public bool IsAdmin { get; set; }
+        public DateTime AangemaaktDatum { get; set; }
         public ICollection<Inschrijving> Inschrijvingen { get; set; }
         public ICollection<Bestelling> Bestellingen { get; set; }
         public int DrankkaartID { get; set; }
         public Drankkaart Drankkaart { get; set; }
+
+        //[ForeignKey("CustomUser")]
+        public string UserID { get; set; }
+        public CustomUser CustomUser { get; set; }
+        public override string ToString()
+        {
+            StringBuilder stringbuilder = new StringBuilder();
+            stringbuilder.Append($"KlantID: {Persoon_ID}; ");
+            stringbuilder.Append($"Voornaam: {Voornaam}; ");
+            stringbuilder.Append($"Naam: {Achternaam}; ");
+            stringbuilder.Append($"Datum aangemaakt: {AangemaaktDatum}; ");
+
+            return stringbuilder.ToString();
+        }
     }
 }

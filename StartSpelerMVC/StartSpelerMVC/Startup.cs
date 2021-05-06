@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StartSpelerMVC.Areas.Identity.Data;
 using StartSpelerMVC.Data;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace StartSpelerMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<LocalStartSpelerConnection>(options => options.UseSqlServer(Configuration.GetConnectionString("StartSpelerConnection")));
+            services.AddDbContext<LocalStartSpelerConnection>(options => options.UseSqlServer(Configuration.GetConnectionString("LocalStartSpelerConnection")));
            
             services.Configure<IdentityOptions>(options =>
             {
@@ -49,7 +50,7 @@ namespace StartSpelerMVC
                 "abcdefghijklmonpqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ0123456789-,@+";
                 options.User.RequireUniqueEmail = false;
             });
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<CustomUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<LocalStartSpelerConnection>();
             
@@ -84,7 +85,7 @@ namespace StartSpelerMVC
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            CreateUserRoles(serviceProvider).Wait();
+            //CreateUserRoles(serviceProvider).Wait();
         }
         
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
