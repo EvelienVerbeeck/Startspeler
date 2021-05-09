@@ -35,21 +35,23 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
-            var productType = await _context.productTypes
+            DetailsProducttypeViewModel viewModel = new DetailsProducttypeViewModel();
+            viewModel.ProductType = await _context.productTypes
                 .FirstOrDefaultAsync(m => m.ProductType_ID == id);
-            if (productType == null)
+            if (viewModel.ProductType == null)
             {
                 return NotFound();
             }
 
-            return View(productType);
+            return View(viewModel);
         }
 
         // GET: ProductType/Create
         public IActionResult Create()
         {
-            return View();
+            CreateProducttypeViewModel viewModel = new CreateProducttypeViewModel();
+            viewModel.ProductType = new ProductType();
+            return View(viewModel);
         }
 
         // POST: ProductType/Create
@@ -57,15 +59,15 @@ namespace StartSpelerMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductType_ID,Naam")] ProductType productType)
+        public async Task<IActionResult> Create(CreateProducttypeViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(productType);
+                _context.Add(viewModel.ProductType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(productType);
+            return View(viewModel);
         }
 
         // GET: ProductType/Edit/5
@@ -75,13 +77,13 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
-            var productType = await _context.productTypes.FindAsync(id);
-            if (productType == null)
+            EditProducttypeViewModel viewModel = new EditProducttypeViewModel();
+            viewModel.ProductType = await _context.productTypes.FindAsync(id);
+            if (viewModel.ProductType == null)
             {
                 return NotFound();
             }
-            return View(productType);
+            return View(viewModel);
         }
 
         // POST: ProductType/Edit/5
@@ -89,9 +91,9 @@ namespace StartSpelerMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductType_ID,Naam")] ProductType productType)
+        public async Task<IActionResult> Edit(int id, EditProducttypeViewModel viewModel)
         {
-            if (id != productType.ProductType_ID)
+            if (id != viewModel.ProductType.ProductType_ID)
             {
                 return NotFound();
             }
@@ -100,12 +102,12 @@ namespace StartSpelerMVC.Controllers
             {
                 try
                 {
-                    _context.Update(productType);
+                    _context.Update(viewModel.ProductType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductTypeExists(productType.ProductType_ID))
+                    if (!ProductTypeExists(viewModel.ProductType.ProductType_ID))
                     {
                         return NotFound();
                     }
@@ -116,7 +118,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(productType);
+            return View(viewModel);
         }
 
         // GET: ProductType/Delete/5
@@ -126,15 +128,15 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
-            var productType = await _context.productTypes
+            DeleteProducttypeViewModel viewModel = new DeleteProducttypeViewModel();
+            viewModel.ProductType = await _context.productTypes
                 .FirstOrDefaultAsync(m => m.ProductType_ID == id);
-            if (productType == null)
+            if (viewModel.ProductType == null)
             {
                 return NotFound();
             }
 
-            return View(productType);
+            return View(viewModel);
         }
 
         // POST: ProductType/Delete/5
@@ -142,8 +144,9 @@ namespace StartSpelerMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var productType = await _context.productTypes.FindAsync(id);
-            _context.productTypes.Remove(productType);
+            DeleteProducttypeViewModel viewModel = new DeleteProducttypeViewModel();
+            viewModel.ProductType = await _context.productTypes.FindAsync(id);
+            _context.productTypes.Remove(viewModel.ProductType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
