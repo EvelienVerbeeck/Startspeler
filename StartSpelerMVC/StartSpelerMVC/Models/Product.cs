@@ -13,12 +13,13 @@ namespace StartSpelerMVC.Models
         [MaxLength(50)]
         [Required]
         public int Naam { get; set; }
-        public ProductType ProductType { get; set; }
+       
+        public int ProductTypeID { get; set; }
         [Required]
         public int Aantal { get; set; }
         [DataType(DataType.Date)]
         public DateTime StartDatum { get; set; }
-        public ICollection<Product> Orderlijnen { get; set; }
+        public List<Orderlijn> Orderlijnen { get; set; } //many to many
         [DataType(DataType.Date)]
         public DateTime EindDatum { get; set; }
         [Required]
@@ -33,6 +34,8 @@ namespace StartSpelerMVC.Models
         [Required]
         public int Aantal_in_Frigo { get; set; }
         public bool IsZichtbaar { get; set; }
-        
+
+        public ProductType ProductType { get; set; }
+
     }
 }

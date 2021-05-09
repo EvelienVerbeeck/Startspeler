@@ -1,0 +1,90 @@
+﻿@model StartSpelerMVC.Models.Product
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_NoLayout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Product_ID" />
+            <div class="form-group">
+                <label asp-for="Naam" class="control-label"></label>
+                <input asp-for="Naam" class="form-control" />
+                <span asp-validation-for="Naam" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductTypeID" class="control-label"></label>
+                <select asp-for="ProductTypeID" class="form-control" asp-items="ViewBag.ProductTypeID"></select>
+                <span asp-validation-for="ProductTypeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aantal" class="control-label"></label>
+                <input asp-for="Aantal" class="form-control" />
+                <span asp-validation-for="Aantal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDatum" class="control-label"></label>
+                <input asp-for="StartDatum" class="form-control" />
+                <span asp-validation-for="StartDatum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EindDatum" class="control-label"></label>
+                <input asp-for="EindDatum" class="form-control" />
+                <span asp-validation-for="EindDatum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AankoopPrijs" class="control-label"></label>
+                <input asp-for="AankoopPrijs" class="form-control" />
+                <span asp-validation-for="AankoopPrijs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VerkoopPrijs" class="control-label"></label>
+                <input asp-for="VerkoopPrijs" class="form-control" />
+                <span asp-validation-for="VerkoopPrijs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Slotwaarde" class="control-label"></label>
+                <input asp-for="Slotwaarde" class="form-control" />
+                <span asp-validation-for="Slotwaarde" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Alcoholpercentage" class="control-label"></label>
+                <input asp-for="Alcoholpercentage" class="form-control" />
+                <span asp-validation-for="Alcoholpercentage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aantal_in_stock" class="control-label"></label>
+                <input asp-for="Aantal_in_stock" class="form-control" />
+                <span asp-validation-for="Aantal_in_stock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aantal_in_Frigo" class="control-label"></label>
+                <input asp-for="Aantal_in_Frigo" class="form-control" />
+                <span asp-validation-for="Aantal_in_Frigo" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsZichtbaar" /> @Html.DisplayNameFor(model => model.IsZichtbaar)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

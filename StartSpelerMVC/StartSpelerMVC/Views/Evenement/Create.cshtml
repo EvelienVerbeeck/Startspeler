@@ -10,24 +10,25 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     @*hoe lukt het om value door te geven via radiobuttons*@
-    <div>
-        <label class="MiniEvenementDetail p-1 m-2">
-            @Html.RadioButtonFor(m => m.EvenementNaam,"Dungeons & Dragons")
-            <img width="100" height="100" src="~/Images/DnDEvent.png">
-            <span asp-validation-for="EvenementNaam" class="text-danger"></span>
-        </label>
-        <label class="MiniEvenementDetail p-1  m-2">
-            @Html.RadioButtonFor(m => m.EvenementNaam,"Magic The Gathering")
-            <img width="100" height="100" src="~/Images/MGTEvent.png">
-            <span asp-validation-for="EvenementNaam" class="text-danger"></span>
-        </label>
-        <label class="MiniEvenementDetail p-1 m-2">
-            @Html.RadioButtonFor(m => m.EvenementNaam,"Bordspellen")
-            <img width="100" height="100" src="~/Images/Bordspellen.png">
-            <span asp-validation-for="EvenementNaam" class="text-danger"></span>
-        </label>
+<div>
 
-    </div>
+    <label class="MiniEvenementDetail p-1 m-2">
+        @Html.RadioButtonFor(m => m.EvenementNaam, "Dungeons & Dragons")
+        <img width="100" height="100" src="~/Images/DnDEvent.png">
+    </label>
+
+
+    <label class="MiniEvenementDetail p-1  m-2">
+        @Html.RadioButtonFor(m => m.EvenementNaam, "Magic The Gathering")
+        <img width="100" height="100" src="~/Images/MGTEvent.png">
+    </label>
+    <label class="MiniEvenementDetail p-1 m-2">
+        @Html.RadioButtonFor(m => m.EvenementNaam, "Bordspellen")
+        <img width="100" height="100" src="~/Images/Bordspellen.png">
+    </label>
+    <span asp-validation-for="EvenementNaam" class="text-danger"></span>
+
+</div>
         <div class="form-group">
             <label asp-for="MaxDeelnemers" class="control-label"></label>
             <input asp-for="MaxDeelnemers" class="form-control" />
@@ -65,9 +66,9 @@
         </div>
         <div class="form-group">
             <input type="submit" value="Aanmaken" class="btn-orange" />
+           
         </div>
 </form>
-
     <div>
         <a asp-action="Index">Back to List</a>
     </div>

@@ -70,7 +70,91 @@ namespace StartSpelerMVC.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("StartSpelerMVC.Areas.Identity.Data.CustomUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -135,86 +219,6 @@ namespace StartSpelerMVC.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens");
-                });
-
             modelBuilder.Entity("StartSpelerMVC.Models.Bestelling", b =>
                 {
                     b.Property<int>("Bestelling_ID")
@@ -225,7 +229,7 @@ namespace StartSpelerMVC.Migrations
                     b.Property<DateTime>("Datum")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("Persoon_ID")
+                    b.Property<int>("PersoonID")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Prijs")
@@ -233,7 +237,7 @@ namespace StartSpelerMVC.Migrations
 
                     b.HasKey("Bestelling_ID");
 
-                    b.HasIndex("Persoon_ID");
+                    b.HasIndex("PersoonID");
 
                     b.ToTable("Bestelling");
                 });
@@ -311,17 +315,17 @@ namespace StartSpelerMVC.Migrations
                     b.Property<DateTime>("Datum")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("Evenement_ID")
+                    b.Property<int>("EvenementID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PersonenPersoon_ID")
+                    b.Property<int>("PersoonID")
                         .HasColumnType("int");
 
                     b.HasKey("Inschrijving_ID");
 
-                    b.HasIndex("Evenement_ID");
+                    b.HasIndex("EvenementID");
 
-                    b.HasIndex("PersonenPersoon_ID");
+                    b.HasIndex("PersoonID");
 
                     b.ToTable("Inschrijving");
                 });
@@ -333,17 +337,17 @@ namespace StartSpelerMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Bestelling_ID")
+                    b.Property<int>("BestellingID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductenProduct_ID")
+                    b.Property<int>("ProductID")
                         .HasColumnType("int");
 
                     b.HasKey("Orderlijn_ID");
 
-                    b.HasIndex("Bestelling_ID");
+                    b.HasIndex("BestellingID");
 
-                    b.HasIndex("ProductenProduct_ID");
+                    b.HasIndex("ProductID");
 
                     b.ToTable("Orderlijn");
                 });
@@ -355,12 +359,15 @@ namespace StartSpelerMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("AangemaaktDatum")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Achternaam")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int?>("Drankkaart_ID")
+                    b.Property<int>("DrankkaartID")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -375,6 +382,9 @@ namespace StartSpelerMVC.Migrations
 
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -393,7 +403,11 @@ namespace StartSpelerMVC.Migrations
 
                     b.HasKey("Persoon_ID");
 
-                    b.HasIndex("Drankkaart_ID");
+                    b.HasIndex("DrankkaartID");
+
+                    b.HasIndex("UserID")
+                        .IsUnique()
+                        .HasFilter("[UserID] IS NOT NULL");
 
                     b.ToTable("Persoon");
                 });
@@ -430,10 +444,7 @@ namespace StartSpelerMVC.Migrations
                         .HasColumnType("int")
                         .HasMaxLength(50);
 
-                    b.Property<int?>("ProductType_ID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Product_ID1")
+                    b.Property<int>("ProductTypeID")
                         .HasColumnType("int");
 
                     b.Property<byte>("Slotwaarde")
@@ -447,9 +458,7 @@ namespace StartSpelerMVC.Migrations
 
                     b.HasKey("Product_ID");
 
-                    b.HasIndex("ProductType_ID");
-
-                    b.HasIndex("Product_ID1");
+                    b.HasIndex("ProductTypeID");
 
                     b.ToTable("Product");
                 });
@@ -482,7 +491,7 @@ namespace StartSpelerMVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("StartSpelerMVC.Areas.Identity.Data.CustomUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -491,7 +500,7 @@ namespace StartSpelerMVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("StartSpelerMVC.Areas.Identity.Data.CustomUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -506,7 +515,7 @@ namespace StartSpelerMVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("StartSpelerMVC.Areas.Identity.Data.CustomUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -515,7 +524,7 @@ namespace StartSpelerMVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("StartSpelerMVC.Areas.Identity.Data.CustomUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -526,47 +535,61 @@ namespace StartSpelerMVC.Migrations
                 {
                     b.HasOne("StartSpelerMVC.Models.Persoon", "Persoon")
                         .WithMany("Bestellingen")
-                        .HasForeignKey("Persoon_ID");
+                        .HasForeignKey("PersoonID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("StartSpelerMVC.Models.Inschrijving", b =>
                 {
                     b.HasOne("StartSpelerMVC.Models.Evenement", "Evenement")
                         .WithMany("Inschrijvingen")
-                        .HasForeignKey("Evenement_ID");
+                        .HasForeignKey("EvenementID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("StartSpelerMVC.Models.Persoon", "Personen")
                         .WithMany("Inschrijvingen")
-                        .HasForeignKey("PersonenPersoon_ID");
+                        .HasForeignKey("PersoonID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("StartSpelerMVC.Models.Orderlijn", b =>
                 {
                     b.HasOne("StartSpelerMVC.Models.Bestelling", "Bestelling")
                         .WithMany("Orderlijnen")
-                        .HasForeignKey("Bestelling_ID");
+                        .HasForeignKey("BestellingID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("StartSpelerMVC.Models.Product", "Producten")
-                        .WithMany()
-                        .HasForeignKey("ProductenProduct_ID");
+                        .WithMany("Orderlijnen")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("StartSpelerMVC.Models.Persoon", b =>
                 {
                     b.HasOne("StartSpelerMVC.Models.Drankkaart", "Drankkaart")
                         .WithMany()
-                        .HasForeignKey("Drankkaart_ID");
+                        .HasForeignKey("DrankkaartID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StartSpelerMVC.Areas.Identity.Data.CustomUser", "CustomUser")
+                        .WithOne("Persoon")
+                        .HasForeignKey("StartSpelerMVC.Models.Persoon", "UserID");
                 });
 
             modelBuilder.Entity("StartSpelerMVC.Models.Product", b =>
                 {
                     b.HasOne("StartSpelerMVC.Models.ProductType", "ProductType")
                         .WithMany()
-                        .HasForeignKey("ProductType_ID");
-
-                    b.HasOne("StartSpelerMVC.Models.Product", null)
-                        .WithMany("Orderlijnen")
-                        .HasForeignKey("Product_ID1");
+                        .HasForeignKey("ProductTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

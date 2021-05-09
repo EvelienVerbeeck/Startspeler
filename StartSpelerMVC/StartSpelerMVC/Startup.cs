@@ -6,7 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StartSpelerMVC.Areas.Identity.Data;
 using StartSpelerMVC.Data;
+using StartSpelerMVC.Data.UnitOfWork;
+using StartSpelerMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +35,7 @@ namespace StartSpelerMVC
             services.Configure<IdentityOptions>(options =>
             {
                 //passwoord settings
-                options.Password.RequireDigit = false;
+                options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
@@ -45,22 +48,15 @@ namespace StartSpelerMVC
                 options.Lockout.AllowedForNewUsers = true;
 
                 //user settings
-                options.User.AllowedUserNameCharacters =
-                "abcdefghijklmonpqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ-,@+";
+                options.User.AllowedUserNameCharacters = 
+                "abcdefghijklmonpqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ0123456789-,@+";
                 options.User.RequireUniqueEmail = false;
             });
-            services.AddDbContext<LocalStartSpelerConnection>(options =>options.UseSqlServer(Configuration.GetConnectionString("StartSpelerConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-               .AddDefaultUI()
-               .AddEntityFrameworkStores<LocalStartSpelerConnection>()
-               .AddDefaultTokenProviders();
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("SpelerPolicy", builder => builder.RequireRole("Admin", "User"));
-                options.AddPolicy("AdminPolicy", builder => builder.RequireRole("Admin"));
-            });
+            services.AddDefaultIdentity<CustomUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<LocalStartSpelerConnection>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,8 +77,9 @@ namespace StartSpelerMVC
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
+           
 
             app.UseEndpoints(endpoints =>
             {
@@ -91,6 +88,39 @@ namespace StartSpelerMVC
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+            //CreateUserRoles(serviceProvider).Wait();
+        }
+        
+        private async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            RoleManager<IdentityRole> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            LocalStartSpelerConnection connection = serviceProvider.GetRequiredService<LocalStartSpelerConnection>();
+
+            IdentityResult roleResult;
+            // admin rol toevoegen
+            bool roleCheck = await roleManager.RoleExistsAsync("Admin");
+            if (!roleCheck)
+            {
+                //rol creëren en seeden naar de database
+                roleResult = await roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+            //toekennen admin rol naar de hoofdgebruiker
+            IdentityUser user = connection.Users.FirstOrDefault(u => u.Email == "r0614769@student.thomasmore.be");
+            if (user!=null)
+            {
+                DbSet<IdentityUserRole<string>> roles = connection.UserRoles;
+                IdentityRole adminrole = connection.Roles.FirstOrDefault(r => r.Name == "Admin");
+                if (adminrole!=null)
+                {
+                    if (!roles.Any(ur=>ur.UserId==user.Id&& ur.RoleId==adminrole.Id))
+                    {
+                        roles.Add(new IdentityUserRole<string>() { UserId = user.Id, RoleId = adminrole.Id });
+                        connection.SaveChanges();
+                    }
+                }
+            }
+
+
         }
     }
 }

@@ -13,30 +13,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using StartSpelerMVC.Areas.Identity.Data;
+using StartSpelerMVC.Data;
+using StartSpelerMVC.Models;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<CustomUser> _signInManager;
+        private readonly UserManager<CustomUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly LocalStartSpelerConnection _context;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<CustomUser> userManager,
+            SignInManager<CustomUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            LocalStartSpelerConnection context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _roleManager = roleManager;
+            _context = context;
         }
 
         [BindProperty]
@@ -49,15 +52,28 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            public string  Voornaam { get; set; }
-            public string  Achternaam { get; set; }
+            [Display(Name ="Voornaam")]
+            [DataType(DataType.Text)]
+            public string Voornaam { get; set; }
+            [Required]
+            [Display(Name = "Voornaam")]
+            [DataType(DataType.Text)]
+            public string Achternaam { get; set; }
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Gebruikersnaam")]
+            public string Username { get; set; }
+            [Required]
+            [Display(Name = "Geboortedatum")]
+            [DataType(DataType.Date)]
+            public DateTime Geboortedatum { get; set; }
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 4)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -66,16 +82,10 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-            public string Name { get; set; }
-            //[DataType(DataType.Date)]
-            [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-            [Required]
-            public DateTime Geboortedatum { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            ViewData["roles"] = _roleManager.Roles.ToList();
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -83,22 +93,38 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            var role = _roleManager.FindByIdAsync(Input.Name).Result;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new CustomUser {
+                    Persoon = new Persoon
+                    {
+                        Voornaam = Input.Voornaam,
+                        Achternaam = Input.Achternaam,
+                        Geboortedatum = Input.Geboortedatum,
+                        Username = Input.Username,
+                        Email = Input.Email,
+                        Wachtwoord = Input.Password,
+                        AangemaaktDatum = DateTime.Now.Date,
+                        
+                    },
+                    UserName=Input.Username
+                    
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                user.Persoon.UserID = user.Id;
+
+                await _context.SaveChangesAsync();
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    await _userManager.AddToRoleAsync(user, role.Name);
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code },
+                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
@@ -106,7 +132,7 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email});
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
                     {
@@ -119,7 +145,6 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-            ViewData["roles"] = _roleManager.Roles.ToList();
 
             // If we got this far, something failed, redisplay form
             return Page();

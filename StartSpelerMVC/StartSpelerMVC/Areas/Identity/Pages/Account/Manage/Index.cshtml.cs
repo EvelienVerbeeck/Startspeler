@@ -6,22 +6,31 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using StartSpelerMVC.Areas.Identity.Data;
+using StartSpelerMVC.Data;
+using StartSpelerMVC.Models;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<CustomUser> _userManager;
+        private readonly SignInManager<CustomUser> _signInManager;
+        private readonly LocalStartSpelerConnection _context;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<CustomUser> userManager,
+            SignInManager<CustomUser> signInManager,
+            LocalStartSpelerConnection context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
-
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Naam")]
         public string Username { get; set; }
 
         [TempData]
@@ -32,21 +41,56 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+         
+            [DataType(DataType.Text)]
+            [Display(Name = "Voornaam")]
+            public string Voornaam { get; set; }
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Achternaam")]
+            public string Achternaam { get; set; }
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Gebruikersnaam")]
+            public string Gebruikersnaam { get; set; }
+            [Required]
+            [DataType(DataType.Date)]
+            [Display(Name = "Geboortedatum")]
+            public DateTime Geboortedatum { get; set; }
+            [Required]
+            [DataType(DataType.EmailAddress)]
+            [Display(Name = "E-mail adres")]
+            public string Email { get; set; }
+            [Required]
+            [DataType(DataType.EmailAddress)]
+            [Display(Name = "Wachtwoord")]
+            public string Password { get; set; }
+            [Display(Name = "Is actief")]
+            public bool IsActief { get; set; }
+            [Display(Name = "Is Administrator")]
+            public bool IsAdmin{ get; set; }
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(CustomUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
 
+            Persoon persoon = await _context.Personen.FirstOrDefaultAsync(x => x.UserID==user.Id);
+            user.Persoon = persoon;
+
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                Voornaam = user.Persoon.Voornaam,
+                Achternaam = user.Persoon.Achternaam,
+                Gebruikersnaam = user.Persoon.Username,
+                Geboortedatum = user.Persoon.Geboortedatum,
+                Email = user.Persoon.Email,
+                Password=user.Persoon.Wachtwoord,
+                IsActief=user.Persoon.IsActief,
+                IsAdmin=user.Persoon.IsAdmin
             };
         }
 
@@ -75,17 +119,18 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
                 await LoadAsync(user);
                 return Page();
             }
+            Persoon persoon = await _context.Personen.FirstOrDefaultAsync(x => x.UserID == user.Id);
+            user.Persoon = persoon;
+            user.Persoon.Voornaam = Input.Voornaam;
+            user.Persoon.Achternaam = Input.Achternaam;
+            user.Persoon.Username = Input.Gebruikersnaam;
+            user.Persoon.Geboortedatum = Input.Geboortedatum;
+            user.Persoon.Email = Input.Email;
+            user.Persoon.Wachtwoord = Input.Password;
+            user.Persoon.IsActief = Input.IsActief;
+            user.Persoon.IsAdmin = Input.IsAdmin;
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
-            {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
-            }
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
