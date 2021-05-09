@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace StartSpelerMVC.ViewModels
 {
-    public class DeleteBestellingViewModel
+    public class DetailsDrankkaartViewModel
     {
-        public Bestelling Bestelling { get; set; }
+        public Drankkaart Drankkaart { get; set; }
     }
 }

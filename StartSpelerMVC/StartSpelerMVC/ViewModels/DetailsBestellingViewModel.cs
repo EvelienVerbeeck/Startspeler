@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace StartSpelerMVC.ViewModels
 {
-    public class DeleteBestellingViewModel
+    public class DetailsBestellingViewModel
     {
         public Bestelling Bestelling { get; set; }
+        public List<Product> Productenlijst { get; set; }
+        public Persoon Persoon { get; set; }
     }
 }
