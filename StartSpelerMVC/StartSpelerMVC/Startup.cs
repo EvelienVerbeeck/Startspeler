@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StartSpelerMVC.Areas.Identity.Data;
 using StartSpelerMVC.Data;
+using StartSpelerMVC.Data.UnitOfWork;
+using StartSpelerMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +55,7 @@ namespace StartSpelerMVC
             services.AddDefaultIdentity<CustomUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<LocalStartSpelerConnection>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             
         }
 
