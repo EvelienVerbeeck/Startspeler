@@ -27,6 +27,19 @@ namespace StartSpelerMVC.Controllers
             viewModel.Producten = await _context.Producten.Include(p => p.ProductType).ToListAsync();
             return View( viewModel);
         }
+        public async Task<IActionResult> Search(ListProductViewModel viewModel)
+        {
+            if (!string.IsNullOrEmpty(viewModel.ZoekProduct))
+            {
+                viewModel.Producten = await _context.Producten.Include(p => p.ProductType)
+                .Where(x => x.Naam.Contains(viewModel.ZoekProduct)).ToListAsync();
+            }
+            else
+            {
+                viewModel.Producten = await _context.Producten.Include(p => p.ProductType).ToListAsync();
+            }
+            return View("Index", viewModel);
+        }
 
         // GET: Product/Details/5
         public async Task<IActionResult> Details(int? id)

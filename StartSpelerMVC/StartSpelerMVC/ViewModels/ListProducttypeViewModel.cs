@@ -9,5 +9,6 @@ namespace StartSpelerMVC.ViewModels
     public class ListProducttypeViewModel
     {
         public List<ProductType> Producttypes { get; set; }
+        public string Zoekproducttypes { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace StartSpelerMVC.Models
         public int Product_ID { get; set; }
         [MaxLength(50)]
         [Required]
-        public int Naam { get; set; }
+        public string Naam { get; set; }
        
         public int ProductTypeID { get; set; }
         [Required]

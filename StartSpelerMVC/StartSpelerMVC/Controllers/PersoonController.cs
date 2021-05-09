@@ -27,6 +27,19 @@ namespace StartSpelerMVC.Controllers
             viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart).ToListAsync();
             return View( viewModel);
         }
+        public async Task<IActionResult> Search(ListPersoonViewModel viewModel)
+        {
+            if (!string.IsNullOrEmpty(viewModel.ZoekPersoon))
+            {
+                viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart)
+                     .Where(x => x.Voornaam.Contains(viewModel.ZoekPersoon)).ToListAsync();
+            }
+            else
+            {
+                viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart).ToListAsync();
+            }
+            return View("Index", viewModel);
+        }
 
         // GET: Persoon/Details/5
         public async Task<IActionResult> Details(int? id)

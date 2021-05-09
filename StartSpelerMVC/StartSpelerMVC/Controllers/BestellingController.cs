@@ -24,7 +24,7 @@ namespace StartSpelerMVC.Controllers
         public async Task<IActionResult> Index()
         {
             ListBestellingViewModel viewModel = new ListBestellingViewModel();
-            var localStartSpelerConnection = await _context.Bestellingen.Include(b => b.Persoon).ToListAsync();
+            viewModel.Bestellingen = await _context.Bestellingen.Include(b => b.Persoon).ToListAsync();
             return View(viewModel);
         }
 
@@ -88,7 +88,7 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-            //ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", bestelling.PersoonID);
+           viewModel.Bestelling.PersoonID= new SelectList(_context.Personen, "Persoon_ID", "Achternaam", viewModel.Bestelling.PersoonID);
             return View(viewModel.Bestelling);
         }
 
@@ -124,7 +124,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", viewModel.Bestelling.PersoonID);
+            viewModel.Bestelling.PersoonID = viewModel.Bestelling.PersoonID;
             return View(viewModel.Bestelling);
         }
 
