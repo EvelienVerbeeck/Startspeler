@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StartSpelerMVC.Data;
 using StartSpelerMVC.Models;
+using StartSpelerMVC.ViewModels;
 
 namespace StartSpelerMVC.Controllers
 {
@@ -22,7 +23,9 @@ namespace StartSpelerMVC.Controllers
         // GET: Drankkaart
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Drankkaarten.ToListAsync());
+            ListDrankkaartViewModel viewModel = new ListDrankkaartViewModel();
+            viewModel.Drankkaartenlijst = await _context.Drankkaarten.ToListAsync();
+            return View(viewModel);
         }
 
         // GET: Drankkaart/Details/5
@@ -32,20 +35,21 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
-            var drankkaart = await _context.Drankkaarten
+            DetailsDrankkaartViewModel viewModel = new DetailsDrankkaartViewModel();
+            viewModel.Drankkaart = await _context.Drankkaarten
                 .FirstOrDefaultAsync(m => m.Drankkaart_ID == id);
-            if (drankkaart == null)
+            if (viewModel.Drankkaart == null)
             {
                 return NotFound();
             }
 
-            return View(drankkaart);
+            return View(viewModel.Drankkaart);
         }
 
         // GET: Drankkaart/Create
         public IActionResult Create()
         {
+            ListDrankkaartViewModel viewModel = new ListDrankkaartViewModel();
             return View();
         }
 
@@ -54,15 +58,15 @@ namespace StartSpelerMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Drankkaart_ID,Prijs,AantalSlots,Begindatum,IsBetaald")] Drankkaart drankkaart)
+        public async Task<IActionResult> Create(CreateDrankkaartViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(drankkaart);
+                _context.Add(viewModel.Drankkaart);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(drankkaart);
+            return View(viewModel.Drankkaart);
         }
 
         // GET: Drankkaart/Edit/5
@@ -72,13 +76,13 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
-            var drankkaart = await _context.Drankkaarten.FindAsync(id);
-            if (drankkaart == null)
+            EditDrankkaartViewModel viewModel = new EditDrankkaartViewModel();
+            viewModel.Drankkaart = await _context.Drankkaarten.FindAsync(id);
+            if (viewModel.Drankkaart == null)
             {
                 return NotFound();
             }
-            return View(drankkaart);
+            return View(viewModel.Drankkaart);
         }
 
         // POST: Drankkaart/Edit/5
@@ -86,9 +90,9 @@ namespace StartSpelerMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Drankkaart_ID,Prijs,AantalSlots,Begindatum,IsBetaald")] Drankkaart drankkaart)
+        public async Task<IActionResult> Edit(int id, EditDrankkaartViewModel viewModel)
         {
-            if (id != drankkaart.Drankkaart_ID)
+            if (id != viewModel.Drankkaart.Drankkaart_ID)
             {
                 return NotFound();
             }
@@ -97,12 +101,12 @@ namespace StartSpelerMVC.Controllers
             {
                 try
                 {
-                    _context.Update(drankkaart);
+                    _context.Update(viewModel.Drankkaart);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DrankkaartExists(drankkaart.Drankkaart_ID))
+                    if (!DrankkaartExists(viewModel.Drankkaart.Drankkaart_ID))
                     {
                         return NotFound();
                     }
@@ -113,7 +117,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(drankkaart);
+            return View(viewModel.Drankkaart);
         }
 
         // GET: Drankkaart/Delete/5
@@ -123,15 +127,15 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
-            var drankkaart = await _context.Drankkaarten
+            DeleteDrankkaartViewModel viewmodel = new DeleteDrankkaartViewModel();
+            viewmodel.Drankkaart = await _context.Drankkaarten
                 .FirstOrDefaultAsync(m => m.Drankkaart_ID == id);
-            if (drankkaart == null)
+            if (viewmodel.Drankkaart == null)
             {
                 return NotFound();
             }
 
-            return View(drankkaart);
+            return View(viewmodel.Drankkaart);
         }
 
         // POST: Drankkaart/Delete/5
@@ -139,8 +143,9 @@ namespace StartSpelerMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var drankkaart = await _context.Drankkaarten.FindAsync(id);
-            _context.Drankkaarten.Remove(drankkaart);
+            DeleteDrankkaartViewModel viewmodel = new DeleteDrankkaartViewModel();
+            viewmodel.Drankkaart = await _context.Drankkaarten.FindAsync(id);
+            _context.Drankkaarten.Remove(viewmodel.Drankkaart);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
