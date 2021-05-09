@@ -54,8 +54,8 @@ namespace StartSpelerMVC.Controllers
             CreatePersoonViewModel viewModel = new CreatePersoonViewModel();
             viewModel.Persoon = new Persoon();
             viewModel.Drankkaart = new Drankkaart();
-           // viewModel.Persoon = new SelectList(_context.Users, "Id", "Id");
-           //viewModel.Drankkaart= new SelectList(_context.Drankkaarten, "Drankkaart_ID", "Drankkaart_ID");
+            //viewModel.Persoon = new SelectList(_context.Users, "Id", "Id");
+            //viewModel.Drankkaart = new SelectList(_context.Drankkaarten, "Drankkaart_ID", "Drankkaart_ID");
             return View(viewModel);
         }
 
@@ -171,5 +171,7 @@ namespace StartSpelerMVC.Controllers
         {
             return _context.Personen.Any(e => e.Persoon_ID == id);
         }
+
+
     }
 }
