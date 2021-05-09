@@ -24,8 +24,8 @@ namespace StartSpelerMVC.Controllers
         public async Task<IActionResult> Index()
         {
             ListPersoonViewModel viewModel = new ListPersoonViewModel();
-            var localStartSpelerConnection = _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart);
-            return View(await localStartSpelerConnection.ToListAsync());
+            viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart).ToListAsync();
+            return View( viewModel);
         }
 
         // GET: Persoon/Details/5
