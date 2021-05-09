@@ -1,0 +1,102 @@
+﻿@model IEnumerable<StartSpelerMVC.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_NoLayout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Naam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aantal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDatum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EindDatum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AankoopPrijs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VerkoopPrijs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Slotwaarde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Alcoholpercentage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aantal_in_stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aantal_in_Frigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsZichtbaar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aantal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EindDatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AankoopPrijs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VerkoopPrijs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slotwaarde)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alcoholpercentage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aantal_in_stock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aantal_in_Frigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsZichtbaar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductType.Naam)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Product_ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Product_ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Product_ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
