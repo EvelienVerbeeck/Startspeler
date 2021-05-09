@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StartSpelerMVC.Data;
 using StartSpelerMVC.Models;
+using StartSpelerMVC.ViewModels;
 
 namespace StartSpelerMVC.Controllers
 {
@@ -22,8 +23,9 @@ namespace StartSpelerMVC.Controllers
         // GET: Bestelling
         public async Task<IActionResult> Index()
         {
-            var localStartSpelerConnection = _context.Bestellingen.Include(b => b.Persoon);
-            return View(await localStartSpelerConnection.ToListAsync());
+            ListBestellingViewModel viewModel = new ListBestellingViewModel();
+            var localStartSpelerConnection = await _context.Bestellingen.Include(b => b.Persoon).ToListAsync();
+            return View(viewModel);
         }
 
         // GET: Bestelling/Details/5
@@ -33,22 +35,25 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
-            var bestelling = await _context.Bestellingen
+            DetailsBestellingViewModel viewModel = new DetailsBestellingViewModel();
+            viewModel.Bestelling = await _context.Bestellingen
                 .Include(b => b.Persoon)
                 .FirstOrDefaultAsync(m => m.Bestelling_ID == id);
-            if (bestelling == null)
+            if (viewModel.Bestelling == null)
             {
                 return NotFound();
             }
 
-            return View(bestelling);
+            return View(viewModel.Bestelling);
         }
 
         // GET: Bestelling/Create
         public IActionResult Create()
         {
-            ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam");
+            CreateBestellingViewModel viewModel = new CreateBestellingViewModel();
+            viewModel.Persoon = new Persoon();
+
+            //ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam");
             return View();
         }
 
@@ -57,16 +62,17 @@ namespace StartSpelerMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Bestelling_ID,PersoonID,Prijs,Datum")] Bestelling bestelling)
+        public async Task<IActionResult> Create(CreateBestellingViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(bestelling);
+                _context.Add(viewModel.Bestelling);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", bestelling.PersoonID);
-            return View(bestelling);
+            viewModel.Persoon = new Persoon();
+            //ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", bestelling.PersoonID);
+            return View(viewModel);
         }
 
         // GET: Bestelling/Edit/5
@@ -76,14 +82,14 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
-            var bestelling = await _context.Bestellingen.FindAsync(id);
-            if (bestelling == null)
+            EditBestellingViewModel viewModel = new EditBestellingViewModel();
+            viewModel.Bestelling = await _context.Bestellingen.FindAsync(id);
+            if (viewModel.Bestelling == null)
             {
                 return NotFound();
             }
-            ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", bestelling.PersoonID);
-            return View(bestelling);
+            //ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", bestelling.PersoonID);
+            return View(viewModel.Bestelling);
         }
 
         // POST: Bestelling/Edit/5
@@ -91,9 +97,9 @@ namespace StartSpelerMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Bestelling_ID,PersoonID,Prijs,Datum")] Bestelling bestelling)
+        public async Task<IActionResult> Edit(int id, EditBestellingViewModel viewModel)
         {
-            if (id != bestelling.Bestelling_ID)
+            if (id != viewModel.Bestelling.Bestelling_ID)
             {
                 return NotFound();
             }
@@ -102,12 +108,12 @@ namespace StartSpelerMVC.Controllers
             {
                 try
                 {
-                    _context.Update(bestelling);
+                    _context.Update(viewModel.Bestelling);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BestellingExists(bestelling.Bestelling_ID))
+                    if (!BestellingExists(viewModel.Bestelling.Bestelling_ID))
                     {
                         return NotFound();
                     }
@@ -118,8 +124,8 @@ namespace StartSpelerMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", bestelling.PersoonID);
-            return View(bestelling);
+            ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", viewModel.Bestelling.PersoonID);
+            return View(viewModel.Bestelling);
         }
 
         // GET: Bestelling/Delete/5
@@ -129,16 +135,16 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
-            var bestelling = await _context.Bestellingen
+            DeleteBestellingViewModel viewmodel = new DeleteBestellingViewModel();
+            viewmodel.Bestelling = await _context.Bestellingen
                 .Include(b => b.Persoon)
                 .FirstOrDefaultAsync(m => m.Bestelling_ID == id);
-            if (bestelling == null)
+            if (viewmodel.Bestelling == null)
             {
                 return NotFound();
             }
 
-            return View(bestelling);
+            return View(viewmodel);
         }
 
         // POST: Bestelling/Delete/5
@@ -146,8 +152,9 @@ namespace StartSpelerMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var bestelling = await _context.Bestellingen.FindAsync(id);
-            _context.Bestellingen.Remove(bestelling);
+            DeleteBestellingViewModel viewModel = new DeleteBestellingViewModel();
+            viewModel.Bestelling = await _context.Bestellingen.FindAsync(id);
+            _context.Bestellingen.Remove(viewModel.Bestelling);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
