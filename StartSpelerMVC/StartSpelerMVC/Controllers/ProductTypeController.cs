@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StartSpelerMVC.Data;
 using StartSpelerMVC.Models;
+using StartSpelerMVC.ViewModels;
 
 namespace StartSpelerMVC.Controllers
 {
@@ -22,7 +23,9 @@ namespace StartSpelerMVC.Controllers
         // GET: ProductType
         public async Task<IActionResult> Index()
         {
-            return View(await _context.productTypes.ToListAsync());
+            ListProducttypeViewModel viewModel = new ListProducttypeViewModel();
+            viewModel.Producttypes = await _context.productTypes.ToListAsync();
+            return View();
         }
 
         // GET: ProductType/Details/5
