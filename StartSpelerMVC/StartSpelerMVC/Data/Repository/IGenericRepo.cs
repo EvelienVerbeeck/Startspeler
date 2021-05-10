@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace StartSpelerMVC.Data.Repository
@@ -12,5 +13,7 @@ namespace StartSpelerMVC.Data.Repository
         void Create(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
+        Task<TEntity> GetFirstOrDefault(Expression<Func<TEntity, bool>> voorwaarden = null,params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity> GetSingleOrDefault(Expression<Func<TEntity, bool>> voorwaarden = null,params Expression<Func<TEntity, object>>[] includes);
     }
 }

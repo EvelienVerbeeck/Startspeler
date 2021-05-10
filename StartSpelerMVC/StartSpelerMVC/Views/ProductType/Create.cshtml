@@ -1,4 +1,4 @@
-﻿@model StartSpelerMVC.Models.ProductType
+﻿@model StartSpelerMVC.ViewModels.CreateProducttypeViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -14,9 +14,9 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Naam" class="control-label"></label>
-                <input asp-for="Naam" class="form-control" />
-                <span asp-validation-for="Naam" class="text-danger"></span>
+                <label asp-for="ProductType.Naam" class="control-label"></label>
+                <input asp-for="ProductType.Naam" class="form-control" />
+                <span asp-validation-for="ProductType.Naam" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

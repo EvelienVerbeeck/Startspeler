@@ -88,7 +88,7 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-           viewModel.Bestelling.PersoonID= new SelectList(_context.Personen, "Persoon_ID", "Achternaam", viewModel.Bestelling.PersoonID);
+            viewModel.Bestelling.PersoonID = viewModel.Persoon.Persoon_ID;
             return View(viewModel.Bestelling);
         }
 

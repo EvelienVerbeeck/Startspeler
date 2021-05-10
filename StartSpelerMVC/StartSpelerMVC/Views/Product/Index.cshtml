@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StartSpelerMVC.Models.Product>
+﻿@model StartSpelerMVC.ViewModels.ListProductViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -14,46 +14,46 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Naam)
+                @Html.DisplayNameFor(model => model.Product[0].Naam)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Aantal)
+                @Html.DisplayNameFor(model => model.Product[0].Aantal)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartDatum)
+                @Html.DisplayNameFor(model => model.Product[0].StartDatum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EindDatum)
+                @Html.DisplayNameFor(model => model.Product[0].EindDatum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AankoopPrijs)
+                @Html.DisplayNameFor(model => model.Product[0].AankoopPrijs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VerkoopPrijs)
+                @Html.DisplayNameFor(model => model.Product[0].VerkoopPrijs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Slotwaarde)
+                @Html.DisplayNameFor(model => model.Product[0].Slotwaarde)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Alcoholpercentage)
+                @Html.DisplayNameFor(model => model.Product[0].Alcoholpercentage)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Aantal_in_stock)
+                @Html.DisplayNameFor(model => model.Product[0].Aantal_in_stock)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Aantal_in_Frigo)
+                @Html.DisplayNameFor(model => model.Product[0].Aantal_in_Frigo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsZichtbaar)
+                @Html.DisplayNameFor(model => model.Product[0].IsZichtbaar)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductType)
+                @Html.DisplayNameFor(model => model.Product[0].ProductType)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Product) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Naam)
