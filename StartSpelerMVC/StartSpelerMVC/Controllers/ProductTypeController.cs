@@ -24,19 +24,19 @@ namespace StartSpelerMVC.Controllers
         public async Task<IActionResult> Index()
         {
             ListProducttypeViewModel viewModel = new ListProducttypeViewModel();
-            viewModel.Producttypes = await _context.productTypes.ToListAsync();
+            viewModel.ProductType = await _context.productTypes.ToListAsync();
             return View();
         }
         public async Task<IActionResult> Search(ListProducttypeViewModel viewModel)
         {
             if (!string.IsNullOrEmpty(viewModel.Zoekproducttypes))
             {
-                viewModel.Producttypes = await _context.productTypes
+                viewModel.ProductType = await _context.productTypes
                 .Where(x => x.Naam.Contains(viewModel.Zoekproducttypes)).ToListAsync();
             }
             else
             {
-                viewModel.Producttypes = await _context.productTypes.ToListAsync();
+                viewModel.ProductType = await _context.productTypes.ToListAsync();
             }
             return View("Index", viewModel);
         }

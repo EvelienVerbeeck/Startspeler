@@ -1,4 +1,4 @@
-﻿@model StartSpelerMVC.Models.Drankkaart
+﻿@model StartSpelerMVC.ViewModels.DeleteDrankkaartViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -13,33 +13,33 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Prijs)
+            @Html.DisplayNameFor(model => model.Drankkaart.Prijs)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Prijs)
+            @Html.DisplayFor(model => model.Drankkaart.Prijs)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AantalSlots)
+            @Html.DisplayNameFor(model => model.Drankkaart.AantalSlots)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AantalSlots)
+            @Html.DisplayFor(model => model.Drankkaart.AantalSlots)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Begindatum)
+            @Html.DisplayNameFor(model => model.Drankkaart.Begindatum)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Begindatum)
+            @Html.DisplayFor(model => model.Drankkaart.Begindatum)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsBetaald)
+            @Html.DisplayNameFor(model => model.Drankkaart.IsBetaald)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsBetaald)
+            @Html.DisplayFor(model => model.Drankkaart.IsBetaald)
         </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Drankkaart_ID" />
+        <input type="hidden" asp-for="Drankkaart.Drankkaart_ID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

@@ -10,6 +10,18 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="ProductType" asp-action="Search" method="get">
+    <div>
+        <p>
+            Zoek Product type:
+            <input asp-for="Zoekproducttypes"/>
+            <input type="submit" value="Zoeken" class="btn-orange" />|
+            <a asp-controller="ProductType" asp-action="Index">Terug naar volledige lijst</a>
+        </p>
+
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
