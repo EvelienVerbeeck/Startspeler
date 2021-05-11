@@ -45,19 +45,6 @@ namespace StartSpelerMVC.Controllers
 
             return View(viewModel.Drankkaart);
         }
-        public async Task<IActionResult> Search(ListDrankkaartViewModel viewModel)
-        {
-            if (!string.IsNullOrEmpty(viewModel.ZoekDrankkaart))
-            {
-                viewModel.Drankkaartenlijst = await _context.Drankkaarten.
-                     .Where(x => x.Naam.Contains(viewModel.ZoekDrankkaart)).ToListAsync();
-            }
-            else
-            {
-                viewModel.Drankkaartenlijst = await _context.Drankkaarten.ToListAsync();
-            }
-            return View("Index", viewModel);
-        }
 
         // GET: Drankkaart/Create
         public IActionResult Create()

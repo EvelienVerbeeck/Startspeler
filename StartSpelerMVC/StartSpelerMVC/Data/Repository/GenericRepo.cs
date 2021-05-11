@@ -9,37 +9,42 @@ namespace StartSpelerMVC.Data.Repository
 {
     public class GenericRepo<TEntity> : IGenericRepo<TEntity> where TEntity : class
     {
-        protected LocalStartSpelerConnection _context { get; }
+        protected LocalStartSpelerConnection context { get; }
         public GenericRepo(LocalStartSpelerConnection context)
-        { this._context = context; }
+        { this.context = context; }
         public void Create(TEntity entity)
         {
-            _context.Set<TEntity>().Add(entity);
+            context.Set<TEntity>().Add(entity);
         }
 
         public void Delete(TEntity entity)
         {
-            _context.Set<TEntity>().Remove(entity);
+            context.Set<TEntity>().Remove(entity);
         }
 
         public IQueryable<TEntity> GetAll()
         {
-            return _context.Set<TEntity>();
+            return context.Set<TEntity>();
         }
 
         public async Task<TEntity> GetById(int id)
         {
-            return await _context.Set<TEntity>().FindAsync(id);
+            return await context.Set<TEntity>().FindAsync(id);
         }
 
         public void Update(TEntity entity)
         {
-            _context.Set<TEntity>().Update(entity);
+            context.Set<TEntity>().Update(entity);
+        }
+
+        public void Toevoegen(TEntity entity)
+        {
+            context.Set<TEntity>().Add(entity);
         }
 
         public async Task<TEntity> GetFirstOrDefault(Expression<Func<TEntity, bool>> voorwaarden = null, params Expression<Func<TEntity, object>>[] includes)
         {
-            IQueryable<TEntity> query = _context.Set<TEntity>();
+            IQueryable<TEntity> query = context.Set<TEntity>();
             if (includes!=null)
             {
                 foreach (var item in includes)
@@ -56,7 +61,7 @@ namespace StartSpelerMVC.Data.Repository
 
         public async Task<TEntity> GetSingleOrDefault(Expression<Func<TEntity, bool>> voorwaarden = null, params Expression<Func<TEntity, object>>[] includes)
         {
-            IQueryable<TEntity> query = _context.Set<TEntity>();
+            IQueryable<TEntity> query = context.Set<TEntity>();
             if (includes != null)
             {
                 foreach (var item in includes)
