@@ -4,45 +4,59 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_NoLayout.cshtml";
 }
+<div class="position-absolute col-10 offset-1 col-sm-11">
+    <h1>Bestelling</h1>
 
-<h1>Index</h1>
+    <div class="row">
+        @*overzicht producten*@
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Bestellingen[0].Prijs)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bestellingen[0].Datum)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bestellingen[0].Persoon)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Bestellingen) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prijs)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Datum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Persoon.Achternaam)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Bestelling_ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Bestelling_ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Bestelling_ID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bestellingen[0].Prijs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bestellingen[0].Datum)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bestellingen[0].Persoon)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Bestellingen)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Prijs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Datum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Persoon.Achternaam)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Bestelling_ID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Bestelling_ID">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Bestelling_ID">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        @*totaal bestelling en buttons*@
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    </div>
+    <div class="row">
+        @*drankkaart*@
+    </div>
+</div>
+
+
