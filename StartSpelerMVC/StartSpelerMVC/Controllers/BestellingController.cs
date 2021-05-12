@@ -13,9 +13,9 @@ namespace StartSpelerMVC.Controllers
 {
     public class BestellingController : Controller
     {
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
-        public BestellingController(LocalStartSpelerConnection context)
+        public BestellingController(StartSpelerContext context)
         {
             _context = context;
         }
@@ -51,7 +51,11 @@ namespace StartSpelerMVC.Controllers
         public IActionResult Create()
         {
             CreateBestellingViewModel viewModel = new CreateBestellingViewModel();
-            viewModel.Persoon = new Persoon();
+            //viewModel.Persoon = _context.Personen.Find(id); //Hoe kan ik hier de ingelogde id vinden
+            viewModel.Bestelling = new Bestelling();
+            viewModel.Bestelling.Datum = DateTime.Now.Date;
+            viewModel.Productenlijst = _context.Producten.Include(x => x.ProductType).ToList();
+            
 
             //ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam");
             return View();
@@ -70,8 +74,10 @@ namespace StartSpelerMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            viewModel.Persoon = new Persoon();
-            //ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", bestelling.PersoonID);
+            //viewModel.Persoon = _context.Personen.Find(id);// hoe kan ik hier de ingelogde id vinden
+            viewModel.Bestelling = new Bestelling();
+            viewModel.Bestelling.Datum = DateTime.Now.Date;
+            viewModel.Productenlijst = _context.Producten.Include(x => x.ProductType).ToList();
             return View(viewModel);
         }
 

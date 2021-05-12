@@ -17,12 +17,12 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<CustomUser> _userManager;
         private readonly SignInManager<CustomUser> _signInManager;
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
         public IndexModel(
             UserManager<CustomUser> userManager,
             SignInManager<CustomUser> signInManager,
-            LocalStartSpelerConnection context)
+            StartSpelerContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;

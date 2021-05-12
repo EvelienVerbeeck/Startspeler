@@ -17,13 +17,13 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<CustomUser> _userManager;
         private readonly SignInManager<CustomUser> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
         public DeletePersonalDataModel(
             UserManager<CustomUser> userManager,
             SignInManager<CustomUser> signInManager,
             ILogger<DeletePersonalDataModel> logger,
-            LocalStartSpelerConnection context)
+            StartSpelerContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;

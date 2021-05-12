@@ -30,7 +30,7 @@ namespace StartSpelerMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<LocalStartSpelerConnection>(options => options.UseSqlServer(Configuration.GetConnectionString("LocalStartSpelerConnection")));
+            services.AddDbContext<StartSpelerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("StartSpelerConnection")));
            
             services.Configure<IdentityOptions>(options =>
             {
@@ -54,7 +54,7 @@ namespace StartSpelerMVC
             });
             services.AddDefaultIdentity<CustomUser>()
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<LocalStartSpelerConnection>();
+                .AddEntityFrameworkStores<StartSpelerContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             
         }
@@ -94,7 +94,7 @@ namespace StartSpelerMVC
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
         {
             RoleManager<IdentityRole> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            LocalStartSpelerConnection connection = serviceProvider.GetRequiredService<LocalStartSpelerConnection>();
+            StartSpelerContext connection = serviceProvider.GetRequiredService<StartSpelerContext>();
 
             IdentityResult roleResult;
             // admin rol toevoegen

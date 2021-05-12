@@ -13,9 +13,9 @@ namespace StartSpelerMVC.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
-        public ProductController(LocalStartSpelerConnection context)
+        public ProductController(StartSpelerContext context)
         {
             _context = context;
         }
@@ -25,6 +25,7 @@ namespace StartSpelerMVC.Controllers
         {
             ListProductViewModel viewModel = new ListProductViewModel();
             viewModel.Product = await _context.Producten.Include(p => p.ProductType).ToListAsync();
+           
             return View( viewModel);
         }
         public async Task<IActionResult> Search(ListProductViewModel viewModel)
@@ -64,7 +65,10 @@ namespace StartSpelerMVC.Controllers
         public IActionResult Create()
         {
             CreateProductViewModel viewModel = new CreateProductViewModel();
-           viewModel.ProductTypes = new SelectList(_context.productTypes, "ProductType_ID", "Naam");
+            viewModel.Product.IsZichtbaar = true;
+            viewModel.Product.StartDatum = DateTime.Now;
+            viewModel.Product.EindDatum = default;
+            viewModel.ProductTypes = new SelectList(_context.productTypes, "ProductType_ID", "Naam");
             return View();
         }
 
@@ -82,6 +86,8 @@ namespace StartSpelerMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             viewModel.ProductTypes = new SelectList(_context.productTypes, "ProductType_ID", "Naam", viewModel.Product.ProductTypeID);
+            viewModel.Product.IsZichtbaar = true;
+            viewModel.Product.StartDatum = DateTime.Now;
             return View(viewModel.Product);
         }
 
@@ -94,6 +100,8 @@ namespace StartSpelerMVC.Controllers
             }
             EditProductViewModel viewModel = new EditProductViewModel();
             viewModel.Product = await _context.Producten.FindAsync(id);
+            viewModel.Product.IsZichtbaar = true;
+            viewModel.Product.StartDatum = DateTime.Now;
             if (viewModel.Product == null)
             {
                 return NotFound();

@@ -13,9 +13,9 @@ namespace StartSpelerMVC.Controllers
 {
     public class ProductTypeController : Controller
     {
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
-        public ProductTypeController(LocalStartSpelerConnection context)
+        public ProductTypeController(StartSpelerContext context)
         {
             _context = context;
         }

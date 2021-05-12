@@ -13,9 +13,9 @@ namespace StartSpelerMVC.Controllers
 {
     public class PersoonController : Controller
     {
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
-        public PersoonController(LocalStartSpelerConnection context)
+        public PersoonController(StartSpelerContext context)
         {
             _context = context;
         }
@@ -65,10 +65,12 @@ namespace StartSpelerMVC.Controllers
         public IActionResult Create()
         {
             CreatePersoonViewModel viewModel = new CreatePersoonViewModel();
-            viewModel.Persoon = new Persoon();
-            viewModel.Drankkaart = new Drankkaart();
-            //viewModel.Persoon = new SelectList(_context.Users, "Id", "Id");
-            //viewModel.Drankkaart = new SelectList(_context.Drankkaarten, "Drankkaart_ID", "Drankkaart_ID");
+            viewModel.Persoon = new Persoon() 
+            {   AangemaaktDatum=DateTime.Now,
+                IsActief=true,
+                IsAdmin=false,
+            };
+            
             return View(viewModel);
         }
 
@@ -85,10 +87,12 @@ namespace StartSpelerMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            viewModel.Persoon = new Persoon();
-            viewModel.Drankkaart = new Drankkaart();
-            //ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", viewModel.Persoon.UserID);
-            //ViewData["DrankkaartID"] = new SelectList(_context.Drankkaarten, "Drankkaart_ID", "Drankkaart_ID", viewModel.Persoon.DrankkaartID);
+            viewModel.Persoon = new Persoon()
+                {
+                AangemaaktDatum = DateTime.Now,
+                IsActief = true,
+                IsAdmin = false,
+                };
             return View(viewModel);
         }
 
@@ -143,8 +147,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", viewModel.Persoon.UserID);
-            ViewData["DrankkaartID"] = new SelectList(_context.Drankkaarten, "Drankkaart_ID", "Drankkaart_ID", viewModel.Persoon.DrankkaartID);
+
             return View(viewModel);
         }
 

@@ -9,7 +9,7 @@ using StartSpelerMVC.Data;
 
 namespace StartSpelerMVC.Migrations
 {
-    [DbContext(typeof(LocalStartSpelerConnection))]
+    [DbContext(typeof(StartSpelerContext))]
     [Migration("20210511173801_migration1")]
     partial class migration1
     {
