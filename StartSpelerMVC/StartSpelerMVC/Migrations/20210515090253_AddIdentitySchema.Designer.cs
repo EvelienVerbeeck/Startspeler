@@ -10,8 +10,8 @@ using StartSpelerMVC.Data;
 namespace StartSpelerMVC.Migrations
 {
     [DbContext(typeof(StartSpelerContext))]
-    [Migration("20210511173801_migration1")]
-    partial class migration1
+    [Migration("20210515090253_AddIdentitySchema")]
+    partial class AddIdentitySchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

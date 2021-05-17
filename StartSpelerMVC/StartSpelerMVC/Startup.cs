@@ -31,7 +31,10 @@ namespace StartSpelerMVC
         {
             services.AddControllersWithViews();
             services.AddDbContext<StartSpelerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("StartSpelerConnection")));
-           
+            services.AddDefaultIdentity<CustomUser>()
+               .AddRoles<IdentityRole>()
+               .AddEntityFrameworkStores<StartSpelerContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.Configure<IdentityOptions>(options =>
             {
                 //passwoord settings
@@ -52,11 +55,7 @@ namespace StartSpelerMVC
                 "abcdefghijklmonpqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ0123456789-,@+";
                 options.User.RequireUniqueEmail = false;
             });
-            services.AddDefaultIdentity<CustomUser>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<StartSpelerContext>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,7 +87,8 @@ namespace StartSpelerMVC
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            //CreateUserRoles(serviceProvider).Wait();
+            CreateUserRoles(serviceProvider).Wait();
+
         }
         
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
@@ -96,30 +96,54 @@ namespace StartSpelerMVC
             RoleManager<IdentityRole> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             StartSpelerContext connection = serviceProvider.GetRequiredService<StartSpelerContext>();
 
+            List<IdentityResult> roleResultlijst=new List<IdentityResult>();
             IdentityResult roleResult;
             // admin rol toevoegen
             bool roleCheck = await roleManager.RoleExistsAsync("Admin");
-            if (!roleCheck)
+            bool SpelerRol = await roleManager.RoleExistsAsync("Speler");
+            if (!roleCheck && !SpelerRol)
             {
                 //rol creëren en seeden naar de database
                 roleResult = await roleManager.CreateAsync(new IdentityRole("Admin"));
+                roleResultlijst.Add(roleResult);
+                roleResult = await roleManager.CreateAsync(new IdentityRole("Speler"));
+                roleResultlijst.Add(roleResult);
             }
             //toekennen admin rol naar de hoofdgebruiker
-            IdentityUser user = connection.Users.FirstOrDefault(u => u.Email == "r0614769@student.thomasmore.be");
-            if (user!=null)
+           //IdentityUser user = connection.Users.FirstOrDefault(u => u.Email == "r0614769@student.thomasmore.be");
+            List<CustomUser> users = connection.Users.ToList();
+            foreach (CustomUser user in users)
             {
-                DbSet<IdentityUserRole<string>> roles = connection.UserRoles;
-                IdentityRole adminrole = connection.Roles.FirstOrDefault(r => r.Name == "Admin");
-                if (adminrole!=null)
+                if (user != null )
                 {
-                    if (!roles.Any(ur=>ur.UserId==user.Id&& ur.RoleId==adminrole.Id))
+                    if (user.Email == "r0614769@student.thomasmore.be"||user.Persoon.IsAdmin==true)
                     {
-                        roles.Add(new IdentityUserRole<string>() { UserId = user.Id, RoleId = adminrole.Id });
-                        connection.SaveChanges();
+                        DbSet<IdentityUserRole<string>> roles = connection.UserRoles;
+                        IdentityRole adminrole = connection.Roles.FirstOrDefault(r => r.Name == "Admin");
+                        if (adminrole != null)
+                        {
+                            if (!roles.Any(ur => ur.UserId == user.Id && ur.RoleId == adminrole.Id))
+                            {
+                                roles.Add(new IdentityUserRole<string>() { UserId = user.Id, RoleId = adminrole.Id });
+                                connection.SaveChanges();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        DbSet<IdentityUserRole<string>> roles = connection.UserRoles;
+                        IdentityRole adminrole = connection.Roles.FirstOrDefault(r => r.Name == "Speler");
+                        if (adminrole != null)
+                        {
+                            if (!roles.Any(ur => ur.UserId == user.Id && ur.RoleId == adminrole.Id))
+                            {
+                                roles.Add(new IdentityUserRole<string>() { UserId = user.Id, RoleId = adminrole.Id });
+                                connection.SaveChanges();
+                            }
+                        }
                     }
                 }
             }
-
 
         }
     }

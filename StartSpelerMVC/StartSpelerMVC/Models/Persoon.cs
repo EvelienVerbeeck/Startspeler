@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,10 +37,12 @@ namespace StartSpelerMVC.Models
         public DateTime AangemaaktDatum { get; set; }
         public ICollection<Inschrijving> Inschrijvingen { get; set; }
         public ICollection<Bestelling> Bestellingen { get; set; }
+        [ForeignKey("Drankkaart")]
         public int DrankkaartID { get; set; }
+
         public Drankkaart Drankkaart { get; set; }
 
-        //[ForeignKey("CustomUser")]
+        [ForeignKey("CustomUser")]
         public string UserID { get; set; }
         public CustomUser CustomUser { get; set; }
         public override string ToString()

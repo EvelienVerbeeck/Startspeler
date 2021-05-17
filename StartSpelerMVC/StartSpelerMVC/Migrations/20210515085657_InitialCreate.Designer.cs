@@ -10,8 +10,8 @@ using StartSpelerMVC.Data;
 namespace StartSpelerMVC.Migrations
 {
     [DbContext(typeof(StartSpelerContext))]
-    [Migration("20210512213122_Ad-Migrtion migration1")]
-    partial class AdMigrtionmigration1
+    [Migration("20210515085657_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

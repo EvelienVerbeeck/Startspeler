@@ -106,14 +106,15 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
                         Email = Input.Email,
                         Wachtwoord = Input.Password,
                         AangemaaktDatum = DateTime.Now.Date,
+                        Drankkaart = new Drankkaart() {DrankkaartID=1}
                         
                     },
-                    UserName=Input.Username
+                    UserName=Input.Username,
+                    Email=Input.Email
                     
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 user.Persoon.UserID = user.Id;
-
                 await _context.SaveChangesAsync();
                 if (result.Succeeded)
                 {

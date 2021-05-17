@@ -34,7 +34,7 @@ namespace StartSpelerMVC.Controllers
             }
 
             var evenement = await _context.Evenementen
-                .FirstOrDefaultAsync(m => m.Evenement_ID == id);
+                .FirstOrDefaultAsync(m => m.EvenementID == id);
             if (evenement == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace StartSpelerMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Evenement_ID,MaxDeelnemers,Beschrijving,Startuur,Einduur,Datum,Prijs,IsZichtbaar")] Evenement evenement)
         {
-            if (id != evenement.Evenement_ID)
+            if (id != evenement.EvenementID)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EvenementExists(evenement.Evenement_ID))
+                    if (!EvenementExists(evenement.EvenementID))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace StartSpelerMVC.Controllers
             }
 
             var evenement = await _context.Evenementen
-                .FirstOrDefaultAsync(m => m.Evenement_ID == id);
+                .FirstOrDefaultAsync(m => m.EvenementID == id);
             if (evenement == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace StartSpelerMVC.Controllers
 
         private bool EvenementExists(int id)
         {
-            return _context.Evenementen.Any(e => e.Evenement_ID == id);
+            return _context.Evenementen.Any(e => e.EvenementID == id);
         }
     }
 }

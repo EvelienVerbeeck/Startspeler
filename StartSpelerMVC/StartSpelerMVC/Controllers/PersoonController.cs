@@ -68,7 +68,7 @@ namespace StartSpelerMVC.Controllers
             viewModel.Persoon = new Persoon() 
             {   AangemaaktDatum=DateTime.Now,
                 IsActief=true,
-                IsAdmin=false,
+                IsAdmin=false
             };
             
             return View(viewModel);

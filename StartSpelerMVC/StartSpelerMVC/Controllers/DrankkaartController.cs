@@ -37,7 +37,7 @@ namespace StartSpelerMVC.Controllers
             }
             DetailsDrankkaartViewModel viewModel = new DetailsDrankkaartViewModel();
             viewModel.Drankkaart = await _context.Drankkaarten
-                .FirstOrDefaultAsync(m => m.Drankkaart_ID == id);
+                .FirstOrDefaultAsync(m => m.DrankkaartID == id);
             if (viewModel.Drankkaart == null)
             {
                 return NotFound();
@@ -95,7 +95,7 @@ namespace StartSpelerMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditDrankkaartViewModel viewModel)
         {
-            if (id != viewModel.Drankkaart.Drankkaart_ID)
+            if (id != viewModel.Drankkaart.DrankkaartID)
             {
                 return NotFound();
             }
@@ -109,7 +109,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DrankkaartExists(viewModel.Drankkaart.Drankkaart_ID))
+                    if (!DrankkaartExists(viewModel.Drankkaart.DrankkaartID))
                     {
                         return NotFound();
                     }
@@ -132,7 +132,7 @@ namespace StartSpelerMVC.Controllers
             }
             DeleteDrankkaartViewModel viewmodel = new DeleteDrankkaartViewModel();
             viewmodel.Drankkaart = await _context.Drankkaarten
-                .FirstOrDefaultAsync(m => m.Drankkaart_ID == id);
+                .FirstOrDefaultAsync(m => m.DrankkaartID == id);
             if (viewmodel.Drankkaart == null)
             {
                 return NotFound();
@@ -155,7 +155,7 @@ namespace StartSpelerMVC.Controllers
 
         private bool DrankkaartExists(int id)
         {
-            return _context.Drankkaarten.Any(e => e.Drankkaart_ID == id);
+            return _context.Drankkaarten.Any(e => e.DrankkaartID == id);
         }
     }
 }

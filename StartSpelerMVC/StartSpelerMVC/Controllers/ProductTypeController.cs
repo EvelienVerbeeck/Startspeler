@@ -50,7 +50,7 @@ namespace StartSpelerMVC.Controllers
             }
             DetailsProducttypeViewModel viewModel = new DetailsProducttypeViewModel();
             viewModel.ProductType = await _context.productTypes
-                .FirstOrDefaultAsync(m => m.ProductType_ID == id);
+                .FirstOrDefaultAsync(m => m.ProductTypeID == id);
             if (viewModel.ProductType == null)
             {
                 return NotFound();
@@ -106,7 +106,7 @@ namespace StartSpelerMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditProducttypeViewModel viewModel)
         {
-            if (id != viewModel.ProductType.ProductType_ID)
+            if (id != viewModel.ProductType.ProductTypeID)
             {
                 return NotFound();
             }
@@ -120,7 +120,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductTypeExists(viewModel.ProductType.ProductType_ID))
+                    if (!ProductTypeExists(viewModel.ProductType.ProductTypeID))
                     {
                         return NotFound();
                     }
@@ -143,7 +143,7 @@ namespace StartSpelerMVC.Controllers
             }
             DeleteProducttypeViewModel viewModel = new DeleteProducttypeViewModel();
             viewModel.ProductType = await _context.productTypes
-                .FirstOrDefaultAsync(m => m.ProductType_ID == id);
+                .FirstOrDefaultAsync(m => m.ProductTypeID == id);
             if (viewModel.ProductType == null)
             {
                 return NotFound();
@@ -166,7 +166,7 @@ namespace StartSpelerMVC.Controllers
 
         private bool ProductTypeExists(int id)
         {
-            return _context.productTypes.Any(e => e.ProductType_ID == id);
+            return _context.productTypes.Any(e => e.ProductTypeID == id);
         }
     }
 }
