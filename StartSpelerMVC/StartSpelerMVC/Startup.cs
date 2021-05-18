@@ -111,7 +111,7 @@ namespace StartSpelerMVC
             }
             //toekennen admin rol naar de hoofdgebruiker
            //IdentityUser user = connection.Users.FirstOrDefault(u => u.Email == "r0614769@student.thomasmore.be");
-            List<CustomUser> users = connection.Users.ToList();
+            List<CustomUser> users = connection.Users.Include(x=>x.Persoon).ToList();
             foreach (CustomUser user in users)
             {
                 if (user != null )

@@ -10,9 +10,9 @@
 </head>
 <body>
     <div class="position-absolute h-100 w-100">
-        <header class="TitelKleur d-flex align-items-center justify-content-center ">
-            <h1 class="w-auto h-auto">@ViewData["Titel"]</h1>
-            <partial name="_LoginPartial" />
+        <header class="TitelKleur  ">
+            <div class="d-flex align-items-center justify-content-center d-inline w-100"><h1 class="w-auto h-auto">@ViewData["Titel"]</h1></div>
+            <div class="d-inline w-auto"><partial name="_LoginPartial" /></div>
         </header>
         <div class="h-75 w-100 position-relative">
             @RenderBody();
