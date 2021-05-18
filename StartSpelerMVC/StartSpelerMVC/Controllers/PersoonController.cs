@@ -48,17 +48,17 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
-            var persoon = await _context.Personen
+            DetailsPersoonViewModel viewModel = new DetailsPersoonViewModel();
+            viewModel.Persoon= await _context.Personen
                 .Include(p => p.CustomUser)
                 .Include(p => p.Drankkaart)
                 .FirstOrDefaultAsync(m => m.Persoon_ID == id);
-            if (persoon == null)
+            if (viewModel.Persoon == null)
             {
                 return NotFound();
             }
 
-            return View(persoon);
+            return View(viewModel);
         }
 
         // GET: Persoon/Create
@@ -92,6 +92,7 @@ namespace StartSpelerMVC.Controllers
                 AangemaaktDatum = DateTime.Now,
                 IsActief = true,
                 IsAdmin = false,
+                
                 };
             return View(viewModel);
         }
@@ -109,10 +110,10 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
+            
            // viewModel.Persoon.UserID = new SelectList(_context.Users, "Id", "Id", viewModel.Persoon.UserID);
            //viewModel.Drankkaart = new SelectList(_context.Drankkaarten, "Drankkaart_ID", "Drankkaart_ID", viewModel.Persoon.DrankkaartID);
-            return View(viewModel.Persoon);
+            return View(viewModel);
         }
 
         // POST: Persoon/Edit/5

@@ -58,7 +58,7 @@ namespace StartSpelerMVC.Controllers
                 return NotFound();
             }
 
-            return View(viewModel.Product);
+            return View(viewModel);
         }
 
         // GET: Product/Create
@@ -88,7 +88,7 @@ namespace StartSpelerMVC.Controllers
             viewModel.ProductTypes = new SelectList(_context.productTypes, "ProductType_ID", "Naam", viewModel.Product.ProductTypeID);
             viewModel.Product.IsZichtbaar = true;
             viewModel.Product.StartDatum = DateTime.Now;
-            return View(viewModel.Product);
+            return View(viewModel);
         }
 
         // GET: Product/Edit/5

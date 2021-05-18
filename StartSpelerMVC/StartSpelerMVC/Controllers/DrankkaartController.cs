@@ -25,7 +25,7 @@ namespace StartSpelerMVC.Controllers
         {
             ListDrankkaartViewModel viewModel = new ListDrankkaartViewModel();
             viewModel.Drankkaartenlijst = await _context.Drankkaarten.ToListAsync();
-            return View(viewModel);
+            return View(viewModel); // wanneer je viewmodel.Drankkaart schrijft krijg je volgende error   The model item passed into the dictionary is of type ‘[]’ , but this dictionary requires a model item of type ‘[]’
         }
 
         // GET: Drankkaart/Details/5
@@ -43,7 +43,7 @@ namespace StartSpelerMVC.Controllers
                 return NotFound();
             }
 
-            return View(viewModel.Drankkaart);
+            return View(viewModel);
         }
 
         // GET: Drankkaart/Create
@@ -52,7 +52,7 @@ namespace StartSpelerMVC.Controllers
             CreateDrankkaartViewModel viewModel = new CreateDrankkaartViewModel();
             viewModel.Drankkaart = new Drankkaart();
            
-            return View();
+            return View(viewModel);
         }
 
         // POST: Drankkaart/Create
@@ -68,8 +68,8 @@ namespace StartSpelerMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            viewModel.Drankkaart = new Drankkaart();
-            return View(viewModel.Drankkaart);
+            
+            return View(viewModel);
         }
 
         // GET: Drankkaart/Edit/5
@@ -85,7 +85,7 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-            return View(viewModel.Drankkaart);
+            return View(viewModel);
         }
 
         // POST: Drankkaart/Edit/5
@@ -120,7 +120,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(viewModel.Drankkaart);
+            return View(viewModel);
         }
 
         // GET: Drankkaart/Delete/5
@@ -138,7 +138,7 @@ namespace StartSpelerMVC.Controllers
                 return NotFound();
             }
 
-            return View(viewmodel.Drankkaart);
+            return View(viewmodel);
         }
 
         // POST: Drankkaart/Delete/5

@@ -106,8 +106,9 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
                         Email = Input.Email,
                         Wachtwoord = Input.Password,
                         AangemaaktDatum = DateTime.Now.Date,
-                        Drankkaart = new Drankkaart() {DrankkaartID=1}
-                        
+                        IsActief = true,
+                        IsAdmin = false,
+                        Drankkaart = _context.Drankkaarten.FirstOrDefault(x=>x.DrankkaartID==1)
                     },
                     UserName=Input.Username,
                     Email=Input.Email

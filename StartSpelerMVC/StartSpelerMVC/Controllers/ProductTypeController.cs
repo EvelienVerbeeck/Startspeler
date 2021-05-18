@@ -25,7 +25,7 @@ namespace StartSpelerMVC.Controllers
         {
             ListProducttypeViewModel viewModel = new ListProducttypeViewModel();
             viewModel.ProductType = await _context.productTypes.ToListAsync();
-            return View();
+            return View(viewModel);
         }
         public async Task<IActionResult> Search(ListProducttypeViewModel viewModel)
         {

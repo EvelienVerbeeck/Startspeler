@@ -44,7 +44,7 @@ namespace StartSpelerMVC.Controllers
                 return NotFound();
             }
 
-            return View(viewModel.Bestelling);
+            return View(viewModel);
         }
 
         // GET: Bestelling/Create
@@ -58,7 +58,7 @@ namespace StartSpelerMVC.Controllers
 
 
             //ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam");
-            return View();
+            return View(viewModel);
         }
 
         // POST: Bestelling/Create
@@ -95,7 +95,7 @@ namespace StartSpelerMVC.Controllers
                 return NotFound();
             }
             viewModel.Bestelling.PersoonID = viewModel.Persoon.Persoon_ID;
-            return View(viewModel.Bestelling);
+            return View(viewModel);
         }
 
         // POST: Bestelling/Edit/5
@@ -131,7 +131,7 @@ namespace StartSpelerMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             viewModel.Bestelling.PersoonID = viewModel.Bestelling.PersoonID;
-            return View(viewModel.Bestelling);
+            return View(viewModel);
         }
 
         // GET: Bestelling/Delete/5
