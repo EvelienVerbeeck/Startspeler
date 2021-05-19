@@ -10,9 +10,9 @@ using StartSpelerMVC.Areas.Identity.Data;
 
 namespace StartSpelerMVC.Data
 {
-    public class LocalStartSpelerConnection:IdentityDbContext<CustomUser>
+    public class StartSpelerContext:IdentityDbContext<CustomUser>
     {
-        public LocalStartSpelerConnection(DbContextOptions<LocalStartSpelerConnection>options):base(options)
+        public StartSpelerContext(DbContextOptions<StartSpelerContext>options):base(options)
         {
 
         }

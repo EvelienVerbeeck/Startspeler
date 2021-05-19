@@ -1,4 +1,4 @@
-﻿@model StartSpelerMVC.Models.Drankkaart
+﻿@model StartSpelerMVC.ViewModels.CreateDrankkaartViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -14,23 +14,23 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Prijs" class="control-label"></label>
-                <input asp-for="Prijs" class="form-control" />
-                <span asp-validation-for="Prijs" class="text-danger"></span>
+                <label asp-for="Drankkaart.Prijs" class="control-label"></label>
+                <input asp-for="Drankkaart.Prijs" class="form-control" />
+                <span asp-validation-for="Drankkaart.Prijs" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AantalSlots" class="control-label"></label>
-                <input asp-for="AantalSlots" class="form-control" />
-                <span asp-validation-for="AantalSlots" class="text-danger"></span>
+                <label asp-for="Drankkaart.AantalSlots" class="control-label"></label>
+                <input asp-for="Drankkaart.AantalSlots" class="form-control" />
+                <span asp-validation-for="Drankkaart.AantalSlots" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Begindatum" class="control-label"></label>
-                <input asp-for="Begindatum" class="form-control" />
-                <span asp-validation-for="Begindatum" class="text-danger"></span>
+                <label asp-for="Drankkaart.Begindatum" class="control-label"></label>
+                <input asp-for="Drankkaart.Begindatum" class="form-control" />
+                <span asp-validation-for="Drankkaart.Begindatum" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsBetaald" /> @Html.DisplayNameFor(model => model.IsBetaald)
+                    <input class="form-check-input" asp-for="Drankkaart.IsBetaald" /> @Html.DisplayNameFor(model => model.Drankkaart.IsBetaald)
                 </label>
             </div>
             <div class="form-group">

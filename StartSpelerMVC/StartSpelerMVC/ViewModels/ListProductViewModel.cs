@@ -8,7 +8,7 @@ namespace StartSpelerMVC.ViewModels
 {
     public class ListProductViewModel
     {
-        public List<Product> Producten { get; set; }
+        public List<Product> Product { get; set; }
         public string ZoekProduct { get; set; }
 
     }

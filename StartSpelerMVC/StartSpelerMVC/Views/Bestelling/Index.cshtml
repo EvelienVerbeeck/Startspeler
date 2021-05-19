@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StartSpelerMVC.Models.Bestelling>
+﻿@model StartSpelerMVC.ViewModels.ListBestellingViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -14,19 +14,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Prijs)
+                @Html.DisplayNameFor(model => model.Bestellingen[0].Prijs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Datum)
+                @Html.DisplayNameFor(model => model.Bestellingen[0].Datum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Persoon)
+                @Html.DisplayNameFor(model => model.Bestellingen[0].Persoon)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Bestellingen) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Prijs)

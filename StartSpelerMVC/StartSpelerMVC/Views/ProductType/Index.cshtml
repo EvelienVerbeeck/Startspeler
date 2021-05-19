@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StartSpelerMVC.Models.ProductType>
+﻿@model StartSpelerMVC.ViewModels.ListProducttypeViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -10,17 +10,29 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="ProductType" asp-action="Search" method="get">
+    <div>
+        <p>
+            Zoek Product type:
+            <input asp-for="Zoekproducttypes"/>
+            <input type="submit" value="Zoeken" class="btn-orange" />|
+            <a asp-controller="ProductType" asp-action="Index">Terug naar volledige lijst</a>
+        </p>
+
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Naam)
+                @Html.DisplayNameFor(model => model.ProductType[0].Naam)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.ProductType) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Naam)

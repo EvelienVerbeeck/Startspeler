@@ -9,7 +9,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
         private IGenericRepo<Bestelling> _bestellingRepository;
         private IGenericRepo<Drankkaart> _drankkaart;
@@ -21,7 +21,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
         private IGenericRepo<ProductType> _productType;
 
 
-        public UnitOfWork(LocalStartSpelerConnection context)
+        public UnitOfWork(StartSpelerContext context)
         {
             _context = context;
         }

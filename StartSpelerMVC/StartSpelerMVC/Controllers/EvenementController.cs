@@ -12,9 +12,9 @@ namespace StartSpelerMVC.Controllers
 {
     public class EvenementController : Controller
     {
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
-        public EvenementController(LocalStartSpelerConnection context)
+        public EvenementController(StartSpelerContext context)
         {
             _context = context;
         }

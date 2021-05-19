@@ -13,9 +13,9 @@ namespace StartSpelerMVC.Controllers
 {
     public class BestellingController : Controller
     {
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
-        public BestellingController(LocalStartSpelerConnection context)
+        public BestellingController(StartSpelerContext context)
         {
             _context = context;
         }
@@ -24,7 +24,7 @@ namespace StartSpelerMVC.Controllers
         public async Task<IActionResult> Index()
         {
             ListBestellingViewModel viewModel = new ListBestellingViewModel();
-            var localStartSpelerConnection = await _context.Bestellingen.Include(b => b.Persoon).ToListAsync();
+            viewModel.Bestellingen = await _context.Bestellingen.Include(b => b.Persoon).ToListAsync();
             return View(viewModel);
         }
 
@@ -51,7 +51,11 @@ namespace StartSpelerMVC.Controllers
         public IActionResult Create()
         {
             CreateBestellingViewModel viewModel = new CreateBestellingViewModel();
-            viewModel.Persoon = new Persoon();
+            //viewModel.Persoon = _context.Personen.Find(id); //Hoe kan ik hier de ingelogde id vinden
+            viewModel.Bestelling = new Bestelling();
+            viewModel.Bestelling.Datum = DateTime.Now.Date;
+            viewModel.Productenlijst = _context.Producten.Include(x => x.ProductType).ToList();
+            
 
             //ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam");
             return View();
@@ -70,8 +74,10 @@ namespace StartSpelerMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            viewModel.Persoon = new Persoon();
-            //ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", bestelling.PersoonID);
+            //viewModel.Persoon = _context.Personen.Find(id);// hoe kan ik hier de ingelogde id vinden
+            viewModel.Bestelling = new Bestelling();
+            viewModel.Bestelling.Datum = DateTime.Now.Date;
+            viewModel.Productenlijst = _context.Producten.Include(x => x.ProductType).ToList();
             return View(viewModel);
         }
 
@@ -88,7 +94,7 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-            //ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", bestelling.PersoonID);
+            viewModel.Bestelling.PersoonID = viewModel.Persoon.Persoon_ID;
             return View(viewModel.Bestelling);
         }
 
@@ -124,7 +130,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam", viewModel.Bestelling.PersoonID);
+            viewModel.Bestelling.PersoonID = viewModel.Bestelling.PersoonID;
             return View(viewModel.Bestelling);
         }
 

@@ -8,7 +8,7 @@ using StartSpelerMVC.Data;
 
 namespace StartSpelerMVC.Migrations
 {
-    [DbContext(typeof(LocalStartSpelerConnection))]
+    [DbContext(typeof(StartSpelerContext))]
     partial class StartSpelerContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -440,8 +440,9 @@ namespace StartSpelerMVC.Migrations
                     b.Property<bool>("IsZichtbaar")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Naam")
-                        .HasColumnType("int")
+                    b.Property<string>("Naam")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<int>("ProductTypeID")

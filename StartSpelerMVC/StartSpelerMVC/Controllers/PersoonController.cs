@@ -13,9 +13,9 @@ namespace StartSpelerMVC.Controllers
 {
     public class PersoonController : Controller
     {
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
-        public PersoonController(LocalStartSpelerConnection context)
+        public PersoonController(StartSpelerContext context)
         {
             _context = context;
         }
@@ -26,6 +26,19 @@ namespace StartSpelerMVC.Controllers
             ListPersoonViewModel viewModel = new ListPersoonViewModel();
             viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart).ToListAsync();
             return View( viewModel);
+        }
+        public async Task<IActionResult> Search(ListPersoonViewModel viewModel)
+        {
+            if (!string.IsNullOrEmpty(viewModel.ZoekPersoon))
+            {
+                viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart)
+                     .Where(x => x.Voornaam.Contains(viewModel.ZoekPersoon)).ToListAsync();
+            }
+            else
+            {
+                viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart).ToListAsync();
+            }
+            return View("Index", viewModel);
         }
 
         // GET: Persoon/Details/5
@@ -52,10 +65,12 @@ namespace StartSpelerMVC.Controllers
         public IActionResult Create()
         {
             CreatePersoonViewModel viewModel = new CreatePersoonViewModel();
-            viewModel.Persoon = new Persoon();
-            viewModel.Drankkaart = new Drankkaart();
-           // viewModel.Persoon = new SelectList(_context.Users, "Id", "Id");
-           //viewModel.Drankkaart= new SelectList(_context.Drankkaarten, "Drankkaart_ID", "Drankkaart_ID");
+            viewModel.Persoon = new Persoon() 
+            {   AangemaaktDatum=DateTime.Now,
+                IsActief=true,
+                IsAdmin=false,
+            };
+            
             return View(viewModel);
         }
 
@@ -72,10 +87,12 @@ namespace StartSpelerMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            viewModel.Persoon = new Persoon();
-            viewModel.Drankkaart = new Drankkaart();
-            //ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", viewModel.Persoon.UserID);
-            //ViewData["DrankkaartID"] = new SelectList(_context.Drankkaarten, "Drankkaart_ID", "Drankkaart_ID", viewModel.Persoon.DrankkaartID);
+            viewModel.Persoon = new Persoon()
+                {
+                AangemaaktDatum = DateTime.Now,
+                IsActief = true,
+                IsAdmin = false,
+                };
             return View(viewModel);
         }
 
@@ -130,8 +147,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", viewModel.Persoon.UserID);
-            ViewData["DrankkaartID"] = new SelectList(_context.Drankkaarten, "Drankkaart_ID", "Drankkaart_ID", viewModel.Persoon.DrankkaartID);
+
             return View(viewModel);
         }
 
@@ -171,5 +187,7 @@ namespace StartSpelerMVC.Controllers
         {
             return _context.Personen.Any(e => e.Persoon_ID == id);
         }
+
+
     }
 }

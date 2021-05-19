@@ -26,14 +26,14 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
         private readonly UserManager<CustomUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
         public RegisterModel(
             UserManager<CustomUser> userManager,
             SignInManager<CustomUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            LocalStartSpelerConnection context)
+            StartSpelerContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;

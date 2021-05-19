@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StartSpelerMVC.Models.Persoon>
+﻿@model StartSpelerMVC.ViewModels.ListPersoonViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -10,47 +10,58 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="Persoon" asp-action="Search" method="get">
+    <div>
+        <p>
+            Zoek Product type:
+            <input asp-for="ZoekPersoon" />
+            <input type="submit" value="Zoeken" class="btn-orange" />|
+            <a asp-controller="Persoon" asp-action="Index">Terug naar volledige lijst</a>
+        </p>
+
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Voornaam)
+                @Html.DisplayNameFor(model => model.Persoon[0].Voornaam)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Achternaam)
+                @Html.DisplayNameFor(model => model.Persoon[0].Achternaam)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Username)
+                @Html.DisplayNameFor(model => model.Persoon[0].Username)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Geboortedatum)
+                @Html.DisplayNameFor(model => model.Persoon[0].Geboortedatum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.Persoon[0].Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Wachtwoord)
+                @Html.DisplayNameFor(model => model.Persoon[0].Wachtwoord)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsActief)
+                @Html.DisplayNameFor(model => model.Persoon[0].IsActief)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsAdmin)
+                @Html.DisplayNameFor(model => model.Persoon[0].IsAdmin)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AangemaaktDatum)
+                @Html.DisplayNameFor(model => model.Persoon[0].AangemaaktDatum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Drankkaart)
+                @Html.DisplayNameFor(model => model.Persoon[0].Drankkaart)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomUser)
+                @Html.DisplayNameFor(model => model.Persoon[0].CustomUser)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Persoon) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Voornaam)

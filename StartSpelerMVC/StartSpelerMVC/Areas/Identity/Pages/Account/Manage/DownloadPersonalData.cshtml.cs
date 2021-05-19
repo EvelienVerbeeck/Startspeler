@@ -19,12 +19,12 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<CustomUser> _userManager;
         private readonly ILogger<DownloadPersonalDataModel> _logger;
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
         public DownloadPersonalDataModel(
             UserManager<CustomUser> userManager,
             ILogger<DownloadPersonalDataModel> logger,
-            LocalStartSpelerConnection context)
+            StartSpelerContext context)
         {
             _userManager = userManager;
             _logger = logger;

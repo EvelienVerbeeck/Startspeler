@@ -1,4 +1,4 @@
-﻿@model StartSpelerMVC.Models.ProductType
+﻿@model StartSpelerMVC.ViewModels.EditProducttypeViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,11 +13,11 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ProductType_ID" />
+            <input type="hidden" asp-for="ProductType.ProductType_ID" />
             <div class="form-group">
-                <label asp-for="Naam" class="control-label"></label>
-                <input asp-for="Naam" class="form-control" />
-                <span asp-validation-for="Naam" class="text-danger"></span>
+                <label asp-for="ProductType.Naam" class="control-label"></label>
+                <input asp-for="ProductType.Naam" class="form-control" />
+                <span asp-validation-for="ProductType.Naam" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

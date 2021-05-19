@@ -9,6 +9,6 @@ namespace StartSpelerMVC.ViewModels
     public class ListDrankkaartViewModel
     {
         public List<Drankkaart> Drankkaartenlijst { get; set; }
-        public List<Drankkaart> ZoekDrankkaart { get; set; }
+        public string ZoekDrankkaart { get; set; }
     }
 }

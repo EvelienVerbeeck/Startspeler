@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StartSpelerMVC.Models.Drankkaart>
+﻿@model StartSpelerMVC.ViewModels.ListDrankkaartViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -14,22 +14,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Prijs)
+                @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].Prijs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AantalSlots)
+                @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].AantalSlots)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Begindatum)
+                @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].Begindatum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsBetaald)
+                @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].IsBetaald)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Drankkaartenlijst) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Prijs)

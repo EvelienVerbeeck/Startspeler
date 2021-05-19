@@ -13,9 +13,9 @@ namespace StartSpelerMVC.Controllers
 {
     public class DrankkaartController : Controller
     {
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
-        public DrankkaartController(LocalStartSpelerConnection context)
+        public DrankkaartController(StartSpelerContext context)
         {
             _context = context;
         }
@@ -49,7 +49,9 @@ namespace StartSpelerMVC.Controllers
         // GET: Drankkaart/Create
         public IActionResult Create()
         {
-            ListDrankkaartViewModel viewModel = new ListDrankkaartViewModel();
+            CreateDrankkaartViewModel viewModel = new CreateDrankkaartViewModel();
+            viewModel.Drankkaart = new Drankkaart();
+           
             return View();
         }
 
@@ -66,6 +68,7 @@ namespace StartSpelerMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            viewModel.Drankkaart = new Drankkaart();
             return View(viewModel.Drankkaart);
         }
 

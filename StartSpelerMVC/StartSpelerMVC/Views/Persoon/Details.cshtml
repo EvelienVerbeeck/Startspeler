@@ -1,4 +1,4 @@
-﻿@model StartSpelerMVC.Models.Persoon
+﻿@model StartSpelerMVC.ViewModels.DetailsPersoonViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -12,74 +12,74 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Voornaam)
+            @Html.DisplayNameFor(model => model.Persoon.Voornaam)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Voornaam)
+            @Html.DisplayFor(model => model.Persoon.Voornaam)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Achternaam)
+            @Html.DisplayNameFor(model => model.Persoon.Achternaam)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Achternaam)
+            @Html.DisplayFor(model => model.Persoon.Achternaam)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Username)
+            @Html.DisplayNameFor(model => model.Persoon.Username)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Username)
+            @Html.DisplayFor(model => model.Persoon.Username)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Geboortedatum)
+            @Html.DisplayNameFor(model => model.Persoon.Geboortedatum)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Geboortedatum)
+            @Html.DisplayFor(model => model.Persoon.Geboortedatum)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Persoon.Email)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(model => model.Persoon.Email)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Wachtwoord)
+            @Html.DisplayNameFor(model => model.Persoon.Wachtwoord)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Wachtwoord)
+            @Html.DisplayFor(model => model.Persoon.Wachtwoord)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActief)
+            @Html.DisplayNameFor(model => model.Persoon.IsActief)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActief)
+            @Html.DisplayFor(model => model.Persoon.IsActief)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsAdmin)
+            @Html.DisplayNameFor(model => model.Persoon.IsAdmin)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsAdmin)
+            @Html.DisplayFor(model => model.Persoon.IsAdmin)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AangemaaktDatum)
+            @Html.DisplayNameFor(model => model.Persoon.AangemaaktDatum)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AangemaaktDatum)
+            @Html.DisplayFor(model => model.Persoon.AangemaaktDatum)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Drankkaart)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Drankkaart.Drankkaart_ID)
+            @Html.DisplayFor(model => model.Persoon.Drankkaart.Drankkaart_ID)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomUser)
+            @Html.DisplayNameFor(model => model.Persoon.CustomUser)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomUser.Id)
+            @Html.DisplayFor(model => model.Persoon.CustomUser.Id)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Persoon_ID">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Persoon.Persoon_ID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
