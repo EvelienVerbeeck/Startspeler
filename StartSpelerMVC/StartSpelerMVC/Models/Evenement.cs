@@ -9,7 +9,7 @@ namespace StartSpelerMVC.Models
     public class Evenement
     {
         [Key]
-        public int Evenement_ID { get; set; }
+        public int EvenementID { get; set; }
         [MaxLength(50)]
         [Required]
         public string EvenementNaam { get; set; }

@@ -9,7 +9,7 @@ namespace StartSpelerMVC.Models
 {
     public class Inschrijving
     {   [Key]
-        public int Inschrijving_ID { get; set; }
+        public int InschrijvingID { get; set; }
         public int PersoonID { get; set; }
         public int EvenementID { get; set; }
 

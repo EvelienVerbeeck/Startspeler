@@ -19,7 +19,7 @@ namespace StartSpelerMVC.Controllers
         {
             _context = context;
         }
-
+        
         // GET: Bestelling
         public async Task<IActionResult> Index()
         {
@@ -38,13 +38,13 @@ namespace StartSpelerMVC.Controllers
             DetailsBestellingViewModel viewModel = new DetailsBestellingViewModel();
             viewModel.Bestelling = await _context.Bestellingen
                 .Include(b => b.Persoon)
-                .FirstOrDefaultAsync(m => m.Bestelling_ID == id);
+                .FirstOrDefaultAsync(m => m.BestellingID == id);
             if (viewModel.Bestelling == null)
             {
                 return NotFound();
             }
 
-            return View(viewModel.Bestelling);
+            return View(viewModel);
         }
 
         // GET: Bestelling/Create
@@ -55,10 +55,10 @@ namespace StartSpelerMVC.Controllers
             viewModel.Bestelling = new Bestelling();
             viewModel.Bestelling.Datum = DateTime.Now.Date;
             viewModel.Productenlijst = _context.Producten.Include(x => x.ProductType).ToList();
-            
+
 
             //ViewData["PersoonID"] = new SelectList(_context.Personen, "Persoon_ID", "Achternaam");
-            return View();
+            return View(viewModel);
         }
 
         // POST: Bestelling/Create
@@ -95,7 +95,7 @@ namespace StartSpelerMVC.Controllers
                 return NotFound();
             }
             viewModel.Bestelling.PersoonID = viewModel.Persoon.Persoon_ID;
-            return View(viewModel.Bestelling);
+            return View(viewModel);
         }
 
         // POST: Bestelling/Edit/5
@@ -105,7 +105,7 @@ namespace StartSpelerMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditBestellingViewModel viewModel)
         {
-            if (id != viewModel.Bestelling.Bestelling_ID)
+            if (id != viewModel.Bestelling.BestellingID)
             {
                 return NotFound();
             }
@@ -119,7 +119,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BestellingExists(viewModel.Bestelling.Bestelling_ID))
+                    if (!BestellingExists(viewModel.Bestelling.BestellingID))
                     {
                         return NotFound();
                     }
@@ -131,7 +131,7 @@ namespace StartSpelerMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             viewModel.Bestelling.PersoonID = viewModel.Bestelling.PersoonID;
-            return View(viewModel.Bestelling);
+            return View(viewModel);
         }
 
         // GET: Bestelling/Delete/5
@@ -144,7 +144,7 @@ namespace StartSpelerMVC.Controllers
             DeleteBestellingViewModel viewmodel = new DeleteBestellingViewModel();
             viewmodel.Bestelling = await _context.Bestellingen
                 .Include(b => b.Persoon)
-                .FirstOrDefaultAsync(m => m.Bestelling_ID == id);
+                .FirstOrDefaultAsync(m => m.BestellingID == id);
             if (viewmodel.Bestelling == null)
             {
                 return NotFound();
@@ -167,7 +167,7 @@ namespace StartSpelerMVC.Controllers
 
         private bool BestellingExists(int id)
         {
-            return _context.Bestellingen.Any(e => e.Bestelling_ID == id);
+            return _context.Bestellingen.Any(e => e.BestellingID == id);
         }
     }
 }

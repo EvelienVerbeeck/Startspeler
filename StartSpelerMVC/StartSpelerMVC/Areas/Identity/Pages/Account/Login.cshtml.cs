@@ -83,7 +83,16 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    if (User.IsInRole("Admin"))//Admin werkt niet 
+                    {
+                        return Redirect("~/Home/ManagerIndex");
+                    }
+                    if (User.IsInRole("Speler"))
+                    {
+                        return Redirect(returnUrl);
+                    }
                     _logger.LogInformation("User logged in.");
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
