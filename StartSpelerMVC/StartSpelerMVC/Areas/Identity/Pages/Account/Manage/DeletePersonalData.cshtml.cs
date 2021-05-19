@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using StartSpelerMVC.Areas.Identity.Data;
 using StartSpelerMVC.Data;
+using StartSpelerMVC.Data.UnitOfWork;
 using StartSpelerMVC.Models;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
@@ -17,18 +18,18 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<CustomUser> _userManager;
         private readonly SignInManager<CustomUser> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
-        private readonly StartSpelerContext _context;
+        private readonly IUnitOfWork _uow;
 
         public DeletePersonalDataModel(
             UserManager<CustomUser> userManager,
             SignInManager<CustomUser> signInManager,
             ILogger<DeletePersonalDataModel> logger,
-            StartSpelerContext context)
+            IUnitOfWork uow)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _context = context;
+            _uow = uow;
         }
 
         [BindProperty]
@@ -72,9 +73,9 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
                     return Page();
                 }
             }
-            Persoon persoon = await _context.Personen.FirstOrDefaultAsync(x => x.UserID == user.Id);
-            _context.Personen.Remove(persoon);
-            await _context.SaveChangesAsync();
+            Persoon persoon = await _uow.PersoonRepository.GetFirstOrDefault(x => x.UserID == user.Id);
+            _uow.PersoonRepository.Delete(persoon);
+            await _uow.Save();
 
             var result = await _userManager.DeleteAsync(user);
             var userId = await _userManager.GetUserIdAsync(user);

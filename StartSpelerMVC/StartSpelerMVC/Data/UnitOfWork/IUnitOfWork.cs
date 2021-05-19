@@ -10,13 +10,13 @@ namespace StartSpelerMVC.Data.UnitOfWork
     public interface IUnitOfWork
     {
         IGenericRepo<Bestelling> BestellingRepository { get; }
-        IGenericRepo<Drankkaart> Drankkaart { get; }
-        IGenericRepo<Evenement> Evenement { get; }
-        IGenericRepo<Inschrijving> Inschrijving { get; }
-        IGenericRepo<Orderlijn> Orderlijn { get; }
-        IGenericRepo<Persoon> Persoon { get; }
-        IGenericRepo<Product> Product { get; }
-        IGenericRepo<ProductType> ProductType { get; }
+        IGenericRepo<Drankkaart> DrankkaartRepository { get; }
+        IGenericRepo<Evenement> EvenementRepository { get; }
+        IGenericRepo<Inschrijving> InschrijvingRepository { get; }
+        IGenericRepo<Orderlijn> OrderlijnRepository { get; }
+        IGenericRepo<Persoon> PersoonRepository { get; }
+        IGenericRepo<Product> ProductRepository { get; }
+        IGenericRepo<ProductType> ProductTypeRepository { get; }
 
         Task Save();
     }
