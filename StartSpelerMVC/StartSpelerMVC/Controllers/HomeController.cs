@@ -22,6 +22,10 @@ namespace StartSpelerMVC.Controllers
         {
             return View();
         }
+        public IActionResult ManagerIndex()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

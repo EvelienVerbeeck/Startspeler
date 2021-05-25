@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using StartSpelerMVC.Areas.Identity.Data;
 using StartSpelerMVC.Data;
+using StartSpelerMVC.Data.UnitOfWork;
 using StartSpelerMVC.Models;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
@@ -17,16 +18,16 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<CustomUser> _userManager;
         private readonly SignInManager<CustomUser> _signInManager;
-        private readonly LocalStartSpelerConnection _context;
+        private readonly IUnitOfWork _uow;
 
         public IndexModel(
             UserManager<CustomUser> userManager,
             SignInManager<CustomUser> signInManager,
-            LocalStartSpelerConnection context)
+            IUnitOfWork uow)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
+            _uow = uow;
         }
         [Required]
         [DataType(DataType.Text)]
@@ -78,7 +79,7 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
 
             Username = userName;
 
-            Persoon persoon = await _context.Personen.FirstOrDefaultAsync(x => x.UserID==user.Id);
+            Persoon persoon = await _uow.PersoonRepository.GetFirstOrDefault(x => x.UserID == user.Id);
             user.Persoon = persoon;
 
             Input = new InputModel
@@ -119,7 +120,7 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
                 await LoadAsync(user);
                 return Page();
             }
-            Persoon persoon = await _context.Personen.FirstOrDefaultAsync(x => x.UserID == user.Id);
+            Persoon persoon = await _uow.PersoonRepository.GetFirstOrDefault(x => x.UserID == user.Id);
             user.Persoon = persoon;
             user.Persoon.Voornaam = Input.Voornaam;
             user.Persoon.Achternaam = Input.Achternaam;

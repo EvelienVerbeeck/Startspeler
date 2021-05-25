@@ -13,9 +13,9 @@ namespace StartSpelerMVC.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
-        public ProductController(LocalStartSpelerConnection context)
+        public ProductController(StartSpelerContext context)
         {
             _context = context;
         }
@@ -25,6 +25,7 @@ namespace StartSpelerMVC.Controllers
         {
             ListProductViewModel viewModel = new ListProductViewModel();
             viewModel.Product = await _context.Producten.Include(p => p.ProductType).ToListAsync();
+           
             return View( viewModel);
         }
         public async Task<IActionResult> Search(ListProductViewModel viewModel)
@@ -51,20 +52,23 @@ namespace StartSpelerMVC.Controllers
             DetailsProductViewModel viewModel = new DetailsProductViewModel();
             viewModel.Product = await _context.Producten
                 .Include(p => p.ProductType)
-                .FirstOrDefaultAsync(m => m.Product_ID == id);
+                .FirstOrDefaultAsync(m => m.ProductID == id);
             if (viewModel.Product == null)
             {
                 return NotFound();
             }
 
-            return View(viewModel.Product);
+            return View(viewModel);
         }
 
         // GET: Product/Create
         public IActionResult Create()
         {
             CreateProductViewModel viewModel = new CreateProductViewModel();
-           viewModel.ProductTypes = new SelectList(_context.productTypes, "ProductType_ID", "Naam");
+            viewModel.Product.IsZichtbaar = true;
+            viewModel.Product.StartDatum = DateTime.Now;
+            viewModel.Product.EindDatum = default;
+            viewModel.ProductTypes = new SelectList(_context.productTypes, "ProductType_ID", "Naam");
             return View();
         }
 
@@ -82,7 +86,9 @@ namespace StartSpelerMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             viewModel.ProductTypes = new SelectList(_context.productTypes, "ProductType_ID", "Naam", viewModel.Product.ProductTypeID);
-            return View(viewModel.Product);
+            viewModel.Product.IsZichtbaar = true;
+            viewModel.Product.StartDatum = DateTime.Now;
+            return View(viewModel);
         }
 
         // GET: Product/Edit/5
@@ -94,6 +100,8 @@ namespace StartSpelerMVC.Controllers
             }
             EditProductViewModel viewModel = new EditProductViewModel();
             viewModel.Product = await _context.Producten.FindAsync(id);
+            viewModel.Product.IsZichtbaar = true;
+            viewModel.Product.StartDatum = DateTime.Now;
             if (viewModel.Product == null)
             {
                 return NotFound();
@@ -109,7 +117,7 @@ namespace StartSpelerMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditProductViewModel viewModel)
         {
-            if (id != viewModel.Product.Product_ID)
+            if (id != viewModel.Product.ProductID)
             {
                 return NotFound();
             }
@@ -123,7 +131,7 @@ namespace StartSpelerMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(viewModel.Product.Product_ID))
+                    if (!ProductExists(viewModel.Product.ProductID))
                     {
                         return NotFound();
                     }
@@ -149,7 +157,7 @@ namespace StartSpelerMVC.Controllers
             DeleteProductViewModel viewModel = new DeleteProductViewModel();
            viewModel.Product = await _context.Producten
                 .Include(p => p.ProductType)
-                .FirstOrDefaultAsync(m => m.Product_ID == id);
+                .FirstOrDefaultAsync(m => m.ProductID == id);
             if (viewModel.Product == null)
             {
                 return NotFound();
@@ -172,7 +180,7 @@ namespace StartSpelerMVC.Controllers
 
         private bool ProductExists(int id)
         {
-            return _context.Producten.Any(e => e.Product_ID == id);
+            return _context.Producten.Any(e => e.ProductID == id);
         }
     }
 }

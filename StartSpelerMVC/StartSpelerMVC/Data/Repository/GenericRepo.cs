@@ -9,8 +9,8 @@ namespace StartSpelerMVC.Data.Repository
 {
     public class GenericRepo<TEntity> : IGenericRepo<TEntity> where TEntity : class
     {
-        protected LocalStartSpelerConnection context { get; }
-        public GenericRepo(LocalStartSpelerConnection context)
+        protected StartSpelerContext context { get; }
+        public GenericRepo(StartSpelerContext context)
         { this.context = context; }
         public void Create(TEntity entity)
         {

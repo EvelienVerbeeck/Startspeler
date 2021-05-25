@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using StartSpelerMVC.Areas.Identity.Data;
 using StartSpelerMVC.Data;
+using StartSpelerMVC.Data.UnitOfWork;
 using StartSpelerMVC.Models;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
@@ -19,16 +20,16 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<CustomUser> _userManager;
         private readonly ILogger<DownloadPersonalDataModel> _logger;
-        private readonly LocalStartSpelerConnection _context;
+        private readonly IUnitOfWork _uow;
 
         public DownloadPersonalDataModel(
             UserManager<CustomUser> userManager,
             ILogger<DownloadPersonalDataModel> logger,
-            LocalStartSpelerConnection context)
+            IUnitOfWork uow)
         {
             _userManager = userManager;
             _logger = logger;
-            _context = context;
+            _uow = uow;
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -40,7 +41,7 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
             }
 
             _logger.LogInformation("User with ID '{UserId}' asked for their personal data.", _userManager.GetUserId(User));
-            Persoon persoon = await _context.Personen.FirstOrDefaultAsync(x => x.UserID == user.Id);
+            Persoon persoon = await _uow.PersoonRepository.GetFirstOrDefault(x => x.UserID == user.Id);
 
             // Only include personal data for download
             var personalData = new Dictionary<string, string>();

@@ -26,14 +26,14 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
         private readonly UserManager<CustomUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
         public RegisterModel(
             UserManager<CustomUser> userManager,
             SignInManager<CustomUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            LocalStartSpelerConnection context)
+            StartSpelerContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -106,14 +106,16 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
                         Email = Input.Email,
                         Wachtwoord = Input.Password,
                         AangemaaktDatum = DateTime.Now.Date,
-                        
+                        IsActief = true,
+                        IsAdmin = false,
+                        Drankkaart = _context.Drankkaarten.FirstOrDefault(x=>x.DrankkaartID==1)
                     },
-                    UserName=Input.Username
+                    UserName=Input.Username,
+                    Email=Input.Email
                     
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 user.Persoon.UserID = user.Id;
-
                 await _context.SaveChangesAsync();
                 if (result.Succeeded)
                 {

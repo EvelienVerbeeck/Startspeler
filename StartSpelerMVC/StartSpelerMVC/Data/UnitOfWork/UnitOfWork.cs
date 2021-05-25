@@ -9,7 +9,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly LocalStartSpelerConnection _context;
+        private readonly StartSpelerContext _context;
 
         private IGenericRepo<Bestelling> _bestellingRepository;
         private IGenericRepo<Drankkaart> _drankkaart;
@@ -21,7 +21,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
         private IGenericRepo<ProductType> _productType;
 
 
-        public UnitOfWork(LocalStartSpelerConnection context)
+        public UnitOfWork(StartSpelerContext context)
         {
             _context = context;
         }
@@ -38,7 +38,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
             }
         }
 
-        public IGenericRepo<Drankkaart> Drankkaart
+        public IGenericRepo<Drankkaart> DrankkaartRepository
         {
             get
             {
@@ -50,7 +50,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
             }
         }
 
-        public IGenericRepo<Evenement> Evenement
+        public IGenericRepo<Evenement> EvenementRepository
         {
             get
             {
@@ -62,7 +62,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
             }
         }
 
-        public IGenericRepo<Inschrijving> Inschrijving
+        public IGenericRepo<Inschrijving> InschrijvingRepository
         {
             get
             {
@@ -74,7 +74,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
             }
         }
 
-        public IGenericRepo<Orderlijn> Orderlijn
+        public IGenericRepo<Orderlijn> OrderlijnRepository
         {
             get
             {
@@ -86,7 +86,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
             }
         }
 
-        public IGenericRepo<Persoon> Persoon
+        public IGenericRepo<Persoon> PersoonRepository
         {
             get
             {
@@ -98,7 +98,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
             }
         }
 
-        public IGenericRepo<Product> Product
+        public IGenericRepo<Product> ProductRepository
         {
             get
             {
@@ -110,7 +110,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
             }
         }
 
-        public IGenericRepo<ProductType> ProductType
+        public IGenericRepo<ProductType> ProductTyperepository
         {
             get
             {
