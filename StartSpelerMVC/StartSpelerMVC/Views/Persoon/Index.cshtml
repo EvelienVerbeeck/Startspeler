@@ -46,25 +46,11 @@
                         @Html.DisplayFor(modelItem => item.Username)
                     </td>
                     <td>
-                        @if (item.IsAdmin == true)
-                        {
-                            @Html.DisplayName("Administrator")
-                        }
-                        else
-                        {
-                            @Html.DisplayName("Speler")
-                        }
+                        @Html.DisplayFor(modelItem => item.RolDuiding)
                     </td>
                     <td>
-                        @if (item.Drankkaart.IsBetaald == true)
-                        {
-
-                            <form>@Html.CheckBox("item.Drankkaart.IsBetaald", true)</form>
-                        }
-                        else
-                        {
-                            <form>@Html.CheckBox("item.Drankkaart.IsBetaald", false)</form>
-                        }
+                        @Html.CheckBoxFor(modelItem=>item.Drankkaart.IsBetaald)
+                        <input type="checkbox" name="Name" checked=@item.Drankkaart.IsBetaald value="check" onclick="@Url.Action("CheckValue","Persoon")" />
                     </td>
  
                     <td>

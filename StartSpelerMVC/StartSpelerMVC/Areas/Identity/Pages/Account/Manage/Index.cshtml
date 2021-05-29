@@ -1,55 +1,52 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Mijn Account";
     ViewData["ActivePage"] = ManageNavPages.Index;
+    ViewData["Titel"] = "Mijn Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>@ViewData["Title"]</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Voornaam"></label>
-                <input asp-for="Input.Voornaam" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Achternaam"></label>
-                <input asp-for="Input.Achternaam" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Geboortedatum"></label>
-                <input asp-for="Input.Geboortedatum" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Gebruikersnaam"></label>
-                <input asp-for="Input.Gebruikersnaam" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.IsActief"></label>
-                <input type="radio" asp-for="Input.IsActief" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.IsAdmin"></label>
-                <input type="radio" asp-for="Input.IsAdmin" class="form-control" />
-              
-            </div>
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
-        </form>
+<div>
+    <div class="row">
+        <div class="col-md-6">
+            <form id="profile-form" method="get">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <section class="form-group">
+                    <label asp-for="Input.Voornaam"></label>
+                    @Html.DisplayFor(x => x.Input.Voornaam)
+
+                </section>
+                <section class="form-group">
+                    <label asp-for="Input.Achternaam"></label>
+                    @Html.DisplayFor(x => x.Input.Achternaam)
+                </section>
+                <section class="form-group">
+                    <label asp-for="Input.Geboortedatum"></label>
+                    @Html.DisplayFor(x => x.Input.Geboortedatum)
+                </section>
+                <section class="form-group">
+                    <label asp-for="Input.Email"></label>
+                </section>
+                <section class="form-group">
+                    <label asp-for="Input.Gebruikersnaam"></label>
+                    @Html.DisplayFor(x => x.Input.Gebruikersnaam)
+                </section>
+                <section class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    @Html.DisplayFor(x => x.Input.Password)
+                </section>
+
+                <section class="form-group">
+                    @Html.DisplayFor(x => x.ToonIsActief)
+                </section>
+                <section class="form-group">
+                    @Html.DisplayFor(x => x.ToonIsAdmin)
+                </section>
+            </form>
+        </div>
     </div>
 </div>
 

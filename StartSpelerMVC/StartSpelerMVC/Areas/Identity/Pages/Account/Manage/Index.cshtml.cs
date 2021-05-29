@@ -39,6 +39,8 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
 
         [BindProperty]
         public InputModel Input { get; set; }
+        public string  ToonIsActief { get; set; }
+        public string  ToonIsAdmin { get; set; }
 
         public class InputModel
         {
@@ -91,8 +93,24 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account.Manage
                 Email = user.Persoon.Email,
                 Password=user.Persoon.Wachtwoord,
                 IsActief=user.Persoon.IsActief,
-                IsAdmin=user.Persoon.IsAdmin
+                IsAdmin=user.Persoon.IsAdmin,
             };
+            if (Input.IsActief==true)
+            {
+                ToonIsActief = "Speler is actief";
+            }
+            else
+            {
+                ToonIsActief = "Speler is geblokkeerd";
+            }
+            if (Input.IsAdmin == true)
+            {
+                ToonIsAdmin = "Administrator";
+            }
+            else
+            {
+                ToonIsAdmin = "Speler";
+            }
         }
 
         public async Task<IActionResult> OnGetAsync()

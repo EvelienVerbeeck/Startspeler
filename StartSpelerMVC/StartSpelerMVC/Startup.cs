@@ -104,8 +104,7 @@ namespace StartSpelerMVC
            // IdentityUser user = connection.Users.FirstOrDefault(u => u.Email == "r0614769@student.thomasmore.be");
 
             List<CustomUser> Admininstrators = connection.Users.Include(x => x.Persoon).Where(x=>x.Persoon.IsAdmin==true||x.Persoon.Email=="r0614769@student.thomasmore.be").ToList();
-            List<CustomUser> Spelers = connection.Users.Include(x => x.Persoon).Where(x=>x.Persoon.IsAdmin==false && x.Persoon.Email != "r0614769@student.thomasmore.be").ToList();
-
+           
             if (Admininstrators.Count<=0)
             {  // admin rol toevoegen
                 adminCheck = await roleManager.RoleExistsAsync("Admin");

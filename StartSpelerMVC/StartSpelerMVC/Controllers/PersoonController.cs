@@ -25,7 +25,17 @@ namespace StartSpelerMVC.Controllers
         {
             ListPersoonViewModel viewModel = new ListPersoonViewModel();
             viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart).ToListAsync();
-
+            foreach (var persoon in viewModel.Persoon)
+            {
+                if (persoon.IsAdmin==true)
+                {
+                    persoon.RolDuiding = "Administrator";
+                }
+                else
+                {
+                    persoon.RolDuiding = "Speler";
+                }
+            }
             return View( viewModel);
         }
         public async Task<IActionResult> Search(ListPersoonViewModel viewModel)
@@ -39,8 +49,56 @@ namespace StartSpelerMVC.Controllers
             {
                 viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart).ToListAsync();
             }
+            foreach (var persoon in viewModel.Persoon)
+            {
+                if (persoon.IsAdmin == true)
+                {
+                    persoon.RolDuiding = "Administrator";
+                }
+                else
+                {
+                    persoon.RolDuiding = "Speler";
+                }
+            }
             return View("Index", viewModel);
         }
+
+        public async Task<ActionResult> CheckValue(ListPersoonViewModel viewModel, string Name)
+        {
+            foreach (var persoon in viewModel.Persoon)
+            {
+                if (Name == "check")
+                {
+                    persoon.Drankkaart.IsBetaald = true;
+          
+                }
+                else
+                {
+                    persoon.Drankkaart.IsBetaald = false;
+                }
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(persoon);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!PersoonExists(persoon.Persoon_ID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw new Exception() ;
+                        }
+                    }
+                }
+            }
+            return View("Index",viewModel);
+        }
+        
 
         // GET: Persoon/Details/5
         public async Task<IActionResult> Details(int? id)
