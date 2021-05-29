@@ -1,39 +1,55 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using StartSpelerMVC.Areas.Identity.Data;
+@{
     ViewData["Title"] = "Home Page";
     ViewData["Titel"] = "StartSpeler";
-    Layout="~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="position-absolute col-10 offset-1 col-sm-11" >
+@inject SignInManager<CustomUser> SignInManager
+@inject UserManager<CustomUser> UserManager
+<div class="position-absolute col-10 offset-1 col-sm-11">
     <div class="row">
-        <a asp-controller="Role" asp-action="Index" class=" col-md-5 col-sm-10 w-auto h-auto  d-inline">
+        <a asp-controller="Evenement" asp-action="Index" class=" col-md-5 col-sm-10 w-auto h-auto  d-inline text-decoration-none">
             <div class=" w-auto h-auto">
                 <img class="d-inline-block img-fluid" src="~/Images/SSevenement.png" alt="Evenement" />
                 <div class="TitelKleur w-auto h-auto d-flex align-items-center justify-content-center"><h2> Evenement</h2></div>
             </div>
         </a>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a id="login" asp-area="Identity" asp-page="/Account/Manage/Index" class="col-md-5 col-sm-10 w-auto h-auto d-inline text-decoration-none">
+                <div class=" w-auto h-auto ">
+                    <img class="d-inline-block img-fluid" src="~/Images/SSbasis.png" alt="Account" />
+                    <div class="TitelKleur w-auto h-auto d-flex align-items-center justify-content-center"><h2> Account</h2></div>
+                </div>
+            </a>
+        }
+        else
+        {
+            <a id="login" asp-area="Identity" asp-page="/Account/Login" class="col-md-5 col-sm-10 w-auto h-auto d-inline text-decoration-none">
+                <div class=" w-auto h-auto ">
+                    <img class="d-inline-block img-fluid" src="~/Images/SSbasis.png" alt="Account" />
+                    <div class="TitelKleur w-auto h-auto d-flex align-items-center justify-content-center"><h2> Account</h2></div>
+                </div>
+            </a>
+        }
 
-        <a id="login" asp-area="Identity" asp-page="/Account/Login" class="col-md-5 col-sm-10 w-auto h-auto  d-inline ">
-            <div class=" w-auto h-auto " >
-                <img class="d-inline-block img-fluid" src="~/Images/SSbasis.png" alt="Account" />
-                <div class="TitelKleur w-auto h-auto d-flex align-items-center justify-content-center"><h2> Account</h2></div>
-            </div>
-        </a>
     </div>
     <div class="row">
-        <a asp-controller="Bestelling" asp-action="Create"  class=" col-md-5 col-sm-10 w-auto h-auto d-inline">
+        <a asp-controller="Bestelling" asp-action="Create" class=" col-md-5 col-sm-10 w-auto h-auto d-inline text-decoration-none">
             <div class=" w-auto h-auto ">
                 <img class="d-inline-block img-fluid" src="~/Images/SSdrankenlijst.png" alt="Drankenlijst" />
                 <div class="TitelKleur w-auto h-auto d-flex align-items-center justify-content-center"><h2> Drankenlijst</h2></div>
             </div>
         </a>
 
-        <a id="register" asp-area="Identity" asp-page="/Account/Register" class=" col-md-5 col-sm-10 w-auto h-auto d-inline">
-            <div class="w-auto h-auto " >
+        <a id="register" asp-area="Identity" asp-page="/Account/Register" class=" col-md-5 col-sm-10 w-auto h-auto d-inline text-decoration-none">
+            <div class="w-auto h-auto ">
                 <img class="d-inline-block img-fluid" src="~/Images/SSInschrijven.png" alt="Inschrijven" />
                 <div class="TitelKleur w-auto h-auto d-flex align-items-center justify-content-center"><h2> Inschrijven</h2></div>
             </div>
         </a>
 
     </div>
-    </div>
+</div>
 

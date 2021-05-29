@@ -2,86 +2,62 @@
 
 @{
     ViewData["Title"] = "Details";
+    ViewData["Titel"] = "Klant Detail";
+
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
 
 <div class="w-100 h-100 position-relative">
-    <div class="BlauweKleur mx-auto my-auto DivKadercentreren  col-md-5 col-sm-10 h-50">
-        <h4>Persoon</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Persoon.Voornaam)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Persoon.Voornaam)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Persoon.Achternaam)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Persoon.Achternaam)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Persoon.Username)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Persoon.Username)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Persoon.Geboortedatum)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Persoon.Geboortedatum)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Persoon.Email)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Persoon.Email)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Persoon.Wachtwoord)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Persoon.Wachtwoord)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Persoon.IsActief)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Persoon.IsActief)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Persoon.IsAdmin)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Persoon.IsAdmin)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Persoon.AangemaaktDatum)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Persoon.AangemaaktDatum)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Drankkaart)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Persoon.Drankkaart.DrankkaartID)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Persoon.CustomUser)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Persoon.CustomUser.Id)
-            </dd>
-        </dl>
+    <div class="Blauwachtergrond mx-auto my-auto DivKadercentreren  col-md-6 col-sm-10 h-75">
+        <div>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Persoon.Voornaam)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Persoon.Voornaam)
+                </dd>
+                <dt class="col-sm-4 ">
+                    @Html.DisplayNameFor(model => model.Persoon.Achternaam)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Persoon.Achternaam)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Persoon.Geboortedatum)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Persoon.Geboortedatum)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Persoon.Email)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Persoon.Email)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Persoon.Wachtwoord)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Persoon.Wachtwoord)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Persoon.IsActief)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Persoon.IsActief)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Persoon.IsAdmin)
+                </dt>
+                <dd class="col-sm-8">
+                    <form> @Html.CheckBox("item.Drankkaart.IsBetaald")</form>
+                </dd>
+            </dl>
+            <a asp-action="Edit" asp-route-id=@Model.Persoon.Persoon_ID class="btn-orange">Aanpassen</a>
+            <a asp-action="Delete" asp-route-id="@Model.Persoon.Persoon_ID" class="btn-red">Verwijderen</a>
+        </div>
     </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id=@Model.Persoon.Persoon_ID>Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+

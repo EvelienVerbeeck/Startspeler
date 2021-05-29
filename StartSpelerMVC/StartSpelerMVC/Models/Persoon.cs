@@ -55,5 +55,10 @@ namespace StartSpelerMVC.Models
 
             return stringbuilder.ToString();
         }
+
+        [NotMapped]
+        public string RolDuiding { get; set; }
+        [NotMapped]
+        public string ActiefDuiding { get; set; }
     }
 }

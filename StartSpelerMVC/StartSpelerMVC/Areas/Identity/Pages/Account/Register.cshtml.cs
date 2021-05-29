@@ -12,10 +12,12 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using StartSpelerMVC.Areas.Identity.Data;
 using StartSpelerMVC.Data;
 using StartSpelerMVC.Models;
+
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account
 {
@@ -27,19 +29,22 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly StartSpelerContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<CustomUser> userManager,
             SignInManager<CustomUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            StartSpelerContext context)
+            StartSpelerContext context,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             _context = context;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -112,11 +117,22 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
                     },
                     UserName=Input.Username,
                     Email=Input.Email
-                    
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 user.Persoon.UserID = user.Id;
-                await _context.SaveChangesAsync();
+
+                _context.SaveChanges();
+                DbSet<IdentityUserRole<string>> roles = _context.UserRoles;
+                IdentityRole userrole = _context.Roles.FirstOrDefault(r => r.Name == "Speler");
+                if (userrole != null)
+                {
+                    if (!roles.Any(ur => ur.UserId == user.Id && ur.RoleId == userrole.Id))
+                    {
+                        roles.Add(new IdentityUserRole<string>() { UserId = user.Id, RoleId = userrole.Id });
+                     _context.SaveChanges();
+                    }
+                }
+               
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

@@ -4,42 +4,43 @@
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_NoLayout.cshtml";
 }
-
-<div class=" Blauwachtergrond offset-2  col-md-5 col-sm-10 mx-auto my-auto DivKadercentreren ">
-    <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="BlauweKleur Centreren h-100 w-100 p-5">
-        <section asp-validation-summary="ModelOnly" class="text-danger"></section>
-        <section class="form-group">
-            <input asp-for="Input.Voornaam" class="form-control" placeholder="Voornaam" />
-            <span asp-validation-for="Input.Voornaam" class="text-danger"></span>
-        </section>
-        <section class="form-group">
-            <input asp-for="Input.Achternaam" class="form-control" placeholder="Achternaam" />
-            <span asp-validation-for="Input.Achternaam" class="text-danger"></span>
-        </section>
-        <section class="form-group">
-            <input asp-for="Input.Username" class="form-control" placeholder="Gebruikersnaam" />
-            <span asp-validation-for="Input.Username" class="text-danger"></span>
-        </section>
-        <section class="form-group">
-            <input asp-for="Input.Email" class="form-control" placeholder="E-mailAdres" />
-            <span asp-validation-for="Input.Email" class="text-danger"></span>
-        </section>
-        <section class="form-group">
-            <input asp-for="Input.Password" class="form-control" placeholder="Wachtwoord" />
-            <span asp-validation-for="Input.Password" class="text-danger"></span>
-        </section>
-        <section class="form-group">
-            <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Bevestig wachtwoord" />
-            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-        </section>
-        <section class="form-group">
-            <input type="date" asp-for="Input.Geboortedatum" class="form-control" placeholder="Geboortedatum" />
-            <span asp-validation-for="Input.Geboortedatum" class="text-danger"></span>
-        </section>
-        <section class="m-1 align-content-center m-5 ">
-            <button type="submit" class="btn-orange rounded-sm float-left">Inschrijven</button> <a class="btn-orange rounded-sm float-right " asp-controller="Home" asp-action="Index">Annuleren</a>
-        </section>
-    </form>
+<div class="w-100 h-100 position-relative">
+    <div class=" Blauwachtergrond mx-auto my-auto DivKadercentreren  col-md-8 col-lg-4 col-sm-10 h-75 ">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="BlauweKleur Centreren h-100 w-100 p-5">
+            <section asp-validation-summary="ModelOnly" class="text-danger"></section>
+            <section class="form-group">
+                <input asp-for="Input.Voornaam" class="form-control" placeholder="Voornaam" />
+                <span asp-validation-for="Input.Voornaam" class="text-danger"></span>
+            </section>
+            <section class="form-group">
+                <input asp-for="Input.Achternaam" class="form-control" placeholder="Achternaam" />
+                <span asp-validation-for="Input.Achternaam" class="text-danger"></span>
+            </section>
+            <section class="form-group">
+                <input asp-for="Input.Username" class="form-control" placeholder="Gebruikersnaam" />
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </section>
+            <section class="form-group">
+                <input asp-for="Input.Email" class="form-control" placeholder="E-mailAdres" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </section>
+            <section class="form-group">
+                <input asp-for="Input.Password" class="form-control" placeholder="Wachtwoord" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </section>
+            <section class="form-group">
+                <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Bevestig wachtwoord" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </section>
+            <section class="form-group">
+                <input type="date" asp-for="Input.Geboortedatum" class="form-control" placeholder="Geboortedatum" />
+                <span asp-validation-for="Input.Geboortedatum" class="text-danger"></span>
+            </section>
+            <section class="m-1 align-content-center m-5 ">
+                <button type="submit" class="btn-orange rounded-sm w-auto float-left">Inschrijven</button> <a class="btn-orange rounded-sm w-auto float-right " asp-controller="Home" asp-action="Index">Annuleren</a>
+            </section>
+        </form>
+    </div>
 </div>
 
 @section Scripts {
