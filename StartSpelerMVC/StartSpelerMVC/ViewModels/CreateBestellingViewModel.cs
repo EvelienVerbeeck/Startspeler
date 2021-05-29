@@ -11,5 +11,8 @@ namespace StartSpelerMVC.ViewModels
         public Bestelling Bestelling { get; set; }
         public List<Product> Productenlijst { get; set; }
         public Persoon Persoon { get; set; }
+        public List<Bestelling> Bestellingen { get; set; }
+        public string ZoekArtikel { get; set; }
+    
     }
 }

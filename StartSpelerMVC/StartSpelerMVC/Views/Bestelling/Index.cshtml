@@ -7,10 +7,9 @@
 <div class="position-absolute col-10 offset-1 col-sm-11">
     <h1>Bestelling</h1>
 
-    <div class="row">
-        @*overzicht producten*@
+    <!--<div class="row">--> @*overzicht producten*@
 
-        <table class="table">
+        <!--<table class="table">
             <thead>
                 <tr>
                     <th>
@@ -39,28 +38,26 @@
                             @Html.DisplayFor(modelItem => item.Persoon.Achternaam)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Bestelling_ID">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Bestelling_ID">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Bestelling_ID">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.BestellingID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.BestellingID">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.BestellingID">Delete</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-    <div class="row">
-        @*totaal bestelling en buttons*@
-        <p>
+    <div class="row">--> @*totaal bestelling en buttons*@
+        <!--<p>
             <a asp-action="Create">Create New</a>
         </p>
     </div>
-    <div class="row">
-        @*drankkaart*@
-    </div>
-</div>
+    <div class="row">--> @*drankkaart*@
+    <!--</div>
+</div>-->
 
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
@@ -98,4 +95,4 @@
         </tr>
 }
     </tbody>
-</table>
+</table>*@

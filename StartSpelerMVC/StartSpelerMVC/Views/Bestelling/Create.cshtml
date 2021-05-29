@@ -1,39 +1,95 @@
 ﻿@model StartSpelerMVC.ViewModels.CreateBestellingViewModel
 
+
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_NoLayout.cshtml";
 }
+<div class="position-absolute col-10 offset-1 col-sm-11">
+    <h1>Bestelling</h1>
 
-<h1>Create</h1>
+    <div class="row">
+        @*overzicht producten*@
 
-<h4>Bestelling</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Bestelling.PersoonID" class="control-label"></label>
-                <select asp-for="Bestelling.PersoonID" class ="form-control" asp-items="ViewBag.PersoonID"></select>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Bestelling.Prijs" class="control-label"></label>
-                <input asp-for="Bestelling.Prijs" class="form-control" />
-                <span asp-validation-for="Bestelling.Prijs" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Bestelling.Datum" class="control-label"></label>
-                <input asp-for="Bestelling.Datum" class="form-control" />
-                <span asp-validation-for="Bestelling.Datum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bestellingen[0].Prijs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bestellingen[0].Datum)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bestellingen[0].Persoon)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Bestellingen)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Prijs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Datum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Persoon.Achternaam)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.BestellingID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.BestellingID">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.BestellingID">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        @*totaal bestelling en buttons*@
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    </div>
+    <div class="row">
+        @*drankkaart*@
     </div>
 </div>
+
+
+@*<h1>Create</h1>
+
+    <h4>Bestelling</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Bestelling.PersoonID" class="control-label"></label>
+                    <select asp-for="Bestelling.PersoonID" class ="form-control" asp-items="ViewBag.PersoonID"></select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Bestelling.Prijs" class="control-label"></label>
+                    <input asp-for="Bestelling.Prijs" class="form-control" />
+                    <span asp-validation-for="Bestelling.Prijs" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Bestelling.Datum" class="control-label"></label>
+                    <input asp-for="Bestelling.Datum" class="form-control" />
+                    <span asp-validation-for="Bestelling.Datum" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>*@
 
 
 @section Scripts {
