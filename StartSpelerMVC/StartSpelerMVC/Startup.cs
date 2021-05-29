@@ -88,7 +88,6 @@ namespace StartSpelerMVC
                 endpoints.MapRazorPages();
             });
             CreateUserRoles(serviceProvider).Wait();
-
         }
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
@@ -96,66 +95,51 @@ namespace StartSpelerMVC
             RoleManager<IdentityRole> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             StartSpelerContext connection = serviceProvider.GetRequiredService<StartSpelerContext>();
 
-            List<IdentityResult> roleResultlijst = new List<IdentityResult>();
-            IdentityResult roleResult;
-            // admin rol toevoegen
-            bool roleCheck = await roleManager.RoleExistsAsync("Admin");
-            bool SpelerRol = await roleManager.RoleExistsAsync("Speler");
-            if (!roleCheck && !SpelerRol)
-            {
-                //rol creëren en seeden naar de database
-                roleResult = await roleManager.CreateAsync(new IdentityRole("Admin"));
-                roleResultlijst.Add(roleResult);
-                roleResult = await roleManager.CreateAsync(new IdentityRole("Speler"));
-                roleResultlijst.Add(roleResult);
-            }
+            IdentityResult adminResult,spelerResult;
+
+            bool adminCheck,spelerCheck;
+ 
+
             //toekennen admin rol naar de hoofdgebruiker
-            //IdentityUser user = connection.Users.FirstOrDefault(u => u.Email == "r0614769@student.thomasmore.be");
-            List<CustomUser> users = connection.Users.Include(x => x.Persoon).ToList();
-            foreach (CustomUser user in users)
-            {
-                if (user != null)
+           // IdentityUser user = connection.Users.FirstOrDefault(u => u.Email == "r0614769@student.thomasmore.be");
+
+            List<CustomUser> Admininstrators = connection.Users.Include(x => x.Persoon).Where(x=>x.Persoon.IsAdmin==true||x.Persoon.Email=="r0614769@student.thomasmore.be").ToList();
+            List<CustomUser> Spelers = connection.Users.Include(x => x.Persoon).Where(x=>x.Persoon.IsAdmin==false && x.Persoon.Email != "r0614769@student.thomasmore.be").ToList();
+
+            if (Admininstrators.Count<=0)
+            {  // admin rol toevoegen
+                adminCheck = await roleManager.RoleExistsAsync("Admin");
+                if (!adminCheck)
                 {
-                    if (user.Email == "r0614769@student.thomasmore.be" || user.Persoon.IsAdmin == true)
-                    {
-                        DbSet<IdentityUserRole<string>> roles = connection.UserRoles;
-                        IdentityRole adminrole = connection.Roles.FirstOrDefault(r => r.Name == "Admin");
-                        if (adminrole != null)
-                        {
-                            if (!roles.Any(ur => ur.UserId == user.Id && ur.RoleId == adminrole.Id))
-                            {
-                                roles.Add(new IdentityUserRole<string>() { UserId = user.Id, RoleId = adminrole.Id });
-                                connection.SaveChanges();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            DbSet<IdentityUserRole<string>> roles = connection.UserRoles;
-                            IdentityRole adminrole = connection.Roles.FirstOrDefault(r => r.Name == "Speler");
-                            if (adminrole != null)
-                            {
-                                if (!roles.Any(ur => ur.UserId == user.Id && ur.RoleId == adminrole.Id))
-                                {
-                                    roles.Add(new IdentityUserRole<string>() { UserId = user.Id, RoleId = adminrole.Id });
-                                    connection.SaveChanges();
-                                }
-                            }
-
-                        }
-                        catch (Exception ex)
-                        {
-
-                            throw new Exception(ex.Message + "\n" + ex.InnerException);
-                        }
-
-                    }
-
+                    //rol creëren en seeden naar de database
+                    adminResult = await roleManager.CreateAsync(new IdentityRole("Admin"));
                 }
 
+                foreach (CustomUser user in Admininstrators)
+                {
+                    DbSet<IdentityUserRole<string>> roles = connection.UserRoles;
+                    IdentityRole adminrole = connection.Roles.FirstOrDefault(r => r.Name == "Admin");
+                    if (adminrole != null)
+                    {
+                        if (!roles.Any(ur => ur.UserId == user.Id && ur.RoleId == adminrole.Id))
+                        {
+                            roles.Add(new IdentityUserRole<string>() { UserId = user.Id, RoleId = adminrole.Id });
+                            connection.SaveChanges();
+                        }
+                    }
+                }
             }
+               spelerCheck = await roleManager.RoleExistsAsync("Speler");
+                if (!spelerCheck)
+                {
+                    //rol creëren en seeden naar de database
+                    spelerResult = await roleManager.CreateAsync(new IdentityRole("Speler"));
+                    connection.SaveChanges();
+                }
+
+              
+            
+            
         }
     }
 }

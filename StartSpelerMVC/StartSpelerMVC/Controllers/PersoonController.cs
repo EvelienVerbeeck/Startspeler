@@ -25,6 +25,7 @@ namespace StartSpelerMVC.Controllers
         {
             ListPersoonViewModel viewModel = new ListPersoonViewModel();
             viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart).ToListAsync();
+
             return View( viewModel);
         }
         public async Task<IActionResult> Search(ListPersoonViewModel viewModel)
@@ -92,7 +93,6 @@ namespace StartSpelerMVC.Controllers
                 AangemaaktDatum = DateTime.Now,
                 IsActief = true,
                 IsAdmin = false,
-                
                 };
             return View(viewModel);
         }

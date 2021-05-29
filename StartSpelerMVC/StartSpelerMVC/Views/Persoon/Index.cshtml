@@ -2,106 +2,89 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["Titel"] = "Klanten Overzicht";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="offset-1 col-10">
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-controller="Persoon" asp-action="Search" method="get">
-    <div>
-        <p>
-            Zoek Product type:
-            <input asp-for="ZoekPersoon" />
-            <input type="submit" value="Zoeken" class="btn-orange" />|
-            <a asp-controller="Persoon" asp-action="Index">Terug naar volledige lijst</a>
-        </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persoon[0].Voornaam)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persoon[0].Achternaam)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persoon[0].Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persoon[0].IsAdmin)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persoon[0].Drankkaart)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Persoon)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Voornaam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Achternaam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Username)
+                    </td>
+                    <td>
+                        @if (item.IsAdmin == true)
+                        {
+                            @Html.DisplayName("Administrator")
+                        }
+                        else
+                        {
+                            @Html.DisplayName("Speler")
+                        }
+                    </td>
+                    <td>
+                        @if (item.Drankkaart.IsBetaald == true)
+                        {
 
-    </div>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Persoon[0].Voornaam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Persoon[0].Achternaam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Persoon[0].Username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Persoon[0].Geboortedatum)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Persoon[0].Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Persoon[0].Wachtwoord)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Persoon[0].IsActief)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Persoon[0].IsAdmin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Persoon[0].AangemaaktDatum)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Persoon[0].Drankkaart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Persoon[0].CustomUser)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Persoon) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Voornaam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Achternaam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Geboortedatum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Wachtwoord)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActief)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsAdmin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AangemaaktDatum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Drankkaart.DrankkaartID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomUser.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Persoon_ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Persoon_ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Persoon_ID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                            <form>@Html.CheckBox("item.Drankkaart.IsBetaald", true)</form>
+                        }
+                        else
+                        {
+                            <form>@Html.CheckBox("item.Drankkaart.IsBetaald", false)</form>
+                        }
+                    </td>
+ 
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Persoon_ID" class="btn-orange">Details</a> 
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form asp-controller="Persoon" asp-action="Search" method="get">
+        
+        <div class="footer">
+            <a href="@Url.Action("KlantenOverzichtDownload","Persoon")" class="btn-orange rounded d-inline ml-1 ">Export naar Excel</a>
+            <p class="d-inline mr-1">
+
+                Zoek Product type:
+                <input asp-for="ZoekPersoon" />
+                <input type="submit" value="Zoeken" class="btn-orange" />
+                <a asp-controller="Persoon" asp-action="Index">Terug naar volledige lijst</a>
+            </p>
+        </div>
+    </form>
+</div>

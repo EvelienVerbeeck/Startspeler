@@ -4,85 +4,64 @@
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="w-100 h-100 position-relative">
+    <div class=" BlauweKleur mx-auto my-auto DivKadercentreren  col-md-5 col-sm-10 h-50 ">
 
-<h1>Delete</h1>
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Persoon.Voornaam)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Persoon.Voornaam)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Persoon.Achternaam)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Persoon.Achternaam)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Persoon.Username)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Persoon.Username)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Persoon.Geboortedatum)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Persoon.Geboortedatum)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Persoon.Email)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Persoon.Email)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Persoon.Wachtwoord)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Persoon.Wachtwoord)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Persoon.IsActief)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Persoon.IsActief)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Persoon.IsAdmin)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Persoon.IsAdmin)
+                </dd>
+            </dl>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Persoon</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Persoon.Voornaam)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Persoon.Voornaam)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Persoon.Achternaam)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Persoon.Achternaam)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Persoon.Username)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Persoon.Username)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Persoon.Geboortedatum)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Persoon.Geboortedatum)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Persoon.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Persoon.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Persoon.Wachtwoord)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Persoon.Wachtwoord)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Persoon.IsActief)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Persoon.IsActief)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Persoon.IsAdmin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Persoon.IsAdmin)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Persoon.AangemaaktDatum)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Persoon.AangemaaktDatum)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Persoon.Drankkaart)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Persoon.Drankkaart.DrankkaartID)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Persoon.CustomUser)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Persoon.CustomUser.Id)
-        </dd class>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Persoon.Persoon_ID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Persoon.Persoon_ID" />
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                <a asp-action="Index">Back to List</a>
+            </form>
+        </div>
+    </div>

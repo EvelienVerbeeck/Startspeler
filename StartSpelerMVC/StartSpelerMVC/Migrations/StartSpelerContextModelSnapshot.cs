@@ -258,10 +258,15 @@ namespace StartSpelerMVC.Migrations
                     b.Property<bool>("IsBetaald")
                         .HasColumnType("bit");
 
+                    b.Property<int>("PersoonID")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Prijs")
                         .HasColumnType("Decimal(5,2)");
 
                     b.HasKey("DrankkaartID");
+
+                    b.HasIndex("PersoonID");
 
                     b.ToTable("Drankkaart");
                 });
@@ -367,9 +372,6 @@ namespace StartSpelerMVC.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("DrankkaartID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -402,8 +404,6 @@ namespace StartSpelerMVC.Migrations
                         .HasMaxLength(4);
 
                     b.HasKey("Persoon_ID");
-
-                    b.HasIndex("DrankkaartID");
 
                     b.HasIndex("UserID")
                         .IsUnique()
@@ -541,6 +541,15 @@ namespace StartSpelerMVC.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("StartSpelerMVC.Models.Drankkaart", b =>
+                {
+                    b.HasOne("StartSpelerMVC.Models.Persoon", "Persoon")
+                        .WithMany("Drankkaarten")
+                        .HasForeignKey("PersoonID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("StartSpelerMVC.Models.Inschrijving", b =>
                 {
                     b.HasOne("StartSpelerMVC.Models.Evenement", "Evenement")
@@ -573,12 +582,6 @@ namespace StartSpelerMVC.Migrations
 
             modelBuilder.Entity("StartSpelerMVC.Models.Persoon", b =>
                 {
-                    b.HasOne("StartSpelerMVC.Models.Drankkaart", "Drankkaart")
-                        .WithMany()
-                        .HasForeignKey("DrankkaartID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("StartSpelerMVC.Areas.Identity.Data.CustomUser", "CustomUser")
                         .WithOne("Persoon")
                         .HasForeignKey("StartSpelerMVC.Models.Persoon", "UserID");
