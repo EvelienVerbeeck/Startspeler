@@ -20,7 +20,6 @@ namespace StartSpelerMVC.Data.UnitOfWork
         private IGenericRepo<Product> _product;
         private IGenericRepo<ProductType> _productType;
 
-
         public UnitOfWork(StartSpelerContext context)
         {
             _context = context;
@@ -110,7 +109,7 @@ namespace StartSpelerMVC.Data.UnitOfWork
             }
         }
 
-        public IGenericRepo<ProductType> ProductTyperepository
+        public IGenericRepo<ProductType> ProductTypeRepository
         {
             get
             {
