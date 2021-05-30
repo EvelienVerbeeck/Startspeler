@@ -52,7 +52,13 @@
                     @Html.DisplayNameFor(model => model.Persoon.IsAdmin)
                 </dt>
                 <dd class="col-sm-8">
-                    <form> @Html.CheckBox("item.Drankkaart.IsBetaald")</form>
+                    @Html.DisplayFor(model => model.Persoon.IsAdmin)
+                </dd>
+                <dt class="col-sm-4">
+                    Totale uitgaven aan drankkaarten
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Persoon.TotaleUitgaveDrankkaart)
                 </dd>
             </dl>
             <a asp-action="Edit" asp-route-id=@Model.Persoon.Persoon_ID class="btn-orange">Aanpassen</a>

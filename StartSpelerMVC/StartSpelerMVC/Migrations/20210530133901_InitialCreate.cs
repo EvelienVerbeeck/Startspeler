@@ -2,7 +2,7 @@
 
 namespace StartSpelerMVC.Migrations
 {
-    public partial class AddIdentitySchema : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

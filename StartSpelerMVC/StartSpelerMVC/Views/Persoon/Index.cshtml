@@ -27,7 +27,7 @@
                     @Html.DisplayNameFor(model => model.Persoon[0].IsAdmin)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Persoon[0].Drankkaart)
+                    @Html.DisplayNameFor(model => model.Persoon[0].Drankkaarten)
                 </th>
                 <th></th>
             </tr>
@@ -49,8 +49,8 @@
                         @Html.DisplayFor(modelItem => item.RolDuiding)
                     </td>
                     <td>
-                        @Html.CheckBoxFor(modelItem=>item.Drankkaart.IsBetaald)
-                        <input type="checkbox" name="Name" checked=@item.Drankkaart.IsBetaald value="check" onclick="@Url.Action("CheckValue","Persoon")" />
+                        
+
                     </td>
  
                     <td>

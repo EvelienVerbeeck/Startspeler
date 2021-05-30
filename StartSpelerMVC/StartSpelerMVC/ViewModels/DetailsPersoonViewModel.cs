@@ -9,6 +9,5 @@ namespace StartSpelerMVC.ViewModels
     public class DetailsPersoonViewModel
     {
         public Persoon Persoon { get; set; }
-        public ICollection<Drankkaart> Drankkaarten { get; set; }
     }
 }

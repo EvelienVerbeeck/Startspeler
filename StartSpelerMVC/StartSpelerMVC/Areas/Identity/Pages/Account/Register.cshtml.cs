@@ -113,7 +113,7 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
                         AangemaaktDatum = DateTime.Now.Date,
                         IsActief = true,
                         IsAdmin = false,
-                        Drankkaart = _context.Drankkaarten.FirstOrDefault(x=>x.DrankkaartID==1)
+                        Drankkaarten = new List<Drankkaart>()
                     },
                     UserName=Input.Username,
                     Email=Input.Email

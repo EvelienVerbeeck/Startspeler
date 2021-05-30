@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ namespace StartSpelerMVC.Controllers
         public async Task<IActionResult> Index()
         {
             ListPersoonViewModel viewModel = new ListPersoonViewModel();
-            viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart).ToListAsync();
+            viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).ToListAsync();
             foreach (var persoon in viewModel.Persoon)
             {
                 if (persoon.IsAdmin==true)
@@ -42,12 +43,12 @@ namespace StartSpelerMVC.Controllers
         {
             if (!string.IsNullOrEmpty(viewModel.ZoekPersoon))
             {
-                viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart)
+                viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser)
                      .Where(x => x.Voornaam.Contains(viewModel.ZoekPersoon)).ToListAsync();
             }
             else
             {
-                viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(p => p.Drankkaart).ToListAsync();
+                viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).ToListAsync();
             }
             foreach (var persoon in viewModel.Persoon)
             {
@@ -63,43 +64,6 @@ namespace StartSpelerMVC.Controllers
             return View("Index", viewModel);
         }
 
-        public async Task<ActionResult> CheckValue(ListPersoonViewModel viewModel, string Name)
-        {
-            foreach (var persoon in viewModel.Persoon)
-            {
-                if (Name == "check")
-                {
-                    persoon.Drankkaart.IsBetaald = true;
-          
-                }
-                else
-                {
-                    persoon.Drankkaart.IsBetaald = false;
-                }
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        _context.Update(persoon);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!PersoonExists(persoon.Persoon_ID))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw new Exception() ;
-                        }
-                    }
-                }
-            }
-            return View("Index",viewModel);
-        }
-        
-
         // GET: Persoon/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -110,8 +74,9 @@ namespace StartSpelerMVC.Controllers
             DetailsPersoonViewModel viewModel = new DetailsPersoonViewModel();
             viewModel.Persoon= await _context.Personen
                 .Include(p => p.CustomUser)
-                .Include(p => p.Drankkaart)
                 .FirstOrDefaultAsync(m => m.Persoon_ID == id);
+            viewModel.Persoon.Drankkaarten = await _context.Drankkaarten.Where(x => x.PersoonID == id).ToListAsync();
+            viewModel.Persoon.TotaleUitgaveDrankkaart = viewModel.Persoon.Drankkaarten.Sum(x => x.Prijs);
             if (viewModel.Persoon == null)
             {
                 return NotFound();
@@ -125,7 +90,8 @@ namespace StartSpelerMVC.Controllers
         {
             CreatePersoonViewModel viewModel = new CreatePersoonViewModel();
             viewModel.Persoon = new Persoon() 
-            {   AangemaaktDatum=DateTime.Now,
+            {  
+                AangemaaktDatum=DateTime.Now,
                 IsActief=true,
                 IsAdmin=false
             };
@@ -168,9 +134,6 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-            
-           // viewModel.Persoon.UserID = new SelectList(_context.Users, "Id", "Id", viewModel.Persoon.UserID);
-           //viewModel.Drankkaart = new SelectList(_context.Drankkaarten, "Drankkaart_ID", "Drankkaart_ID", viewModel.Persoon.DrankkaartID);
             return View(viewModel);
         }
 
@@ -220,7 +183,6 @@ namespace StartSpelerMVC.Controllers
             DeletePersoonViewModel viewmodel = new DeletePersoonViewModel();
             viewmodel.Persoon = await _context.Personen
                 .Include(p => p.CustomUser)
-                .Include(p => p.Drankkaart)
                 .FirstOrDefaultAsync(m => m.Persoon_ID == id);
             if (viewmodel.Persoon == null)
             {
