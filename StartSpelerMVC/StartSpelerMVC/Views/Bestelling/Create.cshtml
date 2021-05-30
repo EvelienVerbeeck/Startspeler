@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_NoLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="position-absolute col-10 offset-1 col-sm-11">
     <h1>Bestelling</h1>
@@ -29,29 +29,65 @@
                 @foreach (var item in Model.Productenlijst)
                 {
                     <tr>
-                        <td> @*producttype=Frisdrank*@
-                            @Html.DisplayFor(modelItem => item.ProductID)
+                        <td>
+                            @*producttype=Frisdrank*@
+                            @Html.DisplayFor(modelItem => item.Naam)
                             @Html.DisplayFor(modelItem => item.VerkoopPrijs)
                         </td>
-                        <td>@*producttype=alcohol*@
-                            @Html.DisplayFor(modelItem => item.ProductID)
-                            @Html.DisplayFor(modelItem => item.VerkoopPrijs)
-                        </td>
-                        <td>@*producttype=snack*@
-                            @Html.DisplayFor(modelItem => item.ProductID)
-                            @Html.DisplayFor(modelItem => item.VerkoopPrijs)
-                        </td>
-                    </tr>
-                }
+                        <td>
+                            @*producttype=alcohol*@
+                        @Html.DisplayFor(modelItem => item.Naam)
+                        @Html.DisplayFor(modelItem => item.VerkoopPrijs)
+                    </td>
+                    <td>
+                        @*producttype=snack*@
+                    @Html.DisplayFor(modelItem => item.Naam)
+                    @Html.DisplayFor(modelItem => item.VerkoopPrijs)
+                </td>
+            </tr>
+        }
+               
             </tbody>
         </table>
     </div>
 
     <div class="row">
         @*totaal bestelling en buttons*@
-        <p>
-            <a asp-action="Create">Create New</a>
-        </p>
+        <div class="col-8">
+            <table class="table">
+                <tbody>
+                <thead>
+                    <tr>
+                        <th>
+                            Product
+                        </th>
+                        <th>
+                            Prijs
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Productenlijst)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Naam)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VerkoopPrijs)
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-4">
+            
+            <a class="btn-block btn-orange" asp-controller="" asp-action="Edit">Aanpassen</a>
+            <a class="btn-block btn-orange" asp-controller="" asp-action="Create">Bestellen</a>
+            <a class="btn-block btn-orange" asp-controller="" asp-action="Delete">Annuleren</a>
+        </div>
+        
     </div>
 
     <div class="row">
