@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
+using StartSpelerMVC.Areas.Identity.Data;
 using StartSpelerMVC.Data;
 using StartSpelerMVC.Models;
 using StartSpelerMVC.ViewModels;
@@ -15,10 +18,14 @@ namespace StartSpelerMVC.Controllers
     public class PersoonController : Controller
     {
         private readonly StartSpelerContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<CustomUser> _userManager;
 
-        public PersoonController(StartSpelerContext context)
+        public PersoonController(StartSpelerContext context,RoleManager<IdentityRole> roleManager,UserManager<CustomUser> userManager)
         {
             _context = context;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         // GET: Persoon
@@ -129,7 +136,14 @@ namespace StartSpelerMVC.Controllers
                 return NotFound();
             }
             EditPersoonViewModel viewModel = new EditPersoonViewModel();
-            viewModel.Persoon = await _context.Personen.FindAsync(id);
+            viewModel.Persoon = await _context.Personen.Include(x=>x.CustomUser).FirstOrDefaultAsync(x=>x.Persoon_ID==id);
+            viewModel.Persoon.UserID = viewModel.Persoon.CustomUser.Id;
+            viewModel.Rol = new List<SelectListItem>
+            {
+                new SelectListItem(){ Text="Speler",Selected=true,Value="Speler"},
+                new SelectListItem(){Text="Administator",Selected=false,Value="Administrator"}
+            };
+            var GeselecteerdeRol = new SelectList(viewModel.Rol, "Value", "Text");
             if (viewModel.Persoon == null)
             {
                 return NotFound();
@@ -144,15 +158,54 @@ namespace StartSpelerMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditPersoonViewModel viewModel)
         {
+  
             if (id != viewModel.Persoon.Persoon_ID)
             {
                 return NotFound();
             }
-
+           
             if (ModelState.IsValid)
             {
                 try
                 {
+                   viewModel.Persoon= await _context.Personen.Include(x => x.CustomUser).FirstOrDefaultAsync(x => x.Persoon_ID == id);
+                    viewModel.Persoon.UserID = viewModel.Persoon.CustomUser.Id;
+                    viewModel.Persoon.IsAdmin = viewModel.Persoon.IsAdmin;
+                    viewModel.Persoon.IsActief = viewModel.Persoon.IsActief;
+                    viewModel.Persoon.RolDuiding = viewModel.Persoon.RolDuiding;
+
+                    _context.SaveChanges();
+                    //if (viewModel.Persoon.IsAdmin == true)
+                    //{
+                    //    viewModel.Persoon.RolDuiding = "Administrator";
+                        
+                    //    DbSet<IdentityUserRole<string>> roles = _context.UserRoles;
+                    //    IdentityRole userrole = _context.Roles.FirstOrDefault(r => r.Name == "Speler");
+                    //    if (userrole != null)
+                    //    {
+                    //        if (!roles.Any(ur => ur.UserId == viewModel.Persoon.CustomUser.Id && ur.RoleId == userrole.Id))
+                    //        {
+                    //            roles.Add(new IdentityUserRole<string>() { UserId = viewModel.Persoon.CustomUser.Id, RoleId = userrole.Id });
+                    //            _context.SaveChanges();
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    viewModel.Persoon.RolDuiding = "Speler";
+                    //    DbSet<IdentityUserRole<string>> roles = _context.UserRoles;
+                    //    IdentityRole userrole = _context.Roles.FirstOrDefault(r => r.Name == "Speler");
+                    //    if (userrole != null)
+                    //    {
+                    //        if (!roles.Any(ur => ur.UserId == viewModel.Persoon.CustomUser.Id && ur.RoleId == userrole.Id))
+                    //        {
+                    //            roles.Add(new IdentityUserRole<string>() { UserId = viewModel.Persoon.CustomUser.Id, RoleId = userrole.Id });
+                    //            _context.SaveChanges();
+                    //        }
+                    //    }
+                    //}
+            
+
                     _context.Update(viewModel.Persoon);
                     await _context.SaveChangesAsync();
                 }
@@ -198,7 +251,7 @@ namespace StartSpelerMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             DeletePersoonViewModel viewModel = new DeletePersoonViewModel();
-            viewModel.Persoon = await _context.Personen.FindAsync(id);
+            viewModel.Persoon = await _context.Personen.Include(x=>x.CustomUser).FirstOrDefaultAsync(x=>x.Persoon_ID==id);
             _context.Personen.Remove(viewModel.Persoon);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -209,6 +262,44 @@ namespace StartSpelerMVC.Controllers
             return _context.Personen.Any(e => e.Persoon_ID == id);
         }
 
+        public async Task KlantenOverzichtDownload()
+        {
+            ListPersoonViewModel viewModel = new ListPersoonViewModel();
+            viewModel.Persoon = await _context.Personen.Include(x => x.CustomUser).ToListAsync();
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage Ep = new ExcelPackage();
 
+            ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("ExcelKlanten");
+            Sheet.Cells["A1"].Value = "Voornaam";
+            Sheet.Cells["B1"].Value = "Achternaam";
+            Sheet.Cells["C1"].Value = "Username";
+            Sheet.Cells["D1"].Value = "IsAdmin";
+            Sheet.Cells["E1"].Value = "EmailAdres";
+            Sheet.Cells["F1"].Value = "GeboorteDatum";
+            Sheet.Cells["G1"].Value = "Aangemaakte Datum";
+            Sheet.Cells["G1"].Value = "Totale uitgave Drankkaarten";
+
+            int row = 2;
+            foreach (var item in viewModel.Persoon)
+            {
+                Sheet.Cells[string.Format("A{0}",row)].Value = item.Voornaam;
+                Sheet.Cells[string.Format("B{0}", row)].Value = item.Achternaam;
+                Sheet.Cells[string.Format("C{0}", row)].Value = item.Username;
+                Sheet.Cells[string.Format("D{0}", row)].Value = item.IsAdmin;
+                Sheet.Cells[string.Format("E{0}", row)].Value = item.Email;
+                Sheet.Cells[string.Format("F{0}", row)].Value = item.Geboortedatum;
+                Sheet.Cells[string.Format("F{0}", row)].Style.Numberformat.Format = "yyyy-mm-dd";
+                Sheet.Cells[string.Format("G{0}", row)].Value = item.AangemaaktDatum;
+                Sheet.Cells[string.Format("G{0}", row)].Style.Numberformat.Format = "yyyy-mm-dd";
+                Sheet.Cells[string.Format("H{0}", row)].Value = item.Drankkaarten.Sum(x=>x.Prijs);
+                row++;
+            }
+            Sheet.Cells["A:AZ"].AutoFitColumns();
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.Headers.Add("content-disposition", "attachment: filename=" + "Report.xlsx");
+            await Response.Body.WriteAsync(Ep.GetAsByteArray());
+            Response.StatusCode = StatusCodes.Status200OK;
+        }
     }
 }

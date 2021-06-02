@@ -1,4 +1,6 @@
-﻿using StartSpelerMVC.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using StartSpelerMVC.Areas.Identity.Data;
+using StartSpelerMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ namespace StartSpelerMVC.ViewModels
 {
     public class EditPersoonViewModel
     {
+        public List<SelectListItem> Rol { get; set; }
         public Persoon Persoon { get; set; }
-        public Drankkaart Drankkaart { get; set; }
     }
 }

@@ -98,11 +98,10 @@ namespace StartSpelerMVC
             IdentityResult adminResult,spelerResult;
 
             bool adminCheck,spelerCheck;
- 
+
 
             //toekennen admin rol naar de hoofdgebruiker
-           // IdentityUser user = connection.Users.FirstOrDefault(u => u.Email == "r0614769@student.thomasmore.be");
-
+            // IdentityUser user = connection.Users.FirstOrDefault(u => u.Email == "r0614769@student.thomasmore.be");
             List<CustomUser> Admininstrators = connection.Users.Include(x => x.Persoon).Where(x=>x.Persoon.IsAdmin==true||x.Persoon.Email=="r0614769@student.thomasmore.be").ToList();
            
             if (Admininstrators.Count<=0)

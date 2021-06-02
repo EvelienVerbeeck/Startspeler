@@ -5,11 +5,7 @@
     Layout = "~/Views/Shared/_NoLayout.cshtml";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <form asp-controller="ProductType" asp-action="Search" method="get">
     <div>
         <p>
@@ -46,3 +42,6 @@
 }
     </tbody>
 </table>
+<p class="fixed-bottom">
+    <a asp-action="Create" class="btn-success">Create New</a>
+</p>

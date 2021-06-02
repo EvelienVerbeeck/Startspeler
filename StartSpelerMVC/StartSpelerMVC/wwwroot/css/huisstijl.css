@@ -201,5 +201,11 @@ input[type=checkbox]:checked + label {
     color: #ff6200;
     font-style: normal;
 } 
-
+.KnopOnderAanDiv
+{
+    position: absolute;
+    bottom:50px;
+    left:0;
+    right:0;
+}
 

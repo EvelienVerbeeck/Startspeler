@@ -6,7 +6,7 @@
 }
 
 <div class="w-100 h-100 position-relative">
-    <div class=" BlauweKleur mx-auto my-auto DivKadercentreren  col-md-5 col-sm-10 h-75 ">
+    <div class=" BlauweKleur mx-auto my-auto DivKadercentreren  rounded col-md-5 col-sm-10 h-75 text-center ">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Persoon.Persoon_ID" />
@@ -42,24 +42,26 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Persoon.IsActief" /> @Html.DisplayNameFor(model => model.Persoon.IsActief)
+                    @Html.CheckBoxFor(x => x.Persoon.IsActief) <label>Is Actief</label>
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Persoon.IsAdmin" /> Administrator
+                    @Html.CheckBoxFor(x => x.Persoon.IsAdmin) <label>Administrator</label>
+
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary btn-orange" />
+                <input type="submit" value="Save" class="btn-orange" />
             </div>
         </form>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

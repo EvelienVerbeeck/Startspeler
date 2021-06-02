@@ -122,16 +122,34 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
                 user.Persoon.UserID = user.Id;
 
                 _context.SaveChanges();
-                DbSet<IdentityUserRole<string>> roles = _context.UserRoles;
-                IdentityRole userrole = _context.Roles.FirstOrDefault(r => r.Name == "Speler");
-                if (userrole != null)
+                if (user.Persoon.IsAdmin==true)
                 {
-                    if (!roles.Any(ur => ur.UserId == user.Id && ur.RoleId == userrole.Id))
+                    DbSet<IdentityUserRole<string>> roles = _context.UserRoles;
+                    IdentityRole userrole = _context.Roles.FirstOrDefault(r => r.Name == "Admin");
+                    if (userrole != null)
                     {
-                        roles.Add(new IdentityUserRole<string>() { UserId = user.Id, RoleId = userrole.Id });
-                     _context.SaveChanges();
+                        if (!roles.Any(ur => ur.UserId == user.Id && ur.RoleId == userrole.Id))
+                        {
+                            roles.Add(new IdentityUserRole<string>() { UserId = user.Id, RoleId = userrole.Id });
+                            _context.SaveChanges();
+                        }
                     }
                 }
+                else
+                {
+                    DbSet<IdentityUserRole<string>> roles = _context.UserRoles;
+                    IdentityRole userrole = _context.Roles.FirstOrDefault(r => r.Name == "Speler");
+                    if (userrole != null)
+                    {
+                        if (!roles.Any(ur => ur.UserId == user.Id && ur.RoleId == userrole.Id))
+                        {
+                            roles.Add(new IdentityUserRole<string>() { UserId = user.Id, RoleId = userrole.Id });
+                            _context.SaveChanges();
+                        }
+                    }
+                }
+
+                
                
                 if (result.Succeeded)
                 {

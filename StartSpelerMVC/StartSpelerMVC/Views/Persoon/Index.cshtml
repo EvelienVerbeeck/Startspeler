@@ -7,10 +7,6 @@
 }
 
 <div class="offset-1 col-10">
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-
     <table class="table">
         <thead>
             <tr>
@@ -49,7 +45,6 @@
                         @Html.DisplayFor(modelItem => item.RolDuiding)
                     </td>
                     <td>
-                        
 
                     </td>
  
@@ -61,15 +56,13 @@
         </tbody>
     </table>
     <form asp-controller="Persoon" asp-action="Search" method="get">
-        
         <div class="footer">
             <a href="@Url.Action("KlantenOverzichtDownload","Persoon")" class="btn-orange rounded d-inline ml-1 ">Export naar Excel</a>
             <p class="d-inline mr-1">
-
                 Zoek Product type:
                 <input asp-for="ZoekPersoon" />
                 <input type="submit" value="Zoeken" class="btn-orange" />
-                <a asp-controller="Persoon" asp-action="Index">Terug naar volledige lijst</a>
+                <a asp-controller="Persoon" asp-action="Index" class="btn-orange">Terug naar volledige lijst</a>
             </p>
         </div>
     </form>

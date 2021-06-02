@@ -56,6 +56,7 @@ namespace StartSpelerMVC.Models
 
         [NotMapped]
         public string RolDuiding { get; set; }
+
         [NotMapped]
         public string ActiefDuiding { get; set; }
         [NotMapped]

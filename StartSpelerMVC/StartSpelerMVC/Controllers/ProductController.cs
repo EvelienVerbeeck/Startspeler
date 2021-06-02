@@ -65,11 +65,8 @@ namespace StartSpelerMVC.Controllers
         public IActionResult Create()
         {
             CreateProductViewModel viewModel = new CreateProductViewModel();
-            viewModel.Product.IsZichtbaar = true;
-            viewModel.Product.StartDatum = DateTime.Now;
-            viewModel.Product.EindDatum = default;
             viewModel.ProductTypes = new SelectList(_context.productTypes, "ProductType_ID", "Naam");
-            return View();
+            return View(viewModel);
         }
 
         // POST: Product/Create
@@ -88,6 +85,7 @@ namespace StartSpelerMVC.Controllers
             viewModel.ProductTypes = new SelectList(_context.productTypes, "ProductType_ID", "Naam", viewModel.Product.ProductTypeID);
             viewModel.Product.IsZichtbaar = true;
             viewModel.Product.StartDatum = DateTime.Now;
+            viewModel.Product.EindDatum = default;
             return View(viewModel);
         }
 
@@ -99,9 +97,9 @@ namespace StartSpelerMVC.Controllers
                 return NotFound();
             }
             EditProductViewModel viewModel = new EditProductViewModel();
-            viewModel.Product = await _context.Producten.FindAsync(id);
+            viewModel.Product = await _context.Producten.Include(x => x.ProductType).FirstOrDefaultAsync(x => x.ProductID == id); 
             viewModel.Product.IsZichtbaar = true;
-            viewModel.Product.StartDatum = DateTime.Now;
+            viewModel.Product.StartDatum = viewModel.Product.StartDatum;
             if (viewModel.Product == null)
             {
                 return NotFound();
@@ -121,7 +119,9 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-
+            viewModel.Product = await _context.Producten.Include(x => x.ProductType).FirstOrDefaultAsync(x => x.ProductID == id);
+            viewModel.ProductTypes = new SelectList(_context.productTypes, "ProductType_ID", "Naam", viewModel.Product.ProductTypeID);
+            viewModel.Product.StartDatum = viewModel.Product.StartDatum;
             if (ModelState.IsValid)
             {
                 try
