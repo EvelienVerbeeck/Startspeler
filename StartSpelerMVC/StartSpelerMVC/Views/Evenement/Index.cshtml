@@ -26,12 +26,12 @@
                                     break;
                                 case "Bordspellen":
                                     <img src="~/Images/BordspellenEvent.png" alt="Bordspellen" />
-                                   break;
+                                    break;
                                 default:
                                     break;
                             }
                         </td>
-                            @Html.DisplayFor(modelItem=>item.EvenementNaam)
+                        @Html.DisplayFor(modelItem => item.EvenementNaam)
                         <td>
                             @Html.DisplayFor(modelItem => item.Datum)
                         </td>
@@ -55,10 +55,17 @@
             </tbody>
         </table>
     </div>
-@*Zichtbaar voor de admin*@
+    @*Zichtbaar voor de admin*@
+
+        <div class="footer">
+            <p class="d-inline mr-1">
+                <a class="btn-orange" asp-controller="Evenement" asp-action="Create">Maak Evenement Aan</a>
+                <a class="btn-orange" asp-controller="Evenement" asp-action="Export">Export naar Excel</a>
+            </p>
+        </div>
+
     <p>
-        <a class="btn-orange" asp-controller="Evenement" asp-action="Create">Maak Evenement Aan</a>
-        <a class="btn-orange" asp-controller="Evenement" asp-action="Export">Export naar Excel</a>
+        
     </p>
 </div>
    

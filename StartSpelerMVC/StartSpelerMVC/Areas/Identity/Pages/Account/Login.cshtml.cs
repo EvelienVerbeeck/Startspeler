@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using StartSpelerMVC.Areas.Identity.Data;
+using StartSpelerMVC.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace StartSpelerMVC.Areas.Identity.Pages.Account
 {
@@ -21,14 +23,17 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
         private readonly UserManager<CustomUser> _userManager;
         private readonly SignInManager<CustomUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly StartSpelerContext _context;
 
         public LoginModel(SignInManager<CustomUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<CustomUser> userManager)
+            UserManager<CustomUser> userManager,
+            StartSpelerContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         [BindProperty]
@@ -81,14 +86,14 @@ namespace StartSpelerMVC.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                
+                var persoon = await _context.Personen.Where(x => x.Username == Input.UserName && x.Wachtwoord==Input.Password).FirstOrDefaultAsync();
                 if (result.Succeeded)
                 {
-                    if (User.IsInRole("Admin"))//Admin werkt niet 
+                    if ( persoon.IsAdmin==true)
                     {
                         return Redirect("~/Home/ManagerIndex");
                     }
-                    if (User.IsInRole("Speler"))//speler werkt niet
+                    if (persoon.IsAdmin==false)
                     {
                         return Redirect(returnUrl);
                     }

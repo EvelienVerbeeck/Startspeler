@@ -5,63 +5,65 @@
     Layout = "~/Views/Shared/_NoLayout.cshtml";
 }
 <div class="w-100 h-100 position-relative">
-    <div class=" BlauweKleur mx-auto my-auto DivKadercentreren  col-md-5 col-sm-10 h-50 ">
-
+    <div class=" Blauwachtergrond mx-auto my-auto DivKadercentreren  col-md-6 col-sm-10 h-75 text-center">
+        <div>
             <dl class="row">
-                <dt class="col-sm-2">
+                <dt class="col-sm-6 text-right">
                     @Html.DisplayNameFor(model => model.Persoon.Voornaam)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-6 text-left">
                     @Html.DisplayFor(model => model.Persoon.Voornaam)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-6 text-right">
                     @Html.DisplayNameFor(model => model.Persoon.Achternaam)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-6 text-left">
                     @Html.DisplayFor(model => model.Persoon.Achternaam)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-6 text-right">
                     @Html.DisplayNameFor(model => model.Persoon.Username)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-6 text-left">
                     @Html.DisplayFor(model => model.Persoon.Username)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-6 text-right">
                     @Html.DisplayNameFor(model => model.Persoon.Geboortedatum)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-6 text-left">
                     @Html.DisplayFor(model => model.Persoon.Geboortedatum)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-6 text-right">
                     @Html.DisplayNameFor(model => model.Persoon.Email)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-6 text-left">
                     @Html.DisplayFor(model => model.Persoon.Email)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-6 text-right">
                     @Html.DisplayNameFor(model => model.Persoon.Wachtwoord)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-6 text-left">
                     @Html.DisplayFor(model => model.Persoon.Wachtwoord)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-6 text-right">
                     @Html.DisplayNameFor(model => model.Persoon.IsActief)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-6 text-left">
                     @Html.DisplayFor(model => model.Persoon.IsActief)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-6 text-right">
                     @Html.DisplayNameFor(model => model.Persoon.IsAdmin)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-6 text-left">
                     @Html.DisplayFor(model => model.Persoon.IsAdmin)
                 </dd>
             </dl>
-
-            <form asp-action="Delete">
-                <input type="hidden" asp-for="Persoon.Persoon_ID" />
-                <input type="submit" value="Delete" class="btn btn-danger" /> |
-                <a asp-action="Index">Back to List</a>
-            </form>
+            <section class="KnopOnderAanDiv" >
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Persoon.Persoon_ID" />
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    <a asp-action="Index" class="btn-orange">Back to List</a>
+                </form>
+            </section>
         </div>
     </div>
+</div>

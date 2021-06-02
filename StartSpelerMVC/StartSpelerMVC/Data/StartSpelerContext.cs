@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using StartSpelerMVC.Areas.Identity.Data;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StartSpelerMVC.Data
 {

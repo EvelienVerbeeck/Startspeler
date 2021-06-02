@@ -12,17 +12,18 @@
     <h4>ProductType</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class = class="col-sm-6 text-right">
             @Html.DisplayNameFor(model => model.ProductType.Naam)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-6 text-left">
             @Html.DisplayFor(model => model.ProductType.Naam)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="ProductType.ProductTypeID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    <section class="KnopOnderAanDiv">
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="ProductType.ProductTypeID" />
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <a asp-action="Index">Back to List</a>
+        </form>
+    </section>
 </div>

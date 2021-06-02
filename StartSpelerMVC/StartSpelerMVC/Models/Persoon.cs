@@ -25,22 +25,20 @@ namespace StartSpelerMVC.Models
         [DataType(DataType.Date)]
         [Required]
         public DateTime Geboortedatum { get; set; }
-        [DataType(DataType.EmailAddress)]// maakt link clickable
         [Required]
         public string Email { get; set; }
         [MaxLength(4)]
         [DataType(DataType.Password)]//Maakt wachtwoordveld niet leesbaar
         [Required]
         public string Wachtwoord { get; set; }
+        [Display (Name ="Actief lid")]
         public bool IsActief { get; set; }
+        [Display(Name = "Rol")]
         public bool IsAdmin { get; set; }
         public DateTime AangemaaktDatum { get; set; }
         public ICollection<Inschrijving> Inschrijvingen { get; set; }
         public ICollection<Bestelling> Bestellingen { get; set; }
-        [ForeignKey("Drankkaart")]
-        public int DrankkaartID { get; set; }
-
-        public Drankkaart Drankkaart { get; set; }
+        public ICollection<Drankkaart> Drankkaarten { get; set; }
 
         [ForeignKey("CustomUser")]
         public string UserID { get; set; }
@@ -58,7 +56,11 @@ namespace StartSpelerMVC.Models
 
         [NotMapped]
         public string RolDuiding { get; set; }
+
         [NotMapped]
         public string ActiefDuiding { get; set; }
+        [NotMapped]
+        [DisplayFormat(DataFormatString = "{0:n} €")]
+        public decimal TotaleUitgaveDrankkaart { get; set; }
     }
 }

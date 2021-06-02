@@ -4,40 +4,39 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Details</h1>
-
-<div>
-    <h4>Drankkaart</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Drankkaart.Prijs)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Drankkaart.Prijs)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Drankkaart.AantalSlots)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Drankkaart.AantalSlots)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Drankkaart.Begindatum)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Drankkaart.Begindatum)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Drankkaart.IsBetaald)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Drankkaart.IsBetaald)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Drankkaart.DrankkaartID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="w-100 h-100 position-relative">
+    <div class="Blauwachtergrond mx-auto my-auto DivKadercentreren  col-md-6 col-sm-10 h-75 text-center">
+        <div>
+            <dl class="row">
+                <dt class="col-sm-6 text-right">
+                    @Html.DisplayNameFor(model => model.Drankkaart.Prijs)
+                </dt>
+                <dd class="col-sm-6 text-left">
+                    @Html.DisplayFor(model => model.Drankkaart.Prijs)
+                </dd>
+                <dt class="col-sm-6 text-right">
+                    @Html.DisplayNameFor(model => model.Drankkaart.AantalSlots)
+                </dt>
+                <dd class="col-sm-6 text-left">
+                    @Html.DisplayFor(model => model.Drankkaart.AantalSlots)
+                </dd>
+                <dt class="col-sm-6 text-right">
+                    @Html.DisplayNameFor(model => model.Drankkaart.Begindatum)
+                </dt>
+                <dd class="col-sm-6 text-left">
+                    @Html.DisplayFor(model => model.Drankkaart.Begindatum)
+                </dd>
+                <dt class="col-sm-6 text-right">
+                    @Html.DisplayNameFor(model => model.Drankkaart.IsBetaald)
+                </dt>
+                <dd class="col-sm-6 text-left">
+                    @Html.DisplayFor(model => model.Drankkaart.IsBetaald)
+                </dd>
+            </dl>
+            <div class="KnopOnderAanDiv">
+                <a asp-action="Edit" asp-route-id="@Model.Drankkaart.DrankkaartID">Edit</a> |
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
 </div>

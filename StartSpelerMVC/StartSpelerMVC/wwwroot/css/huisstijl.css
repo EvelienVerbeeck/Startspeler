@@ -149,7 +149,7 @@ td
     cursor: pointer;
 }
 
-/* CHECKED STYLES */
+/* radio STYLES */
     [type=radio]:checked + img {
         outline: 5px solid #ffbb00;
         box-shadow: -5px -5px 5px #ffbb00 inset, 5px 5px 5px #ffbb00 inset;
@@ -182,7 +182,7 @@ input[type='radio']:checked:after {
     visibility: visible;
     border: 2px solid white;
 }
-
+/*Centreren*/
 .DivKadercentreren
 {
     position:absolute;
@@ -192,4 +192,20 @@ input[type='radio']:checked:after {
     right:0;
 }
 
+input[type=checkbox] + label {
+    color: white;
+    font-style: italic;
+}
+
+input[type=checkbox]:checked + label {
+    color: #ff6200;
+    font-style: normal;
+} 
+.KnopOnderAanDiv
+{
+    position: absolute;
+    bottom:50px;
+    left:0;
+    right:0;
+}
 

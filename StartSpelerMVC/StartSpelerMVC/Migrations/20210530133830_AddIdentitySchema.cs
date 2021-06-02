@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StartSpelerMVC.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class AddIdentitySchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,26 +47,10 @@ namespace StartSpelerMVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Drankkaart",
-                columns: table => new
-                {
-                    Drankkaart_ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Prijs = table.Column<decimal>(type: "Decimal(5,2)", nullable: false),
-                    AantalSlots = table.Column<byte>(nullable: false),
-                    Begindatum = table.Column<DateTime>(nullable: false),
-                    IsBetaald = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Drankkaart", x => x.Drankkaart_ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Evenement",
                 columns: table => new
                 {
-                    Evenement_ID = table.Column<int>(nullable: false)
+                    EvenementID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EvenementNaam = table.Column<string>(maxLength: 50, nullable: false),
                     MaxDeelnemers = table.Column<byte>(nullable: false),
@@ -79,20 +63,20 @@ namespace StartSpelerMVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Evenement", x => x.Evenement_ID);
+                    table.PrimaryKey("PK_Evenement", x => x.EvenementID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ProductType",
                 columns: table => new
                 {
-                    ProductType_ID = table.Column<int>(nullable: false)
+                    ProductTypeID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naam = table.Column<string>(maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductType", x => x.ProductType_ID);
+                    table.PrimaryKey("PK_ProductType", x => x.ProductTypeID);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,18 +200,11 @@ namespace StartSpelerMVC.Migrations
                     IsActief = table.Column<bool>(nullable: false),
                     IsAdmin = table.Column<bool>(nullable: false),
                     AangemaaktDatum = table.Column<DateTime>(nullable: false),
-                    DrankkaartID = table.Column<int>(nullable: false),
                     UserID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Persoon", x => x.Persoon_ID);
-                    table.ForeignKey(
-                        name: "FK_Persoon_Drankkaart_DrankkaartID",
-                        column: x => x.DrankkaartID,
-                        principalTable: "Drankkaart",
-                        principalColumn: "Drankkaart_ID",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Persoon_AspNetUsers_UserID",
                         column: x => x.UserID,
@@ -240,7 +217,7 @@ namespace StartSpelerMVC.Migrations
                 name: "Product",
                 columns: table => new
                 {
-                    Product_ID = table.Column<int>(nullable: false)
+                    ProductID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naam = table.Column<string>(maxLength: 50, nullable: false),
                     ProductTypeID = table.Column<int>(nullable: false),
@@ -257,12 +234,12 @@ namespace StartSpelerMVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Product_ID);
+                    table.PrimaryKey("PK_Product", x => x.ProductID);
                     table.ForeignKey(
                         name: "FK_Product_ProductType_ProductTypeID",
                         column: x => x.ProductTypeID,
                         principalTable: "ProductType",
-                        principalColumn: "ProductType_ID",
+                        principalColumn: "ProductTypeID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -270,7 +247,7 @@ namespace StartSpelerMVC.Migrations
                 name: "Bestelling",
                 columns: table => new
                 {
-                    Bestelling_ID = table.Column<int>(nullable: false)
+                    BestellingID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PersoonID = table.Column<int>(nullable: false),
                     Prijs = table.Column<decimal>(type: "Decimal(5,2)", nullable: false),
@@ -278,9 +255,33 @@ namespace StartSpelerMVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bestelling", x => x.Bestelling_ID);
+                    table.PrimaryKey("PK_Bestelling", x => x.BestellingID);
                     table.ForeignKey(
                         name: "FK_Bestelling_Persoon_PersoonID",
+                        column: x => x.PersoonID,
+                        principalTable: "Persoon",
+                        principalColumn: "Persoon_ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Drankkaart",
+                columns: table => new
+                {
+                    DrankkaartID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PersoonID = table.Column<int>(nullable: false),
+                    Prijs = table.Column<decimal>(type: "Decimal(5,2)", nullable: false),
+                    AantalSlots = table.Column<byte>(nullable: false),
+                    Begindatum = table.Column<DateTime>(nullable: false),
+                    IsBetaald = table.Column<bool>(nullable: false),
+                    IsActief = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Drankkaart", x => x.DrankkaartID);
+                    table.ForeignKey(
+                        name: "FK_Drankkaart_Persoon_PersoonID",
                         column: x => x.PersoonID,
                         principalTable: "Persoon",
                         principalColumn: "Persoon_ID",
@@ -291,7 +292,7 @@ namespace StartSpelerMVC.Migrations
                 name: "Inschrijving",
                 columns: table => new
                 {
-                    Inschrijving_ID = table.Column<int>(nullable: false)
+                    InschrijvingID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PersoonID = table.Column<int>(nullable: false),
                     EvenementID = table.Column<int>(nullable: false),
@@ -299,12 +300,12 @@ namespace StartSpelerMVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Inschrijving", x => x.Inschrijving_ID);
+                    table.PrimaryKey("PK_Inschrijving", x => x.InschrijvingID);
                     table.ForeignKey(
                         name: "FK_Inschrijving_Evenement_EvenementID",
                         column: x => x.EvenementID,
                         principalTable: "Evenement",
-                        principalColumn: "Evenement_ID",
+                        principalColumn: "EvenementID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Inschrijving_Persoon_PersoonID",
@@ -330,13 +331,13 @@ namespace StartSpelerMVC.Migrations
                         name: "FK_Orderlijn_Bestelling_BestellingID",
                         column: x => x.BestellingID,
                         principalTable: "Bestelling",
-                        principalColumn: "Bestelling_ID",
+                        principalColumn: "BestellingID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orderlijn_Product_ProductID",
                         column: x => x.ProductID,
                         principalTable: "Product",
-                        principalColumn: "Product_ID",
+                        principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -385,6 +386,11 @@ namespace StartSpelerMVC.Migrations
                 column: "PersoonID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Drankkaart_PersoonID",
+                table: "Drankkaart",
+                column: "PersoonID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Inschrijving_EvenementID",
                 table: "Inschrijving",
                 column: "EvenementID");
@@ -403,11 +409,6 @@ namespace StartSpelerMVC.Migrations
                 name: "IX_Orderlijn_ProductID",
                 table: "Orderlijn",
                 column: "ProductID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Persoon_DrankkaartID",
-                table: "Persoon",
-                column: "DrankkaartID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Persoon_UserID",
@@ -440,6 +441,9 @@ namespace StartSpelerMVC.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Drankkaart");
+
+            migrationBuilder.DropTable(
                 name: "Inschrijving");
 
             migrationBuilder.DropTable(
@@ -462,9 +466,6 @@ namespace StartSpelerMVC.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductType");
-
-            migrationBuilder.DropTable(
-                name: "Drankkaart");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -5,12 +5,8 @@
     Layout = "~/Views/Shared/_NoLayout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>ProductType</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="w-100 h-100 position-relative">
+    <div class=" BlauweKleur mx-auto my-auto DivKadercentreren  rounded col-md-5 col-sm-10 h-75 text-center ">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductType.ProductTypeID" />
@@ -23,12 +19,13 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+            <a asp-action="Index" class="btn-orange">Back to List</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

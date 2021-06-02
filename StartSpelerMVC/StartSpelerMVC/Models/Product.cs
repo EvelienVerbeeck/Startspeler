@@ -25,9 +25,11 @@ namespace StartSpelerMVC.Models
         public DateTime EindDatum { get; set; }
         [Required]
         [Column(TypeName = "money")]
+        [DisplayFormat(DataFormatString = "{0:n} €")]
         public decimal AankoopPrijs { get; set; }
         [Required]
         [Column(TypeName = "money")]
+        [DisplayFormat(DataFormatString = "{0:n} €")]
         public decimal VerkoopPrijs { get; set; }
         [Required]
         public byte Slotwaarde { get; set; } //waarde 0-255

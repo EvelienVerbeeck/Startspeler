@@ -10,7 +10,7 @@ using StartSpelerMVC.Data;
 namespace StartSpelerMVC.Migrations
 {
     [DbContext(typeof(StartSpelerContext))]
-    [Migration("20210515085657_InitialCreate")]
+    [Migration("20210530133901_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -223,7 +223,7 @@ namespace StartSpelerMVC.Migrations
 
             modelBuilder.Entity("StartSpelerMVC.Models.Bestelling", b =>
                 {
-                    b.Property<int>("Bestelling_ID")
+                    b.Property<int>("BestellingID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -237,7 +237,7 @@ namespace StartSpelerMVC.Migrations
                     b.Property<decimal>("Prijs")
                         .HasColumnType("Decimal(5,2)");
 
-                    b.HasKey("Bestelling_ID");
+                    b.HasKey("BestellingID");
 
                     b.HasIndex("PersoonID");
 
@@ -246,7 +246,7 @@ namespace StartSpelerMVC.Migrations
 
             modelBuilder.Entity("StartSpelerMVC.Models.Drankkaart", b =>
                 {
-                    b.Property<int>("Drankkaart_ID")
+                    b.Property<int>("DrankkaartID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -257,20 +257,28 @@ namespace StartSpelerMVC.Migrations
                     b.Property<DateTime>("Begindatum")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsActief")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsBetaald")
                         .HasColumnType("bit");
+
+                    b.Property<int>("PersoonID")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Prijs")
                         .HasColumnType("Decimal(5,2)");
 
-                    b.HasKey("Drankkaart_ID");
+                    b.HasKey("DrankkaartID");
+
+                    b.HasIndex("PersoonID");
 
                     b.ToTable("Drankkaart");
                 });
 
             modelBuilder.Entity("StartSpelerMVC.Models.Evenement", b =>
                 {
-                    b.Property<int>("Evenement_ID")
+                    b.Property<int>("EvenementID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -302,14 +310,14 @@ namespace StartSpelerMVC.Migrations
                     b.Property<DateTime>("Startuur")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Evenement_ID");
+                    b.HasKey("EvenementID");
 
                     b.ToTable("Evenement");
                 });
 
             modelBuilder.Entity("StartSpelerMVC.Models.Inschrijving", b =>
                 {
-                    b.Property<int>("Inschrijving_ID")
+                    b.Property<int>("InschrijvingID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -323,7 +331,7 @@ namespace StartSpelerMVC.Migrations
                     b.Property<int>("PersoonID")
                         .HasColumnType("int");
 
-                    b.HasKey("Inschrijving_ID");
+                    b.HasKey("InschrijvingID");
 
                     b.HasIndex("EvenementID");
 
@@ -369,9 +377,6 @@ namespace StartSpelerMVC.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("DrankkaartID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -405,8 +410,6 @@ namespace StartSpelerMVC.Migrations
 
                     b.HasKey("Persoon_ID");
 
-                    b.HasIndex("DrankkaartID");
-
                     b.HasIndex("UserID")
                         .IsUnique()
                         .HasFilter("[UserID] IS NOT NULL");
@@ -416,7 +419,7 @@ namespace StartSpelerMVC.Migrations
 
             modelBuilder.Entity("StartSpelerMVC.Models.Product", b =>
                 {
-                    b.Property<int>("Product_ID")
+                    b.Property<int>("ProductID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -459,7 +462,7 @@ namespace StartSpelerMVC.Migrations
                     b.Property<decimal>("VerkoopPrijs")
                         .HasColumnType("Decimal(5,2)");
 
-                    b.HasKey("Product_ID");
+                    b.HasKey("ProductID");
 
                     b.HasIndex("ProductTypeID");
 
@@ -468,7 +471,7 @@ namespace StartSpelerMVC.Migrations
 
             modelBuilder.Entity("StartSpelerMVC.Models.ProductType", b =>
                 {
-                    b.Property<int>("ProductType_ID")
+                    b.Property<int>("ProductTypeID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -478,7 +481,7 @@ namespace StartSpelerMVC.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
-                    b.HasKey("ProductType_ID");
+                    b.HasKey("ProductTypeID");
 
                     b.ToTable("ProductType");
                 });
@@ -543,6 +546,15 @@ namespace StartSpelerMVC.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("StartSpelerMVC.Models.Drankkaart", b =>
+                {
+                    b.HasOne("StartSpelerMVC.Models.Persoon", null)
+                        .WithMany("Drankkaarten")
+                        .HasForeignKey("PersoonID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("StartSpelerMVC.Models.Inschrijving", b =>
                 {
                     b.HasOne("StartSpelerMVC.Models.Evenement", "Evenement")
@@ -575,12 +587,6 @@ namespace StartSpelerMVC.Migrations
 
             modelBuilder.Entity("StartSpelerMVC.Models.Persoon", b =>
                 {
-                    b.HasOne("StartSpelerMVC.Models.Drankkaart", "Drankkaart")
-                        .WithMany()
-                        .HasForeignKey("DrankkaartID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("StartSpelerMVC.Areas.Identity.Data.CustomUser", "CustomUser")
                         .WithOne("Persoon")
                         .HasForeignKey("StartSpelerMVC.Models.Persoon", "UserID");

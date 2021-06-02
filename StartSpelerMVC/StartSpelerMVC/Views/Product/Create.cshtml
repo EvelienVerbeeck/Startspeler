@@ -5,84 +5,54 @@
     Layout = "~/Views/Shared/_NoLayout.cshtml";
 }
 
-<h1>Create</h1>
 
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+
+<div class="w-100 h-100 position-relative">
+    <div class=" BlauweKleur mx-auto my-auto DivKadercentreren  col-md-6 col-sm-10 h-75 text-center">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <section asp-validation-summary="ModelOnly" class="text-danger"></section>
+            <section class="form-group">
                 <label asp-for="Product.Naam" class="control-label"></label>
                 <input asp-for="Product.Naam" class="form-control" />
                 <span asp-validation-for="Product.Naam" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </section>
+            <section class="form-group">
                 <label asp-for="Product.ProductTypeID" class="control-label"></label>
-                <select asp-for="Product.ProductTypeID" class ="form-control" asp-items="Model.ProductTypes"></select>
-            </div>
-            <div class="form-group">
+                <select asp-for="Product.ProductTypeID" class="form-control" asp-items="Model.ProductTypes"></select>
+            </section>
+            <section class="form-group">
                 <label asp-for="Product.Aantal" class="control-label"></label>
                 <input asp-for="Product.Aantal" class="form-control" />
                 <span asp-validation-for="Product.Aantal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.StartDatum" class="control-label"></label>
-                <input asp-for="Product.StartDatum" class="form-control" />
-                <span asp-validation-for="Product.StartDatum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.EindDatum" class="control-label"></label>
-                <input asp-for="Product.EindDatum" class="form-control" />
-                <span asp-validation-for="Product.EindDatum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </section>
+            <section class="form-group">
                 <label asp-for="Product.AankoopPrijs" class="control-label"></label>
                 <input asp-for="Product.AankoopPrijs" class="form-control" />
                 <span asp-validation-for="Product.AankoopPrijs" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </section>
+            <section class="form-group">
                 <label asp-for="Product.VerkoopPrijs" class="control-label"></label>
                 <input asp-for="Product.VerkoopPrijs" class="form-control" />
                 <span asp-validation-for="Product.VerkoopPrijs" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </section>
+            <section class="form-group">
                 <label asp-for="Product.Slotwaarde" class="control-label"></label>
                 <input asp-for="Product.Slotwaarde" class="form-control" />
                 <span asp-validation-for="Product.Slotwaarde" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </section>
+            <section class="form-group">
                 <label asp-for="Product.Alcoholpercentage" class="control-label"></label>
                 <input asp-for="Product.Alcoholpercentage" class="form-control" />
                 <span asp-validation-for="Product.Alcoholpercentage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.Aantal_in_stock" class="control-label"></label>
-                <input asp-for="Product.Aantal_in_stock" class="form-control" />
-                <span asp-validation-for="Product.Aantal_in_stock" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.Aantal_in_Frigo" class="control-label"></label>
-                <input asp-for="Product.Aantal_in_Frigo" class="form-control" />
-                <span asp-validation-for="Product.Aantal_in_Frigo" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Product.IsZichtbaar" /> @Html.DisplayNameFor(model => model.Product.IsZichtbaar)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            </section>
+            <section class="form-group">
+                <input type="submit" value="Create" class="btn-success w-auto" />
+                <a asp-action="Index" class="btn-orange">Back to List</a>
+            </section>
         </form>
+     
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

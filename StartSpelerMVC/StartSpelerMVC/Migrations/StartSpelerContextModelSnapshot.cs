@@ -255,6 +255,9 @@ namespace StartSpelerMVC.Migrations
                     b.Property<DateTime>("Begindatum")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsActief")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsBetaald")
                         .HasColumnType("bit");
 
@@ -543,7 +546,7 @@ namespace StartSpelerMVC.Migrations
 
             modelBuilder.Entity("StartSpelerMVC.Models.Drankkaart", b =>
                 {
-                    b.HasOne("StartSpelerMVC.Models.Persoon", "Persoon")
+                    b.HasOne("StartSpelerMVC.Models.Persoon", null)
                         .WithMany("Drankkaarten")
                         .HasForeignKey("PersoonID")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -2,53 +2,66 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["Titel"] = "Drankkaarten Overzicht";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].Prijs)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].AantalSlots)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].Begindatum)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].IsBetaald)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Drankkaartenlijst) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prijs)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AantalSlots)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Begindatum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsBetaald)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DrankkaartID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DrankkaartID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DrankkaartID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="offset-1 col-10">
+    <p>
+        <a asp-action="Create" class="btn-orange">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].Prijs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].AantalSlots)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].Begindatum)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Drankkaartenlijst[0].IsBetaald)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Drankkaartenlijst)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Prijs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AantalSlots)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Begindatum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsBetaald)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.DrankkaartID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.DrankkaartID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.DrankkaartID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form asp-controller="Drankkaart" asp-action="Search" method="get">
+        <div class="footer">
+            <p class="d-inline mr-1">
+                Zoek Product type:
+                <input asp-for="ZoekDrankkaart" />
+                <input type="submit" value="Zoeken" class="btn-orange" />
+                <a asp-controller="Persoon" asp-action="Index" class="btn-orange">Terug naar volledige lijst</a>
+            </p>
+        </div>
+    </form>
+</div>

@@ -11,9 +11,11 @@ namespace StartSpelerMVC.Models
     {
         [Key]
         public int DrankkaartID { get; set; }
-        
+        public int PersoonID { get; set; }
+
         [Required]
         [Column(TypeName = "money")]
+        [DisplayFormat(DataFormatString = "{0:n} €")]
         public decimal Prijs { get; set; }
         [Required]
         public byte AantalSlots { get; set; } //waarde 0-255
@@ -21,7 +23,9 @@ namespace StartSpelerMVC.Models
         [Required]
         public DateTime Begindatum { get; set; }
        
-        public bool IsBetaald { get; set; } 
+        public bool IsBetaald { get; set; }
+        public bool IsActief { get; set; }
+
 
     }
 }

@@ -17,6 +17,7 @@ namespace StartSpelerMVC.Models
         public List<Orderlijn> Orderlijnen { get; set; } //Naar product
         [Required]
         [Column(TypeName = "money")]
+        [DisplayFormat(DataFormatString = "{0:n} €")]
         public decimal Prijs { get; set; }
         [DataType(DataType.Date)]
         public DateTime Datum { get; set; }
