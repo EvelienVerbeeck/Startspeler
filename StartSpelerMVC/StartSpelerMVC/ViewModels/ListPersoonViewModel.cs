@@ -10,5 +10,7 @@ namespace StartSpelerMVC.ViewModels
     {
         public List<Persoon> Persoon { get; set; }
         public string ZoekPersoon { get; set; }
+        public Drankkaart ActDrankkaart { get; set; }
+
     }
 }

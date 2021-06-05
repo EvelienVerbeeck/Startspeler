@@ -61,10 +61,10 @@
                     @Html.DisplayFor(model => model.Persoon.TotaleUitgaveDrankkaart)
                 </dd>
             </dl>
-            <div class="KnopOnderAanDiv">
+            <section class="KnopOnderAanDiv">
                 <a asp-action="Edit" asp-route-id=@Model.Persoon.Persoon_ID class="btn-orange">Aanpassen</a>
                 <a asp-action="Delete" asp-route-id="@Model.Persoon.Persoon_ID" class="btn-red">Verwijderen</a>
-            </div> 
+            </section> 
         </div>
     </div>
 </div>

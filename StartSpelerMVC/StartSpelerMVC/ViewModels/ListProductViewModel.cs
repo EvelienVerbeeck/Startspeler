@@ -10,6 +10,12 @@ namespace StartSpelerMVC.ViewModels
     {
         public List<Product> Product { get; set; }
         public string ZoekProduct { get; set; }
+#nullable enable
+        public List<Product>? DrankInIjskast { get; set; }
+#nullable disable
+        public List<Product> DrankInMagazijn { get; set; }
+        public Product ProductEventChange { get; set; }
+        
 
     }
 }

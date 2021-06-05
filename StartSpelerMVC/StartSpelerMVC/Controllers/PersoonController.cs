@@ -32,9 +32,13 @@ namespace StartSpelerMVC.Controllers
         public async Task<IActionResult> Index()
         {
             ListPersoonViewModel viewModel = new ListPersoonViewModel();
-            viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).ToListAsync();
+            viewModel.Persoon = await _context.Personen.Include(p => p.CustomUser).Include(x=>x.Drankkaarten).ToListAsync();
+
+
+            
             foreach (var persoon in viewModel.Persoon)
             {
+                persoon.ActieveDrankkaart = await _context.Drankkaarten.FirstOrDefaultAsync(x=>x.PersoonID == persoon.Persoon_ID && x.IsBetaald==false);
                 if (persoon.IsAdmin==true)
                 {
                     persoon.RolDuiding = "Administrator";
@@ -46,6 +50,7 @@ namespace StartSpelerMVC.Controllers
             }
             return View( viewModel);
         }
+
         public async Task<IActionResult> Search(ListPersoonViewModel viewModel)
         {
             if (!string.IsNullOrEmpty(viewModel.ZoekPersoon))
@@ -59,6 +64,7 @@ namespace StartSpelerMVC.Controllers
             }
             foreach (var persoon in viewModel.Persoon)
             {
+                persoon.ActieveDrankkaart = await _context.Drankkaarten.FirstOrDefaultAsync(x => x.PersoonID == persoon.Persoon_ID && x.IsBetaald == false);
                 if (persoon.IsAdmin == true)
                 {
                     persoon.RolDuiding = "Administrator";
@@ -123,7 +129,7 @@ namespace StartSpelerMVC.Controllers
                 {
                 AangemaaktDatum = DateTime.Now,
                 IsActief = true,
-                IsAdmin = false,
+                IsAdmin = false
                 };
             return View(viewModel);
         }
@@ -138,12 +144,7 @@ namespace StartSpelerMVC.Controllers
             EditPersoonViewModel viewModel = new EditPersoonViewModel();
             viewModel.Persoon = await _context.Personen.Include(x=>x.CustomUser).FirstOrDefaultAsync(x=>x.Persoon_ID==id);
             viewModel.Persoon.UserID = viewModel.Persoon.CustomUser.Id;
-            viewModel.Rol = new List<SelectListItem>
-            {
-                new SelectListItem(){ Text="Speler",Selected=true,Value="Speler"},
-                new SelectListItem(){Text="Administator",Selected=false,Value="Administrator"}
-            };
-            var GeselecteerdeRol = new SelectList(viewModel.Rol, "Value", "Text");
+            viewModel.Persoon.Geboortedatum = viewModel.Persoon.Geboortedatum;
             if (viewModel.Persoon == null)
             {
                 return NotFound();
@@ -151,6 +152,7 @@ namespace StartSpelerMVC.Controllers
             return View(viewModel);
         }
 
+     
         // POST: Persoon/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -170,42 +172,8 @@ namespace StartSpelerMVC.Controllers
                 {
                    viewModel.Persoon= await _context.Personen.Include(x => x.CustomUser).FirstOrDefaultAsync(x => x.Persoon_ID == id);
                     viewModel.Persoon.UserID = viewModel.Persoon.CustomUser.Id;
-                    viewModel.Persoon.IsAdmin = viewModel.Persoon.IsAdmin;
-                    viewModel.Persoon.IsActief = viewModel.Persoon.IsActief;
                     viewModel.Persoon.RolDuiding = viewModel.Persoon.RolDuiding;
-
-                    _context.SaveChanges();
-                    //if (viewModel.Persoon.IsAdmin == true)
-                    //{
-                    //    viewModel.Persoon.RolDuiding = "Administrator";
-                        
-                    //    DbSet<IdentityUserRole<string>> roles = _context.UserRoles;
-                    //    IdentityRole userrole = _context.Roles.FirstOrDefault(r => r.Name == "Speler");
-                    //    if (userrole != null)
-                    //    {
-                    //        if (!roles.Any(ur => ur.UserId == viewModel.Persoon.CustomUser.Id && ur.RoleId == userrole.Id))
-                    //        {
-                    //            roles.Add(new IdentityUserRole<string>() { UserId = viewModel.Persoon.CustomUser.Id, RoleId = userrole.Id });
-                    //            _context.SaveChanges();
-                    //        }
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    viewModel.Persoon.RolDuiding = "Speler";
-                    //    DbSet<IdentityUserRole<string>> roles = _context.UserRoles;
-                    //    IdentityRole userrole = _context.Roles.FirstOrDefault(r => r.Name == "Speler");
-                    //    if (userrole != null)
-                    //    {
-                    //        if (!roles.Any(ur => ur.UserId == viewModel.Persoon.CustomUser.Id && ur.RoleId == userrole.Id))
-                    //        {
-                    //            roles.Add(new IdentityUserRole<string>() { UserId = viewModel.Persoon.CustomUser.Id, RoleId = userrole.Id });
-                    //            _context.SaveChanges();
-                    //        }
-                    //    }
-                    //}
-            
-
+                    viewModel.Persoon.Geboortedatum = viewModel.Persoon.Geboortedatum;
                     _context.Update(viewModel.Persoon);
                     await _context.SaveChangesAsync();
                 }
@@ -292,6 +260,7 @@ namespace StartSpelerMVC.Controllers
                 Sheet.Cells[string.Format("G{0}", row)].Value = item.AangemaaktDatum;
                 Sheet.Cells[string.Format("G{0}", row)].Style.Numberformat.Format = "yyyy-mm-dd";
                 Sheet.Cells[string.Format("H{0}", row)].Value = item.Drankkaarten.Sum(x=>x.Prijs);
+                Sheet.Cells[string.Format("H{0}", row)].Style.Numberformat.Format="0.00";
                 row++;
             }
             Sheet.Cells["A:AZ"].AutoFitColumns();
@@ -300,6 +269,60 @@ namespace StartSpelerMVC.Controllers
             Response.Headers.Add("content-disposition", "attachment: filename=" + "Report.xlsx");
             await Response.Body.WriteAsync(Ep.GetAsByteArray());
             Response.StatusCode = StatusCodes.Status200OK;
+        }
+        public ActionResult DrankkaartIsBetaald(ListPersoonViewModel viewModel, int PersoonID)
+        {
+            viewModel.ActDrankkaart = _context.Drankkaarten.FirstOrDefault(x => x.PersoonID == PersoonID && x.IsBetaald == false);
+            viewModel.ActDrankkaart.IsBetaald = true;
+
+            _context.Update(viewModel.ActDrankkaart);
+            _context.SaveChangesAsync();
+
+            return View("Index", viewModel);
+        }
+        public ActionResult SpelerIsAdmin(EditPersoonViewModel viewModel, int PersoonID)
+        {
+            viewModel.Persoon = _context.Personen.Include(x => x.CustomUser).FirstOrDefault(x => x.Persoon_ID == PersoonID);
+            viewModel.Persoon.IsAdmin = !viewModel.Persoon.IsAdmin;
+            if (viewModel.Persoon.IsAdmin == true)
+            {
+                viewModel.Persoon.RolDuiding = "Administrator";
+
+                DbSet<IdentityUserRole<string>> roles = _context.UserRoles;
+                IdentityRole userrole = _context.Roles.FirstOrDefault(r => r.Name == "Speler");
+                if (userrole != null)
+                {
+                    if (!roles.Any(ur => ur.UserId == viewModel.Persoon.CustomUser.Id && ur.RoleId == userrole.Id))
+                    {
+                        roles.Add(new IdentityUserRole<string>() { UserId = viewModel.Persoon.CustomUser.Id, RoleId = userrole.Id });
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            if (viewModel.Persoon.IsAdmin == false)
+            {
+                viewModel.Persoon.RolDuiding = "Speler";
+                DbSet<IdentityUserRole<string>> roles = _context.UserRoles;
+                IdentityRole userrole = _context.Roles.FirstOrDefault(r => r.Name == "Speler");
+                if (userrole != null)
+                {
+                    if (!roles.Any(ur => ur.UserId == viewModel.Persoon.CustomUser.Id && ur.RoleId == userrole.Id))
+                    {
+                        roles.Add(new IdentityUserRole<string>() { UserId = viewModel.Persoon.CustomUser.Id, RoleId = userrole.Id });
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            return View("Edit", viewModel);
+        }
+        public ActionResult SpelerIsActief(EditPersoonViewModel viewModel,int PersoonID)
+        {
+            viewModel.Persoon = _context.Personen.Include(x => x.CustomUser).FirstOrDefault(x => x.Persoon_ID == PersoonID);
+            viewModel.Persoon.IsActief = !viewModel.Persoon.IsActief;
+            _context.Update(viewModel.Persoon);
+            _context.SaveChangesAsync();
+
+            return View("Edit", viewModel);
         }
     }
 }

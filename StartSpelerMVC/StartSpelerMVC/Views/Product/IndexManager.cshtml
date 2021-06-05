@@ -1,0 +1,124 @@
+﻿@model StartSpelerMVC.ViewModels.ListProductViewModel
+@{
+    ViewData["Title"] = "IndexManager";
+    ViewData["Titel"] = "Drank Overzicht";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="offset-1 col-10 position-absolute w-100 h-100 ">
+
+    <div class="row">
+
+        <div class="col-5 BlauweKleur  h-auto KleineMargin">
+            <div class="col-12">
+                <h1 class="align-items-center">ijskast</h1>
+            </div>
+        </div>
+        <div class="col-5 BlauweKleur align-items-center h-auto KleineMargin">
+            <div class="col-12">
+                <h1 class="align-items-center">Magazijn</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-5 align-content-center d-inline h-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product[0].Naam)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product[0].VerkoopPrijs)
+                        </th>
+                        <th></th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product[0].Aantal_in_Frigo)
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    @foreach (var item in Model.DrankInIjskast)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Naam)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VerkoopPrijs)
+                            </td>
+                            <td class="w-auto">
+                                @using (Html.BeginForm("VerminderenMetEen", "Product",new {Product_ID=item.ProductID}))
+                                {
+                                    <button id="SubtractOne" name="Vermeerderen" class="btn-primary">&lt;</button>
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Aantal_in_Frigo)
+                            </td>
+                            <td class="w-auto">
+                                @using (Html.BeginForm("VermeerderenMetEen", "Product", new { Product_ID = item.ProductID }))
+                                {
+                                    <button id="SubtractOne" class="btn-primary">&gt;</button>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-5 align-content-center d-inline h-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product[0].Naam)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product[0].Aantal_in_stock)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.DrankInMagazijn)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Naam)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Aantal_in_stock)
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.ProductID" class="btn-orange">Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+ <div class="footer BlauweKleur h-auto w-100 p-4">
+     <a asp-controller="Product" asp-action="DrankenOverzichtExcel" class="btn-orange col align-self-start">Export naar Excel</a>
+     <a asp-controller="Drankkaart" asp-action="Index" class="btn-orange col align-self-end">Drankkaartenbeheer</a>
+ </div>
+<script type="text/javascript">
+    let btnAftrekken = document.querySelector('#SubtractOne')
+    let btnToevoegen = document.querySelector('#AddOne')
+    let txtInput = document.querySelector('#Input')
+
+    btnAftrekken.addEventListener('click', () => { txtInput.Value})
+</script>
+
+
+

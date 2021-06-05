@@ -79,6 +79,7 @@ td {text-align:center}
     background-color: #2B7CC7;
     border-radius:20px;
     position: absolute;
+    color:white;
 }
 
 .Blauwachtergrond div {
@@ -208,4 +209,15 @@ input[type=checkbox]:checked + label {
     left:0;
     right:0;
 }
+
+.KleineMargin{
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.CellGroen {
+    background-color: #15bf1b;
+    color:white;
+}
+
 
