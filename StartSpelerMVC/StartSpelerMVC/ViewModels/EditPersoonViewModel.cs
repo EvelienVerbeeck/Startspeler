@@ -10,7 +10,7 @@ namespace StartSpelerMVC.ViewModels
 {
     public class EditPersoonViewModel
     {
-        public List<SelectListItem> Rol { get; set; }
         public Persoon Persoon { get; set; }
+
     }
 }

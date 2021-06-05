@@ -44,16 +44,39 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.RolDuiding)
                     </td>
-                    <td>
+                    @if (item.Drankkaarten.Count > 0)
+                     {
+                        @if (item.ActieveDrankkaart.IsBetaald == false)
+                        {
+                            <td>
+                                @using (Html.BeginForm("DrankkaartIsBetaald", "Persoon", new { PersoonID = item.Persoon_ID }))
+                                {
+                                    <button id="DrankkaartBetaald" name="Vermeerderen" class="btn-red">Betaald?</button>
+                                }
+                            </td>
+                        }
 
-                    </td>
- 
+                        else if (item.ActieveDrankkaart.IsBetaald == true)
+                        {
+                            <td class="CellGroen">
+                                <p>Betaald!!!</p>
+                            </td>
+                        }
+                     }
+                    else
+                    {
+                        <td>
+                            <p>Geen Drankkaarten</p>
+                        </td>
+                    }
+
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.Persoon_ID" class="btn-orange">Details</a> 
+                        <a asp-action="Details" asp-route-id="@item.Persoon_ID" class="btn-orange">Details</a>
                     </td>
                 </tr>
             }
         </tbody>
+
     </table>
     <form asp-controller="Persoon" asp-action="Search" method="get">
         <div class="footer">

@@ -60,7 +60,12 @@ namespace StartSpelerMVC.Models
         [NotMapped]
         public string ActiefDuiding { get; set; }
         [NotMapped]
-        [DisplayFormat(DataFormatString = "{0:n} €")]
+        [DisplayFormat(DataFormatString = "€ {0:n} ")]
         public decimal TotaleUitgaveDrankkaart { get; set; }
+
+#nullable enable
+        [NotMapped]
+        public Drankkaart? ActieveDrankkaart { get; set; }
+
     }
 }

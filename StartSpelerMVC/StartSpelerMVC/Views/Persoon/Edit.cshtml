@@ -7,7 +7,7 @@
 
 <div class="w-100 h-100 position-relative">
     <div class=" BlauweKleur mx-auto my-auto DivKadercentreren  rounded col-md-5 col-sm-10 h-75 text-center ">
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Persoon.Persoon_ID" />
             <div class="form-group">
@@ -26,11 +26,6 @@
                 <span asp-validation-for="Persoon.Username" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Persoon.Geboortedatum" class="control-label"></label>
-                <input asp-for="Persoon.Geboortedatum" class="form-control" />
-                <span asp-validation-for="Persoon.Geboortedatum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Persoon.Email" class="control-label"></label>
                 <input asp-for="Persoon.Email" class="form-control" />
                 <span asp-validation-for="Persoon.Email" class="text-danger"></span>
@@ -42,13 +37,15 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    @Html.CheckBoxFor(x => x.Persoon.IsActief) <label>Is Actief</label>
+                    @Html.CheckBoxFor(x => x.Persoon.IsActief, FormMethod.Post) <label>Is Actief</label>
+                    <input name="@Model.Persoon.IsActief" type="checkbox" checked="@Model.Persoon.IsActief" value="true" />
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    @Html.CheckBoxFor(x => x.Persoon.IsAdmin) <label>Administrator</label>
 
+                    @Html.CheckBoxFor(x => x.Persoon.IsAdmin, FormMethod.Post) <label>Administrator</label>
+                    <input name="@Model.Persoon.IsActief" type="checkbox" checked="@Model.Persoon.IsActief" value="true" />
                 </label>
             </div>
             <div class="form-group">
