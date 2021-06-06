@@ -50,7 +50,7 @@ namespace StartSpelerMVC.Controllers
         public IActionResult Create()
         {
             CreateDrankkaartViewModel viewModel = new CreateDrankkaartViewModel();
-            viewModel.Drankkaart = new Drankkaart();
+            viewModel.Drankkaart = new Drankkaart() { PersoonID=null};
            
             return View(viewModel);
         }
@@ -68,7 +68,6 @@ namespace StartSpelerMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            
             return View(viewModel);
         }
 

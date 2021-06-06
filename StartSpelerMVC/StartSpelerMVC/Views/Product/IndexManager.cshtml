@@ -35,7 +35,6 @@
                             @Html.DisplayNameFor(model => model.Product[0].Aantal_in_Frigo)
                         </th>
                         <th></th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,9 +49,18 @@
                                 @Html.DisplayFor(modelItem => item.VerkoopPrijs)
                             </td>
                             <td class="w-auto">
-                                @using (Html.BeginForm("VerminderenMetEen", "Product",new {Product_ID=item.ProductID}))
+
+                                @if (item.Aantal_in_Frigo <= 0)
                                 {
-                                    <button id="SubtractOne" name="Vermeerderen" class="btn-primary">&lt;</button>
+                                    <button disabled id="SubtractOne" name="Vermeerderen" class="btn-primary">&lt;</button>
+                                }
+                                else
+                                {
+                                    @using (Html.BeginForm("VerminderenMetEen", "Product", new { Product_ID = item.ProductID }))
+                                    {
+
+                                        <button id="SubtractOne" name="Vermeerderen" class="btn-primary">&lt;</button>
+                                    }
                                 }
                             </td>
                             <td>
@@ -63,11 +71,6 @@
                                 {
                                     <button id="SubtractOne" class="btn-primary">&gt;</button>
                                 }
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
                             </td>
                         </tr>
                     }
@@ -104,21 +107,20 @@
                     }
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>
- <div class="footer BlauweKleur h-auto w-100 p-4">
-     <a asp-controller="Product" asp-action="DrankenOverzichtExcel" class="btn-orange col align-self-start">Export naar Excel</a>
-     <a asp-controller="Drankkaart" asp-action="Index" class="btn-orange col align-self-end">Drankkaartenbeheer</a>
- </div>
-<script type="text/javascript">
-    let btnAftrekken = document.querySelector('#SubtractOne')
-    let btnToevoegen = document.querySelector('#AddOne')
-    let txtInput = document.querySelector('#Input')
+<div class="footer BlauweKleur h-auto w-100 p-4">
+    <a asp-controller="Drankkaart" asp-action="Index" class="btn-orange col align-self-end">Drankkaartenbeheer</a>
+    <form asp-controller="Product" asp-action="Search" method="get">
+        <a href="@Url.Action("DrankenOverzichtExcel","Product")" class="btn-orange rounded d-inline ml-1 ">Export naar Excel</a>
+        <p class="d-inline mr-1">
+             <a asp-controller="Product" asp-action="IndexManager" class="btn-orange">Terug naar volledige lijst</a>
+        </p>
+    </form>
+    <a asp-controller="Product" asp-action="Create" class="btn-orange">Create</a>
+</div>
 
-    btnAftrekken.addEventListener('click', () => { txtInput.Value})
-</script>
 
 
 

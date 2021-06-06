@@ -27,8 +27,23 @@ namespace StartSpelerMVC.Controllers
         {
             ListProductViewModel viewModel = new ListProductViewModel();
             viewModel.Product = await _context.Producten.Include(p => p.ProductType).ToListAsync();
+            viewModel.Frisdrankenlijst= viewModel.Product.Where(x => x.ProductType.Naam == "Frisdrank").ToList();
+            viewModel.Alcohollijst= viewModel.Product.Where(x => x.ProductType.Naam == "Alcohol").ToList();
+            viewModel.Snacklijst= viewModel.Product.Where(x=>x.ProductType.Naam=="Snack").ToList();
 
-           
+            foreach (var item in viewModel.Frisdrankenlijst)
+            {
+                item.Aantal = 0;
+            }
+            foreach (var item in viewModel.Alcohollijst)
+            {
+                item.Aantal = 0;
+            }
+            foreach (var item in viewModel.Snacklijst)
+            {
+                item.Aantal = 0;
+            }
+            viewModel.Bestelling = new Bestelling() { Productenlijst=new List<Product> { } };
             return View( viewModel);
         }
 
@@ -39,7 +54,7 @@ namespace StartSpelerMVC.Controllers
             viewModel.DrankInIjskast = new List<Product>();
             foreach (Product item in viewModel.DrankInMagazijn)
             {
-                if (!viewModel.DrankInIjskast.Contains(item)&& item.Aantal_in_Frigo<=0)
+                if (!viewModel.DrankInIjskast.Contains(item)&& item.Aantal_in_Frigo>=0)
                 {
                     viewModel.DrankInIjskast.Add(item);
                 }
@@ -48,7 +63,7 @@ namespace StartSpelerMVC.Controllers
             return View(viewModel);
         }
 
-        public ActionResult VerminderenMetEen(ListProductViewModel viewModel,int Product_ID)
+        public async Task <IActionResult> VerminderenMetEen(ListProductViewModel viewModel,int Product_ID)
         { 
             viewModel.ProductEventChange = _context.Producten.Include(x => x.ProductType).FirstOrDefault(x => x.ProductID == Product_ID);
             viewModel.ProductEventChange.Aantal_in_Frigo-=1;
@@ -57,7 +72,7 @@ namespace StartSpelerMVC.Controllers
                 try
                 {
                     _context.Update(viewModel.ProductEventChange);
-                    _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -71,19 +86,26 @@ namespace StartSpelerMVC.Controllers
                     }
                 }
             }
-           
-
-
-            return View("IndexManager",viewModel);
+            viewModel.DrankInMagazijn = await _context.Producten.Include(p => p.ProductType).ToListAsync();
+            viewModel.DrankInIjskast = new List<Product>();
+            foreach (Product item in viewModel.DrankInMagazijn)
+            {
+                if (!viewModel.DrankInIjskast.Contains(item) && item.Aantal_in_Frigo >= 0)
+                {
+                    viewModel.DrankInIjskast.Add(item);
+                }
+            }
+            return View(nameof(IndexManager),viewModel);
         }
-        public ActionResult VermeerderenMetEen(ListProductViewModel viewModel, int Product_ID)
+
+        public async Task<IActionResult> VermeerderenMetEen(ListProductViewModel viewModel, int Product_ID)
         {
             viewModel.ProductEventChange = _context.Producten.Include(x => x.ProductType).FirstOrDefault(x => x.ProductID == Product_ID);
             viewModel.ProductEventChange.Aantal_in_Frigo += 1;
             try
             {
                 _context.Update(viewModel.ProductEventChange);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -96,11 +118,84 @@ namespace StartSpelerMVC.Controllers
                     throw;
                 }
             }
+            viewModel.DrankInMagazijn = await _context.Producten.Include(p => p.ProductType).ToListAsync();
+            viewModel.DrankInIjskast = new List<Product>();
+            foreach (Product item in viewModel.DrankInMagazijn)
+            {
+                if (!viewModel.DrankInIjskast.Contains(item) && item.Aantal_in_Frigo >= 0)
+                {
+                    viewModel.DrankInIjskast.Add(item);
+                }
+            }
+
+            return View(nameof(IndexManager), viewModel);
+        }
+        public async Task<IActionResult> MinEenFris(ListProductViewModel viewModel,int Product_ID)
+        {
+            
+            viewModel.GekozenFrisdrank = _context.Producten.Include(x => x.ProductType).Where(x=>x.ProductType.Naam=="Frisdrank").FirstOrDefault(x => x.ProductID == Product_ID);
+            viewModel.GekozenFrisdrank.Aantal -= 1;
+            viewModel.Frisdrankenlijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Frisdrank").ToListAsync();
+            viewModel.Alcohollijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Alcohol").ToListAsync();
+            viewModel.Snacklijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Snack").ToListAsync();
+            return View(nameof(Index),viewModel);
+
+        }
+        public async Task<IActionResult> PlusEenFris(ListProductViewModel viewModel, int Product_ID)
+        {
+            viewModel.GekozenFrisdrank = _context.Producten.Include(x => x.ProductType).Where(x => x.ProductType.Naam == "Frisdrank").FirstOrDefault(x => x.ProductID == Product_ID);
+            viewModel.GekozenFrisdrank.Aantal += 1;
+            viewModel.Frisdrankenlijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Frisdrank").ToListAsync();
+            viewModel.Alcohollijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Alcohol").ToListAsync();
+            viewModel.Snacklijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Snack").ToListAsync();
+            return View(nameof(Index), viewModel);
+
+        }
+        public async Task<IActionResult> MinEenAlcohol(ListProductViewModel viewModel, int Product_ID)
+        {
+            viewModel.GekozenAlcohol = _context.Producten.Include(x => x.ProductType).Where(x => x.ProductType.Naam == "Alcohol").FirstOrDefault(x => x.ProductID == Product_ID);
+            viewModel.GekozenAlcohol.Aantal -= 1;
+            viewModel.Alcohollijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Alcohol").ToListAsync();
+            viewModel.Frisdrankenlijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Frisdrank").ToListAsync();
+            viewModel.Snacklijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Snack").ToListAsync();
 
 
-            return View("IndexManager", viewModel);
+            return View(nameof(Index), viewModel);
+
+        }
+        public async Task<IActionResult> PlusEenAlcohol(ListProductViewModel viewModel, int Product_ID)
+        {
+            viewModel.GekozenAlcohol = _context.Producten.Include(x => x.ProductType).Where(x => x.ProductType.Naam == "Alcohol").FirstOrDefault(x => x.ProductID == Product_ID);
+            viewModel.GekozenAlcohol.Aantal += 1;
+            viewModel.Alcohollijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Alcohol").ToListAsync();
+            viewModel.Frisdrankenlijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Frisdrank").ToListAsync();
+            viewModel.Snacklijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Snack").ToListAsync();
+            return View(nameof(Index), viewModel);
+
         }
 
+        public async Task<IActionResult> MinEenSnack(ListProductViewModel viewModel, int Product_ID)
+        {
+            viewModel.GekozenSnack = _context.Producten.Include(x => x.ProductType).Where(x => x.ProductType.Naam == "Snack").FirstOrDefault(x => x.ProductID == Product_ID);
+            viewModel.GekozenSnack.Aantal -= 1;
+            viewModel.Snacklijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Snack").ToListAsync();
+            viewModel.Alcohollijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Alcohol").ToListAsync();
+            viewModel.Frisdrankenlijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Frisdrank").ToListAsync();
+
+            return View(nameof(Index), viewModel);
+
+        }
+        public async Task<IActionResult> PlusEenSnack(ListProductViewModel viewModel, int Product_ID)
+        {
+            viewModel.GekozenSnack = _context.Producten.Include(x => x.ProductType).Where(x => x.ProductType.Naam == "Snack").FirstOrDefault(x => x.ProductID == Product_ID);
+            viewModel.GekozenSnack.Aantal += 1;
+            viewModel.Snacklijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Snack").ToListAsync();
+            viewModel.Alcohollijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Alcohol").ToListAsync();
+            viewModel.Frisdrankenlijst = await _context.Producten.Include(p => p.ProductType).Where(x => x.ProductType.Naam == "Frisdrank").ToListAsync();
+
+            return View(nameof(Index), viewModel);
+
+        }
         public async Task<IActionResult> Search(ListProductViewModel viewModel)
         {
             if (!string.IsNullOrEmpty(viewModel.ZoekProduct))
@@ -112,7 +207,7 @@ namespace StartSpelerMVC.Controllers
             {
                 viewModel.Product = await _context.Producten.Include(p => p.ProductType).ToListAsync();
             }
-            return View("Index", viewModel);
+            return View("IndexManager", viewModel);
         }
 
         // GET: Product/Details/5
@@ -160,7 +255,7 @@ namespace StartSpelerMVC.Controllers
             viewModel.Product.IsZichtbaar = true;
             viewModel.Product.StartDatum = DateTime.Now;
             viewModel.Product.EindDatum = default;
-            return View(viewModel);
+            return RedirectToAction(nameof(IndexManager));
         }
 
         // GET: Product/Edit/5
@@ -172,7 +267,6 @@ namespace StartSpelerMVC.Controllers
             }
             EditProductViewModel viewModel = new EditProductViewModel();
             viewModel.Product = await _context.Producten.Include(x => x.ProductType).FirstOrDefaultAsync(x => x.ProductID == id); 
-            viewModel.Product.IsZichtbaar = true;
             viewModel.Product.StartDatum = viewModel.Product.StartDatum;
             viewModel.AantalToevoegenAanIjskast = 0;
             if (viewModel.Product == null)
@@ -194,7 +288,6 @@ namespace StartSpelerMVC.Controllers
             {
                 return NotFound();
             }
-            viewModel.Product = await _context.Producten.Include(x => x.ProductType).FirstOrDefaultAsync(x => x.ProductID == id);
             viewModel.ProductTypes = new SelectList(_context.productTypes, "ProductType_ID", "Naam", viewModel.Product.ProductTypeID);
             viewModel.Product.StartDatum = viewModel.Product.StartDatum;
             if (viewModel.AantalToevoegenAanIjskast>0)
@@ -224,10 +317,10 @@ namespace StartSpelerMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexManager));
             }
             viewModel.ProductTypes= new SelectList(_context.productTypes, "ProductType_ID", "Naam", viewModel.Product.ProductTypeID);
-            return View(viewModel);
+            return View(nameof(IndexManager));
         }
 
         // GET: Product/Delete/5
@@ -259,7 +352,7 @@ namespace StartSpelerMVC.Controllers
             viewModel.Product = await _context.Producten.Include(x => x.ProductType).FirstOrDefaultAsync(x => x.ProductID == id);
             _context.Producten.Remove(viewModel.Product);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexManager));
         }
 
         private bool ProductExists(int id)

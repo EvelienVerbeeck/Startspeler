@@ -20,7 +20,7 @@ namespace StartSpelerMVC.Models
         public int Aantal { get; set; }
         [DataType(DataType.Date)]
         public DateTime StartDatum { get; set; }
-        public List<Orderlijn> Orderlijnen { get; set; } //many to many
+        //public List<Orderlijn> Orderlijnen { get; set; } //many to many
         [DataType(DataType.Date)]
         public DateTime EindDatum { get; set; }
         [Required]

@@ -13,8 +13,9 @@ namespace StartSpelerMVC.Models
         public int BestellingID { get; set; }
         [ForeignKey("Persoon")]
         public int PersoonID { get; set; }
-        [Required]
-        public List<Orderlijn> Orderlijnen { get; set; } //Naar product
+        public ICollection<Product> Productenlijst { get; set; }
+        //[Required]
+        //public List<Orderlijn> Orderlijnen { get; set; } //Naar product
         [Required]
         [Column(TypeName = "money")]
         [DisplayFormat(DataFormatString = "€ {0:n}")]

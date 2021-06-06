@@ -5,12 +5,13 @@
     Layout = "~/Views/Shared/_NoLayout.cshtml";
 }
 
-
         <div  class="w-100 h-100 position-relative">
             <div class=" BlauweKleur mx-auto my-auto DivKadercentreren  rounded col-md-5 col-sm-10 h-auto">
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Product.ProductID" />
+                    <input type="hidden" asp-for="Product.StartDatum" />
+                    <input type="hidden" asp-for="Product.IsZichtbaar" />
                     <section class="form-group">
                         <label asp-for="Product.Naam" class="control-label"></label>
                         <input asp-for="Product.Naam" class="form-control" />
@@ -20,16 +21,6 @@
                         <label asp-for="Product.ProductType.Naam" class="control-label"></label>
                         <select asp-for="Product.ProductType.Naam" class="form-control" asp-items="Model.ProductTypes"></select>
                         <span asp-validation-for="Product.ProductType.Naam" class="text-danger"></span>
-                    </section>
-                    <section class="form-group">
-                        <label asp-for="Product.Aantal" class="control-label"></label>
-                        <input asp-for="Product.Aantal" class="form-control" />
-                        <span asp-validation-for="Product.Aantal" class="text-danger"></span>
-                    </section>
-                    <section class="form-group">
-                        <label asp-for="Product.StartDatum" class="control-label"></label>
-                        <input asp-for="Product.StartDatum" class="form-control" />
-                        <span asp-validation-for="Product.StartDatum" class="text-danger"></span>
                     </section>
                     <section class="form-group">
                         <label asp-for="Product.EindDatum" class="control-label"></label>
@@ -62,14 +53,14 @@
                         <span asp-validation-for="Product.Aantal_in_Frigo" class="text-danger"></span>
                     </section>
                     <section class="form-group">
+                        <label asp-for="Product.Aantal_in_stock" class="control-label"></label>
+                        <input asp-for="Product.Aantal_in_stock" class="form-control" />
+                        <span asp-validation-for="Product.Aantal_in_stock" class="text-danger"></span>
+                    </section>
+                    <section class="form-group">
                         <label> Toevoegen Aan Ijskast</label>
                         <input asp-for="AantalToevoegenAanIjskast" class="form-control" />
                         <span asp-validation-for="AantalToevoegenAanIjskast" class="text-danger"></span>
-                    </section>
-                    <section class="form-group form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" asp-for="Product.IsZichtbaar" /> @Html.DisplayNameFor(model => model.Product.IsZichtbaar)
-                        </label>
                     </section>
                     <section class="form-group">
                         <input type="submit" value="Save" class="btn btn-primary" />

@@ -15,7 +15,17 @@ namespace StartSpelerMVC.ViewModels
 #nullable disable
         public List<Product> DrankInMagazijn { get; set; }
         public Product ProductEventChange { get; set; }
-        
+
+        public List<Product> Frisdrankenlijst { get; set; }
+        public List<Product> Snacklijst { get; set; }
+        public List<Product> Alcohollijst { get; set; }
+        public Product GekozenFrisdrank { get; set; }
+        public Product GekozenAlcohol { get; set; }
+        public Product GekozenSnack { get; set; }
+
+        public Bestelling Bestelling { get; set; }
+    
+
 
     }
 }
