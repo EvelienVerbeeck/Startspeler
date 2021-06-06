@@ -235,7 +235,7 @@ namespace StartSpelerMVC.Controllers
         {
             CreateProductViewModel viewModel = new CreateProductViewModel();
             viewModel.ProductTypes = new SelectList( _context.productTypes,"ProductTypeID" , "Naam");
-            return View(nameof(IndexManager));
+            return View(viewModel);
         }
 
         // POST: Product/Create
