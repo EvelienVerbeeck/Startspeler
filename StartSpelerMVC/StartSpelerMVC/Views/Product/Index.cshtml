@@ -1,89 +1,222 @@
-﻿@model StartSpelerMVC.ViewModels.ListProductViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@using StartSpelerMVC.Areas.Identity.Data;
+@model StartSpelerMVC.ViewModels.ListProductViewModel
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_NoLayout.cshtml";
+    ViewData["Titel"] = "Drankkaart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@inject SignInManager<CustomUser> SignInManager
+@inject UserManager<CustomUser> UserManager
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-controller="Product" asp-action="Search" method="get">
-    <div>
-        <p>
-            Zoek Product type:
-            <input asp-for="ZoekProduct" />
-            <input type="submit" value="Zoeken" class="btn-orange" />|
-            <a asp-controller="Product" asp-action="Index">Terug naar volledige lijst</a>
-        </p>
-
+<div class="w-100 h-100">
+    <div class="row">
+        <div class="col-3 BlauweKleur h-auto ">
+            <div class="col-12">
+                <h1 class="align-items-center">Frisdrank</h1>
+            </div>
+        </div>
+        <div class="col-3 BlauweKleur align-items-center h-auto ">
+            <div class="col-12">
+                <h1 class="align-items-center">Alcoholiche drank</h1>
+            </div>
+        </div>
+        <div class="col-3 BlauweKleur align-items-center h-auto ">
+            <div class="col-12">
+                <h1 class="align-items-center">Snack</h1>
+            </div>
+        </div>
     </div>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Naam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].AankoopPrijs)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].VerkoopPrijs)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Slotwaarde)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Alcoholpercentage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Aantal_in_stock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Aantal_in_Frigo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].ProductType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Product) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Naam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AankoopPrijs)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VerkoopPrijs)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Slotwaarde)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Alcoholpercentage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aantal_in_stock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aantal_in_Frigo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductType.Naam)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="row">
+        <div class="col-3 align-content-center h-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Frisdrankenlijst[0].Naam)
+                        </th>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.Frisdrankenlijst[0].Slotwaarde)
+                            </th>
+                        }
+                        else
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.Frisdrankenlijst[0].VerkoopPrijs)
+                            </th>
+                        }
+                        <th></th>
+                        <th> @Html.DisplayNameFor(model => model.Frisdrankenlijst[0].Aantal)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Frisdrankenlijst)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Naam)
+                            </td>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <td>
+                                    @Html.DisplayFor(model => model.Frisdrankenlijst[0].VerkoopPrijs)
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.DisplayFor(model => model.Frisdrankenlijst[0].Slotwaarde)
+                                </td>
+                            }
+                            <td>
+                                @using (Html.BeginForm("MinEenFris", "Product", new { Product_ID = item.ProductID }))
+                                {
+                                    <button id="SubtractOne" name="Vermeerderen" class="btn-primary">&lt;</button>
+                                }
+                            </td>
+                            <td> @Html.DisplayFor(model => model.Frisdrankenlijst[0].Aantal)</td>
+                            <td class="w-auto">
+                                @using (Html.BeginForm("PlusEenFris", "Product", new { Product_ID = item.ProductID }))
+                                {
+                                    <button id="SubtractOne" class="btn-primary">&gt;</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3 align-content-center h-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Alcohollijst[0].Naam)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Alcohollijst[0].Alcoholpercentage)
+                        </th>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alcohollijst[0].Slotwaarde)
+                            </th>
+                        }
+                        else
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alcohollijst[0].VerkoopPrijs)
+                            </th>
+                        }
+                        <th></th>
+                        <th> @Html.DisplayNameFor(model => model.Alcohollijst[0].Aantal)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Alcohollijst)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Naam)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Alcoholpercentage)
+                            </td>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VerkoopPrijs)
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Slotwaarde)
+                                </td>
+                            }
+                            <td>
+                                @using (Html.BeginForm("MinEenAlcohol", "Product", new { Product_ID = item.ProductID }))
+                                {
+                                    <button id="SubtractOne" name="Vermeerderen" class="btn-primary">&lt;</button>
+                                }
+                            </td>
+                            <td> @Html.DisplayFor(modelItem => item.Aantal)</td>
+                            <td class="w-auto">
+                                @using (Html.BeginForm("PlusEenAlcohol", "Product", new { Product_ID = item.ProductID }))
+                                {
+                                    <button id="SubtractOne" class="btn-primary">&gt;</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3 align-content-center h-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Snacklijst[0].Naam)
+                        </th>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.Snacklijst[0].Slotwaarde)
+                            </th>
+                        }
+                        else
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.Snacklijst[0].VerkoopPrijs)
+                            </th>
+                        }
+                        <th></th>
+                        <th> @Html.DisplayNameFor(model => model.Snacklijst[0].Aantal)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Snacklijst)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Naam)
+                            </td>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VerkoopPrijs)
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Slotwaarde)
+                                </td>
+                            }
+                            <td>
+                                @using (Html.BeginForm("MinEenSnack", "Product", new { Product_ID = item.ProductID }))
+                                {
+                                    <button id="SubtractOne" name="Vermeerderen" class="btn-primary">&lt;</button>
+                                }
+                            </td>
+                            <td> @Html.DisplayFor(modelItem => item.Aantal)</td>
+                            <td class="w-auto">
+                                @using (Html.BeginForm("PlusEenSnack", "Product", new { Product_ID = item.ProductID }))
+                                {
+                                    <button id="SubtractOne" class="btn-primary">&gt;</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

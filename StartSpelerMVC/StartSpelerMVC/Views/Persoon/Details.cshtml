@@ -9,7 +9,7 @@
 
 
 <div class="w-100 h-100 position-relative">
-    <div class="Blauwachtergrond mx-auto my-auto DivKadercentreren  col-md-6 col-sm-10 h-75 text-center">
+    <div class="Blauwachtergrond mx-auto my-auto DivKadercentreren  col-md-6 col-sm-10 h-auto text-center">
         <div>
             <dl class="row">
                 <dt class="col-sm-6 text-right">
@@ -52,7 +52,7 @@
                     @Html.DisplayNameFor(model => model.Persoon.IsAdmin)
                 </dt>
                 <dd class="col-sm-6 text-left">
-                    @Html.DisplayFor(model => model.Persoon.IsAdmin)
+                    @Html.DisplayFor(model => model.Persoon.RolDuiding)
                 </dd>
                 <dt class="col-sm-6 text-right">
                     Totale uitgaven aan drankkaarten

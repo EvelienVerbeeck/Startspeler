@@ -10,6 +10,7 @@
         <form asp-action="Edit">
             <section asp-validation-summary="ModelOnly" class="text-danger"></section>
             <input type="hidden" asp-for="Drankkaart.DrankkaartID" />
+            <input type="hidden" asp-for="Drankkaart.Begindatum" class="form-control" />
             <section class="form-group">
                 <label asp-for="Drankkaart.Prijs" class="control-label"></label>
                 <input asp-for="Drankkaart.Prijs" class="form-control" />
@@ -19,11 +20,6 @@
                 <label asp-for="Drankkaart.AantalSlots" class="control-label"></label>
                 <input asp-for="Drankkaart.AantalSlots" class="form-control" />
                 <span asp-validation-for="Drankkaart.AantalSlots" class="text-danger"></span>
-            </section>
-            <section class="form-group">
-                <label asp-for="Drankkaart.Begindatum" class="control-label"></label>
-                <input asp-for="Drankkaart.Begindatum" class="form-control" />
-                <span asp-validation-for="Drankkaart.Begindatum" class="text-danger"></span>
             </section>
             <section class="form-group form-check">
                 <label class="form-check-label">

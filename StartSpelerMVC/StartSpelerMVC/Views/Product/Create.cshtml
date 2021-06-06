@@ -5,8 +5,6 @@
     Layout = "~/Views/Shared/_NoLayout.cshtml";
 }
 
-
-
 <div class="w-100 h-100 position-relative">
     <div class=" BlauweKleur mx-auto my-auto DivKadercentreren  col-md-6 col-sm-10 h-75 text-center">
         <form asp-action="Create">
@@ -19,11 +17,6 @@
             <section class="form-group">
                 <label asp-for="Product.ProductTypeID" class="control-label"></label>
                 <select asp-for="Product.ProductTypeID" class="form-control" asp-items="Model.ProductTypes"></select>
-            </section>
-            <section class="form-group">
-                <label asp-for="Product.Aantal" class="control-label"></label>
-                <input asp-for="Product.Aantal" class="form-control" />
-                <span asp-validation-for="Product.Aantal" class="text-danger"></span>
             </section>
             <section class="form-group">
                 <label asp-for="Product.AankoopPrijs" class="control-label"></label>
@@ -50,7 +43,6 @@
                 <a asp-action="Index" class="btn-orange">Back to List</a>
             </section>
         </form>
-     
     </div>
 </div>
 @section Scripts {

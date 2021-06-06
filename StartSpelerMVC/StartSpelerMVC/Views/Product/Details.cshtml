@@ -75,15 +75,16 @@
                     @Html.DisplayFor(model => model.Product.IsZichtbaar)
                 </dd>
                 <dt class="col-sm-6 text-right">
-                    @Html.DisplayNameFor(model => model.Product.ProductType)
+                    @Html.DisplayNameFor(model => model.Product.ProductType.Naam)
                 </dt>
                 <dd class="col-sm-6 text-left">
                     @Html.DisplayFor(model => model.Product.ProductType.Naam)
                 </dd>
             </dl>
             <section class="KnopOnderAanDiv">
-            <a asp-action="Edit" asp-route-id="@Model.Product.ProductID" class="btn-orange">Edit</a>
-            <a asp-action="Index" class="btn-orange">Back to List</a>
+                <a asp-action="Edit" asp-route-id="@Model.Product.ProductID" class="btn-orange">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Product.ProductID" class="btn-red">Delete</a>
+                <a asp-action="IndexManager" class="btn-orange">Back to List</a>
             </section>
         </div>
     </div>

@@ -46,8 +46,12 @@ namespace StartSpelerMVC.Data
             modelBuilder.Entity<Bestelling>().ToTable("Bestelling");
             modelBuilder.Entity<Bestelling>().Property(p => p.Prijs).HasColumnType("Decimal(5,2)");
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
 
-       
+
     }
 
 }

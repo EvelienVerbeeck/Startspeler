@@ -7,9 +7,14 @@
 
 <div class="w-100 h-100 position-relative">
     <div class=" BlauweKleur mx-auto my-auto DivKadercentreren  rounded col-md-5 col-sm-10 h-75 text-center ">
-        <form asp-action="Edit" method="post">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Persoon.Persoon_ID" />
+            <input type="hidden" asp-for="Persoon.UserID" />
+            <input type="hidden" asp-for="Persoon.Geboortedatum" />
+            <input type="hidden" asp-for="Persoon.Drankkaarten" />
+            <input type="hidden" asp-for="Persoon.ActieveDrankkaart" />
+            <input type="hidden" asp-for="Persoon.CustomUser.Id" />
             <div class="form-group">
                 <label asp-for="Persoon.Voornaam" class="control-label"></label>
                 <input asp-for="Persoon.Voornaam" class="form-control" />
@@ -38,22 +43,19 @@
             <div class="form-group form-check">
                 <label class="form-check-label">
                     @Html.CheckBoxFor(x => x.Persoon.IsActief, FormMethod.Post) <label>Is Actief</label>
-                    <input name="@Model.Persoon.IsActief" type="checkbox" checked="@Model.Persoon.IsActief" value="true" />
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-
                     @Html.CheckBoxFor(x => x.Persoon.IsAdmin, FormMethod.Post) <label>Administrator</label>
-                    <input name="@Model.Persoon.IsActief" type="checkbox" checked="@Model.Persoon.IsActief" value="true" />
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn-orange" />
+                <input type="submit" value="Save" class="btn-orange"/>
             </div>
         </form>
         <div>
-            <a asp-action="Index">Back to List</a>
+            <a asp-action="IndexManager">Back to List</a>
         </div>
     </div>
 </div>

@@ -11,7 +11,7 @@ namespace StartSpelerMVC.Models
     {
         [Key]
         public int DrankkaartID { get; set; }
-        public int PersoonID { get; set; }
+        public int? PersoonID { get; set; }
 
         [Required]
         [Column(TypeName = "money")]

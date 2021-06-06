@@ -170,10 +170,6 @@ namespace StartSpelerMVC.Controllers
             {
                 try
                 {
-                   viewModel.Persoon= await _context.Personen.Include(x => x.CustomUser).FirstOrDefaultAsync(x => x.Persoon_ID == id);
-                    viewModel.Persoon.UserID = viewModel.Persoon.CustomUser.Id;
-                    viewModel.Persoon.RolDuiding = viewModel.Persoon.RolDuiding;
-                    viewModel.Persoon.Geboortedatum = viewModel.Persoon.Geboortedatum;
                     _context.Update(viewModel.Persoon);
                     await _context.SaveChangesAsync();
                 }
@@ -188,10 +184,9 @@ namespace StartSpelerMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                
             }
-
-            return View(viewModel);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Persoon/Delete/5
@@ -245,7 +240,7 @@ namespace StartSpelerMVC.Controllers
             Sheet.Cells["E1"].Value = "EmailAdres";
             Sheet.Cells["F1"].Value = "GeboorteDatum";
             Sheet.Cells["G1"].Value = "Aangemaakte Datum";
-            Sheet.Cells["G1"].Value = "Totale uitgave Drankkaarten";
+
 
             int row = 2;
             foreach (var item in viewModel.Persoon)
@@ -259,8 +254,6 @@ namespace StartSpelerMVC.Controllers
                 Sheet.Cells[string.Format("F{0}", row)].Style.Numberformat.Format = "yyyy-mm-dd";
                 Sheet.Cells[string.Format("G{0}", row)].Value = item.AangemaaktDatum;
                 Sheet.Cells[string.Format("G{0}", row)].Style.Numberformat.Format = "yyyy-mm-dd";
-                Sheet.Cells[string.Format("H{0}", row)].Value = item.Drankkaarten.Sum(x=>x.Prijs);
-                Sheet.Cells[string.Format("H{0}", row)].Style.Numberformat.Format="0.00";
                 row++;
             }
             Sheet.Cells["A:AZ"].AutoFitColumns();
@@ -315,14 +308,6 @@ namespace StartSpelerMVC.Controllers
             }
             return View("Edit", viewModel);
         }
-        public ActionResult SpelerIsActief(EditPersoonViewModel viewModel,int PersoonID)
-        {
-            viewModel.Persoon = _context.Personen.Include(x => x.CustomUser).FirstOrDefault(x => x.Persoon_ID == PersoonID);
-            viewModel.Persoon.IsActief = !viewModel.Persoon.IsActief;
-            _context.Update(viewModel.Persoon);
-            _context.SaveChangesAsync();
 
-            return View("Edit", viewModel);
-        }
     }
 }
